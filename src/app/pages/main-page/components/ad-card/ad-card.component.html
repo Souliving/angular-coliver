@@ -1,0 +1,27 @@
+<mat-card class="ad-card" appearance="outlined">
+    <img [src]='ad?.photoUrl' alt="User Photo" class="ad-card-image"/>
+    <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{ad?.ad!.name}}</mat-card-title>
+        <mat-card-subtitle>{{ad?.ad!.age}} года</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="ad-card-content">
+        <div class="text-xs">
+            Город {{ad?.ad!.city!.name}},
+            <div class="metro">м.
+                <ng-container *ngFor="let metroStation of ad?.ad!.metro">
+                     {{metroStation?.name}}
+                </ng-container>
+            </div>
+        </div>
+        <p class="ml-auto mr-0">Бюджет {{ad?.ad!.budget}}</p>
+        <p class="ad-description">{{ad?.ad!.description}}</p>
+    </mat-card-content>
+
+    <mat-card-actions>
+        <button mat-icon-button (click)="toFavorites(ad?.ad!.id)">
+            <mat-icon>favorite</mat-icon>
+        </button>
+    </mat-card-actions>
+</mat-card>

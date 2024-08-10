@@ -1,0 +1,30 @@
+.ad-card{
+    width: 300px; /* Задайте ширину карточки */
+    height: 500px; /* Фиксированная высота карточки */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.ad-card-image {
+    width: 100%;
+    height: 250px; /* Фиксированная высота для изображения */
+    object-fit: cover; /* Изображение будет заполнять контейнер, сохраняя пропорции */
+}
+
+.ad-card-content {
+    flex-grow: 1; /* Занимает оставшееся пространство между header и actions */
+    overflow: hidden; /* Обрезка переполненного контента */
+    text-overflow: ellipsis;
+}
+
+.ad-description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Ограничение до 3 строк */
+    -webkit-box-orient: vertical;
+}
+
+.mat-card-actions {
+    justify-content: flex-end; /* Выравнивание кнопок справа */
+}
