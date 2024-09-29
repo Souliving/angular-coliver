@@ -1,8 +1,8 @@
-<app-filter></app-filter>
 <div class="main-page-container" *ngIf="ads$ | async as ads">
     <app-ad-card 
     class="ad-card-container"
     *ngFor="let ad of ads"
     [ad] = "ad"
+    [isFavorite]= "true"
     ></app-ad-card>
 </div>

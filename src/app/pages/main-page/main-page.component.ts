@@ -1,16 +1,17 @@
 import { Component, OnInit} from '@angular/core';
-import { FormsApiService } from '../../services/forms-api.service';
+import { FormsApiService } from '../../services/forms-api/forms-api.service';
 import { forkJoin, map, Observable, switchMap } from 'rxjs';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
-import { AdCardComponent } from './components/ad-card/ad-card.component';
+import { AdCardComponent } from '../../components/ad-card/ad-card.component';
 import { CommonModule } from '@angular/common';
 import { AdShortForm } from '../../data/formsStructure';
+import { FilterComponent } from '../../filter/filter.component';
 
 @Component({
   selector: 'app-main-page',
   standalone: true,
-  imports: [AdCardComponent, MatButtonModule, MatCardModule, CommonModule],
+  imports: [AdCardComponent, MatButtonModule, MatCardModule, CommonModule, FilterComponent],
   providers: [FormsApiService],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.scss'

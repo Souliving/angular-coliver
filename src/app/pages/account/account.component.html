@@ -1,0 +1,14 @@
+<div class="account-container">
+    <div class="expansion-panel-container">
+        <mat-selection-list  [multiple]="false">
+            @for (topic of topics; track topic) {
+              <mat-list-item (click)="selectTopic(topic)">{{topic}}</mat-list-item>
+            }
+          </mat-selection-list>
+          
+        
+    </div>
+    <div class="info-container">
+        <ng-template #infoContainer></ng-template>
+    </div>
+</div>

@@ -28,4 +28,9 @@ export class FormsApiService {
         })
       );
   }
+
+  getFavoritesFormsByUserID (userId: number): Observable<any[]>{
+    return this.httpClient.get<any>(apiUrl+ 'form/getFavoriteFormsByUserId/'+userId)
+    .pipe(catchError(() => of([])));
+  }
 }

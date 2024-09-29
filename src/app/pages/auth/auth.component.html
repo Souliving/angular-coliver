@@ -1,1 +1,24 @@
-<p>auth works!</p>
+<div class="auth-container">
+    <h2 mat-dialog-title>Войти в аккаунт</h2>
+    <mat-dialog-content>
+        <form [formGroup]="authForm" class="form-container">
+
+            <mat-form-field>
+                <mat-label>Почта</mat-label>
+                <input matInput type="email" formControlName="email" placeholder="Введите свой email" required>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Пароль</mat-label>
+                <input matInput type="password" formControlName="password" placeholder="Введите пароль" required>
+            </mat-form-field>
+            
+        </form>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+    <button mat-button mat-dialog-close cdkFocusInitial (click)="auth()">Войти</button>
+   <!--  <mat-description className="text-center">
+        Нажимая на кнопку, вы подтверждаете согласие на обработку персональных данных
+    </mat-description> -->
+    <button mat-button mat-dialog-close variant="link" (click)="navigateToRegistration()">Нет аккаунта? Зарегистрируйтесь здесь</button>
+    </mat-dialog-actions>
+</div>

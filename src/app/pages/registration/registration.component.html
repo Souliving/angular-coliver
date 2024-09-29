@@ -1,1 +1,80 @@
-<p>registration works!</p>
+<!-- <mat-stepper linear #stepper>
+    <mat-step [stepControl]="firstStepRegistration" >
+      <form [formGroup]="firstStepRegistration">
+        <ng-template matStepLabel>Fill out your name</ng-template>
+        <mat-form-field>
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="firstCtrl" placeholder="Last name, First name" required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="secondStepRegistration" >
+      <form [formGroup]="secondStepRegistration">
+        <ng-template matStepLabel>Fill out your address</ng-template>
+        <mat-form-field>
+          <mat-label>Address</mat-label>
+          <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
+                 required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      <p>You are now done.</p>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="stepper.reset()">Reset</button>
+      </div>
+    </mat-step>
+  </mat-stepper> -->
+    <form [formGroup]="registrationForm" class="form-container">
+        <ng-container  *ngIf='isFirstStep' formGroupName="firstStep">
+            <mat-form-field>
+            <mat-label>Почта</mat-label>
+            <input matInput type="email" formControlName="email" placeholder="Введите свой email" required>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Телефон</mat-label>
+                <input matInput type="phone" formControlName="phone" placeholder="Введите телефон" required>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Пароль</mat-label>
+                <input matInput type="password" formControlName="password" placeholder="Введите пароль" required>
+            </mat-form-field>
+            <div>
+                <button mat-button (click)="nextStep()">Далее</button>
+            </div>
+       </ng-container>
+       <ng-container  *ngIf='!isFirstStep' formGroupName="secondStep">
+        <mat-form-field>
+            <mat-label>Имя</mat-label>
+            <input matInput formControlName="name" placeholder="Введите своё имя">
+        </mat-form-field>
+        <mat-form-field class="example-form-field">
+            <mat-label>Ваша дата рождения</mat-label>
+            <input matInput [matDatepicker]="picker"  formControlName="date">
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        <mat-form-field>
+            <mat-label>Пол</mat-label>
+            <select matNativeControl  formControlName="gender" required>
+              <option value="FEMALE">Женщина</option>
+              <option value="MALE">Мужчина</option>
+            </select>
+        </mat-form-field>
+        <div>                
+            <button mat-button (click)="prevStep()">Назад</button>
+            <button mat-button (click)="onSubmit()">Зарегистрироваться</button>
+        </div>
+       </ng-container>
+    </form>
+
+  

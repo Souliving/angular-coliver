@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AdShortForm } from '../../../../data/formsStructure';
+import { AdShortForm } from '../../data/formsStructure';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
 export class AdCardComponent {
 
   @Input() ad: { ad: AdShortForm, photoUrl: string } | null = null;
-
+  @Input() isFavorite = false;
   ngOnChanges(){
     console.log(this.ad)
   }

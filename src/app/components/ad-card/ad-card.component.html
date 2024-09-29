@@ -20,7 +20,7 @@
     </mat-card-content>
 
     <mat-card-actions>
-        <button mat-icon-button (click)="toFavorites(ad?.ad!.id)">
+        <button mat-icon-button *ngIf ='isFavorite' (click)="toFavorites(ad?.ad!.id)">
             <mat-icon>favorite</mat-icon>
         </button>
     </mat-card-actions>

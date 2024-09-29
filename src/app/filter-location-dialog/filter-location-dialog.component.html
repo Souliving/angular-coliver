@@ -1,0 +1,19 @@
+<form [formGroup]="data" style="display: flex; margin: 5px;">
+    <mat-form-field>
+        <mat-label>Выберите город</mat-label>
+        <mat-select formControlName="city">
+            @for (city of cities$ | async; track city) {
+                <mat-option [value]="city">{{ city.name }}</mat-option>
+              }
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Выберите станции метро</mat-label>
+        <mat-select formControlName="station">
+            @for (station of metroStations$ | async; track station) {
+                <mat-option [value]="station">{{ station.name }}</mat-option>
+              }
+        </mat-select>
+    </mat-form-field>
+</form>
