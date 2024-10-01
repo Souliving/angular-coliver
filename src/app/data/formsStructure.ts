@@ -13,7 +13,8 @@ export interface AdShortForm {
     budget: number,
     description: string,
     dateMove: Date,
-    photoUrl?: string;
+    photoUrl?: string,
+    isFavorite: boolean;
 }
 
 export interface AdForm extends AdShortForm {

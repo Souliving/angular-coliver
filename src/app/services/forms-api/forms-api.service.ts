@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, map, Observable, of, retry, tap } from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {catchError, map, Observable, of} from 'rxjs';
+import {User} from "../../data/userStructure";
 
 const apiUrl = 'http://94.103.89.23:8080/api/v1/';
 
@@ -14,9 +15,9 @@ export class FormsApiService {
   /* allAds = new BehaviorSubject(null);
   getAllAds = () => this.allAds.asObservable(); */
 
-  getAllShortForms (): Observable<any[]> {
-    return this.httpClient.get<any>(apiUrl+'form/getShortForms')
-        .pipe(catchError(() => of([]))); 
+  getAllShortForms() {
+    let user: User = JSON.parse(<string>localStorage.getItem('user'));
+    return this.httpClient.get<any[]>(apiUrl + 'form/getShortFormsForUserId/' + user.jwt.userId)
   }
 
   getUserPhotoById (photoId: number): Observable<string>{
@@ -32,5 +33,15 @@ export class FormsApiService {
   getFavoritesFormsByUserID (userId: number): Observable<any[]>{
     return this.httpClient.get<any>(apiUrl+ 'form/getFavoriteFormsByUserId/'+userId)
     .pipe(catchError(() => of([])));
+  }
+
+  addFavoriteFormForUserId(userId: number, formId: number | undefined): Observable<any> {
+    const body = {userId: userId, favFormId: formId};
+    return this.httpClient.put<any>(apiUrl + 'form/addFavoriteForm', body).pipe();
+  }
+
+  deleteFavoriteFormForUserId(userId: number, formId: number | undefined): Observable<any> {
+    const body = {userId: userId, favFormId: formId};
+    return this.httpClient.request<any>('delete', apiUrl + 'form/deleteFavoriteForm', {body: body}).pipe();
   }
 }
