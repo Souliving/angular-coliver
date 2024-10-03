@@ -1,1 +1,39 @@
-<p>account-info works!</p>
+<div class="account-info-container">
+   <!--  @if (user$ | async; as user) {  -->
+    <form [formGroup]="formUser" (submit)="saveChanges()">
+
+        <div class="account-info-header">
+            <div  class="account-info-header__image">
+                <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+            </div>
+            <div class="account-info-header__name">
+                {{formUser.controls['name'].value}}
+            </div>
+        </div>
+
+        <div class="account-info-items">
+            <mat-form-field class="account-info-items__name">
+                <mat-label>Имя пользователя</mat-label>
+                <input  matInput type="text" formControlName="name">
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Пол</mat-label>
+                <select matNativeControl  formControlName="gender" required>
+                    <option value="FEMALE">Женщина</option>
+                    <option value="MALE">Мужчина</option>
+                </select>
+            </mat-form-field>
+            <mat-form-field >
+                <mat-label>Возраст пользователя</mat-label>
+                <input  matInput type="number" formControlName="age">
+            </mat-form-field>
+            <mat-form-field >
+                <mat-label>Email</mat-label>
+                <input  matInput type="text" formControlName="email">
+            </mat-form-field>
+        </div>
+        <button style="margin-left: 40%; margin-bottom: 1%;" mat-fab extended type="submit">Сохранить изменения</button>
+   </form>
+   <!--  } -->
+</div>
