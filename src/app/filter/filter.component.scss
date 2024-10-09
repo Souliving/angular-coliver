@@ -2,5 +2,17 @@
    
     &__form{
         display: flex;
+        align-items: baseline;
+    }
+}
+.age{
+    
+    &_inputs{
+        display: flex;
+    }
+}
+.price{
+    &_inputs{
+        display: flex;
     }
 }
