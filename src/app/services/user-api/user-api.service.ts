@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, Observable, throwError } from 'rxjs';
-import { User } from '../../data/userStructure';
+import { BehaviorSubject, catchError, Observable, of, throwError } from 'rxjs';
+import { User, UserData } from '../../data/userStructure';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -97,5 +97,17 @@ export class UserApiService {
     this.authUser.next(null);
 
     this.router.navigate(['/main']);
+  }
+
+  getUserById(id:number):Observable<UserData>{
+    return this.httpClient.get<UserData>(apiUrl+ 'users/'+id)
+  }
+
+  updateUserInfo(id:number, userData: any){
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    this.httpClient.post<any>(apiUrl+'users/fillUser/'+id, userData, { headers: headers })
   }
 }

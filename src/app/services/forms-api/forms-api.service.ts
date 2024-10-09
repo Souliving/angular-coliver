@@ -30,6 +30,16 @@ export class FormsApiService {
       );
   }
 
+  getUserPhotoByUserId(userId: number):  Observable<string>{
+    return this.httpClient.get(apiUrl+ 'image/getImageByUserId/'+userId, { responseType: 'blob' })
+      .pipe(
+        map((blob: Blob) => {
+          const objectURL = URL.createObjectURL(blob);
+          return objectURL;
+        })
+      );
+  }
+
   getFavoritesFormsByUserID (userId: number): Observable<any[]>{
     return this.httpClient.get<any>(apiUrl+ 'form/getFavoriteFormsByUserId/'+userId)
     .pipe(catchError(() => of([])));
