@@ -14,10 +14,24 @@ import {MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { CityApiService } from '../services/city-api/city-api.service';
 import { catchError, Observable, of, switchMap } from 'rxjs';
+import { SecondStepComponent } from './steps-components/second-steps/second-step.component';
+import {MatRadioModule} from '@angular/material/radio';
 @Component({
   selector: 'app-create-form-page',
   standalone: true,
-  imports: [MatStepperModule, MatInputModule, ReactiveFormsModule, MatCheckboxModule, MatButtonModule, MatFormFieldModule, MatSelectModule, CommonModule, MatIcon, MatChipsModule],
+  imports: [
+    MatStepperModule, 
+    MatInputModule, 
+    ReactiveFormsModule, 
+    MatCheckboxModule, 
+    MatButtonModule, 
+    MatFormFieldModule, 
+    MatSelectModule, 
+    CommonModule, 
+    MatIcon, 
+    MatChipsModule,
+    MatRadioModule,
+    SecondStepComponent],
   templateUrl: './create-form-page.component.html',
   styleUrl: './create-form-page.component.scss'
 })
@@ -27,6 +41,7 @@ export class CreateFormPageComponent {
   secondStepGroup: FormGroup | undefined ;
   secondStepNoFlatGroup: FormGroup | undefined;
   thirdStepGroup!: FormGroup;
+  fourthStepGroup!: FormGroup;
   user: User | null | undefined;
   selectedHomeOwnerType: number | undefined;
   cities$: Observable<any> | undefined;
@@ -36,8 +51,29 @@ export class CreateFormPageComponent {
     { value: 'male', label: 'Мужчина' },
     { value: 'nogender', label: 'И мужчины, и женщины' }
   ];
-  
- 
+
+  readonly maritalStatusList =[
+    { value: 'free', label: 'Свободен' },
+    { value: 'married', label: 'Замужем/Женат' },
+    { value: 'relationship', label: 'В отношениях' }
+  ];
+
+  readonly employmentTypeList = [
+    { value: 'shifts', label: 'Работаю вахтами' },
+    {value: 'office', label:'Работа 5/2'},
+    {value: 'remote', label:'Удаленная работа'},
+    { value: 'floatingChart', label: 'Плавающий график' },
+    { value: 'freelance', label: 'На фрилансе' },
+    { value: 'student', label: 'Студент' },
+    { value: 'noJob', label: 'Безработный' },
+  ]
+
+  readonly lifeStyleList = [
+    { value: 'earlyGetUp', label: 'Встаю рано' },
+    {value: 'lateGetUp', label:'Встаю поздно'},
+    {value: 'middleGetUp', label:'Плавающий режим сна'},
+  ]
+ readonly cleaning = [0, 1, 2, 3, 4, 5]
   constructor(
     private formsApiService: FormsApiService,
     private cityService: CityApiService,
@@ -51,11 +87,6 @@ export class CreateFormPageComponent {
       homeOwnerType:null,
     })
     this.changeFirstStep()
-
-  
-
-    
-
 
     this.thirdStepGroup = this.fb.group({
       budget: 0,
@@ -91,6 +122,21 @@ export class CreateFormPageComponent {
               parking: false
             })
         })
+        this.thirdStepGroup = this.fb.group({
+          maritalStatus: null,
+          employmentType: null,
+          lifeStyle: null,
+          smoking: false,
+          cleaning: null,
+          pets:false
+        });
+        this.fourthStepGroup = this.fb.group({
+           neighboursAge:this.fb.group({
+            from: [null, [Validators.min(0)]],
+            to: [null, [Validators.min(0)]]
+          }), 
+          neighboursGender:null,
+        })
       }
       else{
         this.secondStepGroup = undefined;
@@ -114,12 +160,6 @@ export class CreateFormPageComponent {
           airConditioner: false,
           parking: false
         }),
-        neighboursGender:null,
-        neighboursAge:this.fb.group({
-          from: [null, [Validators.min(0)]],
-          to: [null, [Validators.min(0)]]
-        }),
-
       })
       }
     });
@@ -224,6 +264,9 @@ export class CreateFormPageComponent {
     currentGenderArray.push(gender);
     this.secondStepGroup.get('neighbours.gender')?.patchValue(currentGenderArray);
   }
+ }
+ setNeighboursGender(gender:string){
+  this.fourthStepGroup.get('neighboursGender')?.patchValue(gender)
  }
 
 }
