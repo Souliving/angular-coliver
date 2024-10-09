@@ -18,8 +18,8 @@
               </div>
             </form>
           </mat-step>
-         
-             <mat-step  *ngIf="(firstStepGroup.get('homeOwnerType')?.valueChanges | async) === '0'  && secondStepGroup; else noFlat" [stepControl]="secondStepGroup">
+          @if((firstStepGroup.get('homeOwnerType')?.valueChanges | async) === '0' && secondStepGroup && thirdStepGroup && fourthStepGroup){
+            <mat-step [stepControl]="secondStepGroup">
               <ng-template matStepLabel>Описание квартиры </ng-template>
               
               <form  [formGroup]="secondStepGroup">
@@ -107,7 +107,8 @@
                 </div>
               </form>
             </mat-step>
-            <ng-template #noFlat>
+          }
+          @else{
               <mat-step *ngIf="secondStepNoFlatGroup" [stepControl]="secondStepNoFlatGroup">
                 <ng-template matStepLabel>Описание квартиры2 </ng-template>
                 <form  [formGroup]="secondStepNoFlatGroup">
@@ -120,14 +121,21 @@
                       <mat-option value="3">5 комнат и более</mat-option>
                     </mat-select>
                   </mat-form-field>
-
-                  <mat-form-field>
-                    <mat-label>Цена</mat-label>
-                    <input matInput formControlName="price" placeholder="Введите цену"
+                <br/>
+                <ng-container formGroupName="price">
+                  <mat-form-field >
+                    <mat-label>Цена от</mat-label>
+                    <input matInput formControlName="from" placeholder="Введите цену"
                            required>
+                    </mat-form-field>
+                    <mat-form-field >
+                    <mat-label>Цена до</mat-label>
+                    <input matInput formControlName="to" placeholder="Введите цену" required>
                   </mat-form-field>
+                </ng-container>
+                  
                   <section class="example-section" formGroupName="conditionsList">
-                    <h4>Выберите то, что есть в вашей квартире</h4>
+                    <h4>Выберите удобства, которые хотели бы видеть в квартире</h4>
                     <p><mat-checkbox formControlName="internet">Интернет (Wi-Fi)</mat-checkbox></p>
                     <p><mat-checkbox formControlName="tv">Телевизор</mat-checkbox></p>
                     <p><mat-checkbox formControlName="kitchen">Кухонная техника (холодильник, плита, микроволновая печь , посудомоечная машина)
@@ -143,8 +151,101 @@
                   </div>
                 </form>
               </mat-step>
-            </ng-template>
-            
+          }
+          @if((secondStepGroup||secondStepNoFlatGroup) && thirdStepGroup){
+             <mat-step [stepControl]="thirdStepGroup">
+              <ng-template matStepLabel>О себе </ng-template>
+              <form [formGroup]="thirdStepGroup">
+                <label id="example-radio-group-label">Укажите ваше семейное положение</label>
+                <mat-radio-group
+                  aria-labelledby="example-radio-group-label"
+                  class="example-radio-group"
+                  formControlName="maritalStatus">
+                  @for (status of maritalStatusList; track status) {
+                    <mat-radio-button class="example-radio-button" [value]="status.value">{{status.label}}</mat-radio-button>
+                  }
+                </mat-radio-group>
+                <br/>
+                <label id="example-radio-group-label">Ваш вид занятости</label>
+                <mat-radio-group
+                  aria-labelledby="example-radio-group-label"
+                  class="example-radio-group"
+                  formControlName="maritalStatus">
+                  @for (type of employmentTypeList; track type) {
+                    <mat-radio-button class="example-radio-button" [value]="type.value">{{type.label}}</mat-radio-button>
+                  }
+                </mat-radio-group>
+                <br/>
+                <label id="example-radio-group-label">Ваш режим сна</label>
+                <mat-radio-group
+                  aria-labelledby="example-radio-group-label"
+                  class="example-radio-group"
+                  formControlName="lifeStyle">
+                  @for (style of lifeStyleList; track style) {
+                    <mat-radio-button class="example-radio-button" [value]="style.value">{{style.label}}</mat-radio-button>
+                  }
+                </mat-radio-group>
+                <br/>
+                <label id="example-radio-group-label">Вы курите?</label>
+                <mat-radio-group
+                  aria-labelledby="example-radio-group-label"
+                  class="example-radio-group"
+                  formControlName="lifeStyle">
+                  <mat-radio-button class="example-radio-button" [value]="true">Да</mat-radio-button>
+                  <mat-radio-button class="example-radio-button" [value]="false">Нет</mat-radio-button>
+                </mat-radio-group>
+                <br/>
+                <label id="example-radio-group-label">Оцените свою чистоплотность</label>
+                <mat-radio-group
+                  aria-labelledby="example-radio-group-label"
+                  class="example-radio-group"
+                  formControlName="lifeStyle">
+                  @for (item of cleaning; track item) {
+                    <mat-radio-button class="example-radio-button" [value]="item">{{item}}</mat-radio-button>
+                  }
+                </mat-radio-group>
+                <div>
+                  <button mat-button matStepperPrevious>Назад</button>
+                  <button mat-button matStepperNext>Вперед</button>
+                </div>
+              </form>
+            </mat-step>
+          }
+          @if((secondStepGroup||secondStepNoFlatGroup) && fourthStepGroup){
+            <mat-step [stepControl]="fourthStepGroup" label="О коливере">
+              <form [formGroup]="fourthStepGroup">
+                <ng-container formGroupName="neighboursAge">
+                  Укажите возраст
+                  <mat-form-field >
+                    <mat-label>От</mat-label>
+                    <input matInput formControlName="from" placeholder="Возраст"
+                           required>
+                    </mat-form-field>
+                    <mat-form-field >
+                    <mat-label>До</mat-label>
+                    <input matInput formControlName="to" placeholder="Возраст" required>
+                  </mat-form-field>
+                  <mat-chip-listbox class="mat-mdc-chip-set-stacked" >
+                    С кем бы Вы хотели жить?
+                    @for (gender of genderList; track $index) {
+                      <mat-chip-option  
+                      [selected]="fourthStepGroup.get('neighboursGender')?.value === gender.value"
+                      (click)="setNeighboursGender(gender.value)">
+                      {{ gender.label }}</mat-chip-option>
+                    }
+                  </mat-chip-listbox>
+                </ng-container>
+                <div>
+                  <button mat-button matStepperPrevious>Back</button>
+                  <button mat-button>Сохранить</button>
+                </div>
+              </form>
+            </mat-step>
+          }
+
+
+             
+
           
            
             <!-- <mat-step [stepControl]="secondStepGroup" label="Fill out your address">
@@ -160,14 +261,6 @@
                 </div>
               </form>
             </mat-step> -->
-            <mat-step>
-              <ng-template matStepLabel>Done</ng-template>
-              <p>You are now done.</p>
-              <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button (click)="stepper.reset()">Reset</button>
-              </div>
-            </mat-step>
           </mat-stepper>
    
 </div>
