@@ -72,7 +72,7 @@ export class CreateFormPageComponent {
             homeTypesIds: null,
             location: this.fb.group({
               city: null,
-              station: [null]
+              station: []
             }),
             neighbours: this.fb.group({
               count: null,
@@ -102,7 +102,7 @@ export class CreateFormPageComponent {
         homeTypesIds: [],
         location: this.fb.group({
           city: null,
-          station: [null]
+          station: []
         }),
         conditionsList: this.fb.group({
           internet: false,
