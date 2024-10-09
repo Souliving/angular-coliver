@@ -30,16 +30,16 @@ export class AccountInfoComponent {
     console.log(user)
     if(user){
 
-     /*  this.user$ = forkJoin({
+      this.user$ = forkJoin({
         userData: this.userApiService.getUserById(user.jwt.userId),
         photoUrl: this.formsApiService.getUserPhotoByUserId(user.jwt.userId) // Получение URL фото
-      }) */
-    
-        this.userApiService.getUserById(user.jwt.userId).subscribe(data => {
-        console.log(data)
-        this.initForm(data)
       })
+      this.user$.subscribe(data => {
+        this.initForm(data.userData)
+        console.log(data)
+    })
     }
+    
 
    })
     

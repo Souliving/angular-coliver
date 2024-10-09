@@ -1,10 +1,10 @@
 <div class="account-info-container">
-   <!--  @if (user$ | async; as user) {  -->
+    @if (user$ | async; as user) { 
     <form [formGroup]="formUser" (submit)="saveChanges()">
 
         <div class="account-info-header">
             <div  class="account-info-header__image">
-                <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+                <img mat-card-image [src]="user.photoUrl" alt="Photo of a Shiba Inu">
             </div>
             <div class="account-info-header__name">
                 {{formUser.controls['name'].value}}
@@ -35,5 +35,5 @@
         </div>
         <button style="margin-left: 40%; margin-bottom: 1%;" mat-fab extended type="submit">Сохранить изменения</button>
    </form>
-   <!--  } -->
+    }
 </div>
