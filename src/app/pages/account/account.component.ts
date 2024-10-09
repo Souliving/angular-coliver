@@ -1,19 +1,15 @@
 import { Component, ComponentRef, ViewChild, ViewContainerRef } from '@angular/core';
 import {MatListModule} from '@angular/material/list';
 import {MatButtonModule} from '@angular/material/button';
-import { AccountInfoComponent } from '../../components/account-info/account-info.component';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PrivatePageComponent } from '../private-page/private-page.component';
-import { PayPageComponent } from '../pay-page/pay-page.component';
-import { SupportPageComponent } from '../../support-page/support-page.component';
-import { FaqPageComponent } from '../faq-page/faq-page.component';
+import {  FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { MatIcon } from '@angular/material/icon';
-import { CreateFormPageComponent } from '../../create-form-page/create-form-page.component';
+import { Router, RouterModule } from '@angular/router';
+
 @Component({
   selector: 'app-account',
   standalone: true,
-  imports: [MatListModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatIcon, MatSidenavModule ],
+  imports: [MatListModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatIcon, MatSidenavModule, RouterModule ],
   templateUrl: './account.component.html',
   styleUrl: './account.component.scss'
 })
@@ -27,51 +23,35 @@ export class AccountComponent {
     "FAQ"
   ]
   forms: any;
-  currentTopic: string = ''
 
-  @ViewChild('infoContainer', { read: ViewContainerRef }) infoContainer!: ViewContainerRef;
-  componentRef!: ComponentRef<any>;
-
-  constructor() {}
+  constructor(private router: Router) {}
   ngOnInit(){
     
   }
-
-  ngAfterViewInit(){
-    this.selectTopic('Моя учетная запись')
-  }
-
   selectTopic(topic: any){
-    this.currentTopic = topic;
-
-    this.infoContainer.clear();
-
     switch (topic){
       case 'Моя учетная запись':
-        this.componentRef = this.infoContainer.createComponent(AccountInfoComponent);
+        this.router.navigate(['/account/profile']);
         break;
       case 'Приватность':
-        this.componentRef = this.infoContainer.createComponent(PrivatePageComponent);
+        this.router.navigate(['/account/privacy']);
         break;
       case 'Оплата':
-        this.componentRef = this.infoContainer.createComponent(PayPageComponent);
+        this.router.navigate(['/account/payment']);
         break;
       case 'Поддержка':
-        this.componentRef = this.infoContainer.createComponent(SupportPageComponent);
+        this.router.navigate(['/account/support']);
         break;
       case 'FAQ':
-        this.componentRef = this.infoContainer.createComponent(FaqPageComponent);
+        this.router.navigate(['/account/faq']);
         break;
+      case 'addNewForm':
+        this.router.navigate(['/account/newad'])
     }
   }
   selectForm(form:any){}
 
   toggleSideNav(){
     this.opened = !this.opened
-  }
-
-  addNewForm(){
-    this.infoContainer.clear();
-    this.componentRef = this.infoContainer.createComponent(CreateFormPageComponent);
   }
 }
