@@ -1,4 +1,4 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {catchError, map, Observable, of, tap} from 'rxjs';
 import {User} from "../../data/userStructure";
@@ -47,6 +47,16 @@ export class FormsApiService {
       );
   }
 
+  uploadPhotoByUserId(userId:number, photo:any): Observable<string>{
+    const headers = new HttpHeaders({
+      'Content-Type': 'image/png'
+    });
+
+    return this.httpClient.post<any>('http://94.103.89.23:9090/uploadImageByUserId/', photo, { headers: headers })
+      .pipe(
+        catchError( error => of(error))
+      )
+  }
   getFavoritesFormsByUserID (userId: number): Observable<any[]>{
     return this.httpClient.get<any>(apiUrl+ 'form/getFavoriteFormsByUserId/'+userId)
     .pipe(catchError(() => of([])));

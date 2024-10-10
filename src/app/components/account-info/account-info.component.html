@@ -4,7 +4,9 @@
 
         <div class="account-info-header">
             <div  class="account-info-header__image">
-                <img mat-card-image [src]="user.photoUrl" alt="Photo of a Shiba Inu">
+                <img mat-card-image [src]="user.photoUrl" alt="Фото пользователя">
+                <input type="file" name="file" (change)="uploadPhoto($event)"/>
+               
             </div>
             <div class="account-info-header__name">
                 {{formUser.controls['name'].value}}
