@@ -1,6 +1,6 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {catchError, map, Observable, of} from 'rxjs';
+import {catchError, map, Observable, of, tap} from 'rxjs';
 import {User} from "../../data/userStructure";
 
 const apiUrl = 'http://94.103.89.23:8080/api/v1/';
@@ -30,7 +30,7 @@ export class FormsApiService {
       );
   }
 
-  getUserPhotoByUserId(userId: number):  Observable<string>{
+  /* getUserPhotoByUserId(userId: number):  Observable<string>{
     return this.httpClient.get(apiUrl+ 'image/getImageByUserId/'+userId, { responseType: 'blob' })
       .pipe(
         map((blob: Blob) => {
@@ -38,8 +38,25 @@ export class FormsApiService {
           return objectURL;
         })
       );
+  } */
+
+  getUserPhotoByUserId(userId: number):  Observable<string>{
+    return this.httpClient.get<string>('http://94.103.89.23:9090/getImageByUserId/'+userId,   { responseType: 'text' as 'json' } )
+      .pipe(
+        catchError(() => of(''))
+      );
   }
 
+  uploadPhotoByUserId(userId:number, photo:any): Observable<string>{
+    const headers = new HttpHeaders({
+      'Content-Type': 'image/png'
+    });
+
+    return this.httpClient.post<any>('http://94.103.89.23:9090/uploadImageByUserId/', photo, { headers: headers })
+      .pipe(
+        catchError( error => of(error))
+      )
+  }
   getFavoritesFormsByUserID (userId: number): Observable<any[]>{
     return this.httpClient.get<any>(apiUrl+ 'form/getFavoriteFormsByUserId/'+userId)
     .pipe(catchError(() => of([])));

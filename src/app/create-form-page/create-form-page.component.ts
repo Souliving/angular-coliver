@@ -122,21 +122,6 @@ export class CreateFormPageComponent {
               parking: false
             })
         })
-        this.thirdStepGroup = this.fb.group({
-          maritalStatus: null,
-          employmentType: null,
-          lifeStyle: null,
-          smoking: false,
-          cleaning: null,
-          pets:false
-        });
-        this.fourthStepGroup = this.fb.group({
-           neighboursAge:this.fb.group({
-            from: [null, [Validators.min(0)]],
-            to: [null, [Validators.min(0)]]
-          }), 
-          neighboursGender:null,
-        })
       }
       else{
         this.secondStepGroup = undefined;
@@ -162,6 +147,21 @@ export class CreateFormPageComponent {
         }),
       })
       }
+      this.thirdStepGroup = this.fb.group({
+        maritalStatus: null,
+        employmentType: null,
+        lifeStyle: null,
+        smoking: false,
+        cleaning: null,
+        pets:false
+      });
+      this.fourthStepGroup = this.fb.group({
+         neighboursAge:this.fb.group({
+          from: [null, [Validators.min(0)]],
+          to: [null, [Validators.min(0)]]
+        }), 
+        neighboursGender:null,
+      })
     });
   }
   onCityChange(){

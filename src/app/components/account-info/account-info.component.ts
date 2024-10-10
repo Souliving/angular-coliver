@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { UserApiService } from '../../services/user-api/user-api.service';
-import { filter, forkJoin, merge, Observable, tap } from 'rxjs';
+import { filter, forkJoin, map, merge, Observable, tap } from 'rxjs';
 import { User, UserData } from '../../data/userStructure';
 import {CommonModule} from '@angular/common';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -30,16 +30,16 @@ export class AccountInfoComponent {
     console.log(user)
     if(user){
 
-     /*  this.user$ = forkJoin({
+      this.user$ = forkJoin({
         userData: this.userApiService.getUserById(user.jwt.userId),
         photoUrl: this.formsApiService.getUserPhotoByUserId(user.jwt.userId) // Получение URL фото
-      }) */
-    
-        this.userApiService.getUserById(user.jwt.userId).subscribe(data => {
-        console.log(data)
-        this.initForm(data)
       })
+      this.user$.subscribe(data => {
+        this.initForm(data.userData)
+        console.log(data)
+    })
     }
+    
 
    })
     
@@ -54,7 +54,25 @@ export class AccountInfoComponent {
     });
   }
 
+  uploadPhoto(event:any){
+  console.log(event)
+  let file = <File>event.target.files[0];
+  const souceCsvFile = {
+    file: file,
+    url: URL.createObjectURL(file)
+  };
+  console.log(souceCsvFile);
+  this.user$ = this.user$?.pipe(
+    map(data =>{ 
+      return {
+      ...data,
+      photoUrl : souceCsvFile.url}
+    })
+  )
+  }
+
   saveChanges(){
+    
     console.log(this.formUser)
   }
 
