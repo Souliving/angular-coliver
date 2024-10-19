@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {catchError, map, Observable, of, tap} from 'rxjs';
 import {User} from "../../data/userStructure";
 
-const apiUrl = 'http://94.103.89.23:8080/api/v1/';
+const apiUrl = 'https://api.coliver.tech/api/v1/';
 
 @Injectable({
   providedIn: 'root'
@@ -21,13 +21,10 @@ export class FormsApiService {
   }
 
   getUserPhotoById (photoId: number): Observable<string>{
-    return this.httpClient.get(apiUrl+ 'image/getImageById/'+photoId, { responseType: 'blob' })
-      .pipe(
-        map((blob: Blob) => {
-          const objectURL = URL.createObjectURL(blob);
-          return objectURL;
-        })
-      );
+      return this.httpClient.get<string>('https://images.coliver.tech/getImageById/'+photoId,   { responseType: 'text' as 'json' } )
+        .pipe(
+          catchError(() => of(''))
+        );
   }
 
   /* getUserPhotoByUserId(userId: number):  Observable<string>{
@@ -41,7 +38,7 @@ export class FormsApiService {
   } */
 
   getUserPhotoByUserId(userId: number):  Observable<string>{
-    return this.httpClient.get<string>('http://94.103.89.23:9090/getImageByUserId/'+userId,   { responseType: 'text' as 'json' } )
+    return this.httpClient.get<string>('https://images.coliver.tech/getImageByUserId/'+userId,   { responseType: 'text' as 'json' } )
       .pipe(
         catchError(() => of(''))
       );
@@ -52,7 +49,7 @@ export class FormsApiService {
       'Content-Type': 'image/png'
     });
 
-    return this.httpClient.post<any>('http://94.103.89.23:9090/uploadImageByUserId/', photo, { headers: headers })
+    return this.httpClient.post<any>('https://images.coliver.tech/uploadImageByUserId/', photo, { headers: headers })
       .pipe(
         catchError( error => of(error))
       )

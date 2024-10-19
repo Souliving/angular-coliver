@@ -4,7 +4,7 @@ import { User, UserData } from '../../data/userStructure';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-const apiUrl = 'http://94.103.89.23:8080/api/v1/';
+const apiUrl = 'https://api.coliver.tech/api/v1/';
 
 @Injectable({
   providedIn: 'root'

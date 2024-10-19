@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-const apiUrl = 'http://94.103.89.23:8080/api/v1/';
+const apiUrl = 'https://api.coliver.tech/api/v1/';
 
 @Injectable({
   providedIn: 'root'
