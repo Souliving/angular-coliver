@@ -4,7 +4,6 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    font-family: 'Gilroy-Regular';
 }
 .ad-card-image {
     width: 100%;
@@ -16,7 +15,6 @@
     flex-grow: 1; /* Занимает оставшееся пространство между header и actions */
     overflow: hidden; /* Обрезка переполненного контента */
     text-overflow: ellipsis;
-    font-family: 'Gilroy-Regular';
 }
 
 .ad-description {
@@ -25,7 +23,6 @@
     display: -webkit-box;
     -webkit-line-clamp: 3; /* Ограничение до 3 строк */
     -webkit-box-orient: vertical;
-    font-family: 'Gilroy-Regular';
 }
 
 .mat-card-actions {

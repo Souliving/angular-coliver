@@ -36,10 +36,5 @@ $coliver-theme: mat.define-theme((
 // @include mat.color-variants-backwards-compatibility($coliver-theme);
 /* You can add global styles to this file, and also import other style files */
 
-@font-face {
-  font-family: 'Gilroy-Regular';
-  src: url("./fonts/Gilroy-Regular.ttf")
-}
-
 html, body { height: 100%; }
-body { margin: 0; font-family: "Gilroy-Regular" }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
