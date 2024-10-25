@@ -1,14 +1,25 @@
-<div class="account-container">
-    <div class="expansion-panel-container">
-        <mat-selection-list  [multiple]="false">
-            @for (topic of topics; track topic) {
-              <mat-list-item (click)="selectTopic(topic)">{{topic}}</mat-list-item>
-            }
-          </mat-selection-list>
-          
-        
-    </div>
+<mat-sidenav-container class="account-container">
+  <mat-sidenav #sidenav mode="side" [(opened)]="opened" class="sidenav-bar">
+              <mat-selection-list  [multiple]="false" >
+                @for (topic of topics; track topic) {
+                  <mat-list-item (click)="selectTopic(topic)">{{topic}}</mat-list-item>
+                }
+              </mat-selection-list>
+              @if (forms){
+                <mat-list-item (click)="selectForm(forms)">{{forms}}</mat-list-item>
+              }
+              @else{
+                <button mat-fab extended (click)="selectTopic('addNewForm')"><mat-icon>add</mat-icon>Создать анкету</button>
+              }
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <button mat-icon-button  (click)="toggleSideNav()">
+      @if(opened){<mat-icon>keyboard_arrow_left</mat-icon>}
+      @else{<mat-icon>keyboard_arrow_right</mat-icon>}
+    </button>
     <div class="info-container">
-        <ng-template #infoContainer></ng-template>
+      <router-outlet></router-outlet>
     </div>
-</div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

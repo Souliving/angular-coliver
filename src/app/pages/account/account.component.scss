@@ -1,10 +1,16 @@
 .account-container {
-    display: flex;
-    .expansion-panel-container {
+  height: 90vh;
+  .sidenav-bar{
+    background-color: aliceblue; 
+    }
+}
+   /*  .expansion-panel-container {
+        background-color: aliceblue;
         width: 40%;
+        
     }
 
     .info-container {
-        
-    }
-}
+        width: 55%;
+    } */
+

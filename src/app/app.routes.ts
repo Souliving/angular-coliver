@@ -5,6 +5,12 @@ import { MainPageComponent } from './pages/main-page/main-page.component';
 import { userGuardGuard } from './user-guard.guard';
 import { AccountComponent } from './pages/account/account.component';
 import { FavoriteAdsComponent } from './pages/favorite-ads/favorite-ads.component';
+import { AccountInfoComponent } from './components/account-info/account-info.component';
+import { PrivatePageComponent } from './pages/private-page/private-page.component';
+import { PayPageComponent } from './pages/pay-page/pay-page.component';
+import { SupportPageComponent } from './support-page/support-page.component';
+import { FaqPageComponent } from './pages/faq-page/faq-page.component';
+import { CreateFormPageComponent } from './create-form-page/create-form-page.component';
 
 export const routes: Routes = [
     {
@@ -17,9 +23,18 @@ export const routes: Routes = [
         component: AuthComponent
     },
     {
-        path:'account',
+        path: 'account',
         component: AccountComponent,
-        canActivate: [userGuardGuard]
+        canActivate: [userGuardGuard],
+        children: [
+            { path: 'profile', component: AccountInfoComponent },
+            { path: 'privacy', component: PrivatePageComponent },
+            { path: 'payment', component: PayPageComponent },
+            { path: 'support', component: SupportPageComponent },
+            { path: 'faq', component: FaqPageComponent },
+            { path: 'newad', component: CreateFormPageComponent },
+            { path: '', redirectTo: 'profile', pathMatch: 'full' }, // по умолчанию - "Моя учетная запись"
+        ]
     },
     {
         path:'favorites',

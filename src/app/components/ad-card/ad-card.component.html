@@ -1,5 +1,5 @@
 <mat-card class="ad-card" appearance="outlined">
-    <img [src]='ad?.photoUrl' alt="User Photo" class="ad-card-image"/>
+    <img mat-card-image [src]="ad?.photoUrl" alt="User Photo" class="ad-card-image"/>
     <mat-card-header>
         <div mat-card-avatar class="example-header-image"></div>
         <mat-card-title>{{ad?.ad!.name}}</mat-card-title>

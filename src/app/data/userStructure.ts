@@ -8,3 +8,16 @@ export interface User {
     },
     name: string
 }
+
+export interface UserData{
+    id: number,
+    email: string,
+    password: string,
+    role: string,
+    name: string,
+    age: number,
+    gender: string,
+    enabled: boolean,
+    createDate: Date,
+    modifyDate: Date
+}

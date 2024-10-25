@@ -1,16 +1,20 @@
 import { Component, ComponentRef, ViewChild, ViewContainerRef } from '@angular/core';
 import {MatListModule} from '@angular/material/list';
+import {MatButtonModule} from '@angular/material/button';
+import {  FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import { MatIcon } from '@angular/material/icon';
+import { Router, RouterModule } from '@angular/router';
 
-import { AccountInfoComponent } from '../../components/account-info/account-info.component';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-account',
   standalone: true,
-  imports: [MatListModule, FormsModule, ReactiveFormsModule ],
+  imports: [MatListModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatIcon, MatSidenavModule, RouterModule ],
   templateUrl: './account.component.html',
   styleUrl: './account.component.scss'
 })
 export class AccountComponent {
+  opened: boolean = true;
   topics:string[] = [
     "Моя учетная запись",
     "Приватность",
@@ -18,29 +22,36 @@ export class AccountComponent {
     "Поддержка",
     "FAQ"
   ]
-  currentTopic: string = ''
+  forms: any;
 
-  @ViewChild('infoContainer', { read: ViewContainerRef }) infoContainer!: ViewContainerRef;
-  componentRef!: ComponentRef<any>;
-
-  constructor() {}
+  constructor(private router: Router) {}
   ngOnInit(){
     
   }
-
-  ngAfterViewInit(){
-    this.selectTopic('Моя учетная запись')
-  }
-
   selectTopic(topic: any){
-    this.currentTopic = topic;
-
-    this.infoContainer.clear();
-
     switch (topic){
       case 'Моя учетная запись':
-        this.componentRef = this.infoContainer.createComponent(AccountInfoComponent);
+        this.router.navigate(['/account/profile']);
         break;
+      case 'Приватность':
+        this.router.navigate(['/account/privacy']);
+        break;
+      case 'Оплата':
+        this.router.navigate(['/account/payment']);
+        break;
+      case 'Поддержка':
+        this.router.navigate(['/account/support']);
+        break;
+      case 'FAQ':
+        this.router.navigate(['/account/faq']);
+        break;
+      case 'addNewForm':
+        this.router.navigate(['/account/newad'])
     }
+  }
+  selectForm(form:any){}
+
+  toggleSideNav(){
+    this.opened = !this.opened
   }
 }

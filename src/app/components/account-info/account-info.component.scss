@@ -1,0 +1,26 @@
+.account-info-header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 35%;
+    &__image{
+        img{
+            width: 200px;
+            border-radius: 50%; /* Круглая картинка */
+            margin-right: 20px; 
+        }
+    }
+    &__name{
+        flex-grow: 1;
+        font-size: large;
+        flex-shrink: 1;
+    }
+}
+
+.account-info-items{
+    margin-top: 2%;
+    margin-left: 3%;
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+}
