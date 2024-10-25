@@ -2,5 +2,18 @@
    
     &__form{
         display: flex;
+        gap: 10px;
+        align-items: flex-start;
+    }
+}
+.age{
+    
+    &_inputs{
+        display: flex;
+    }
+}
+.price{
+    &_inputs{
+        display: flex;
     }
 }

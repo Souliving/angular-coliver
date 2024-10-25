@@ -44,6 +44,13 @@ export class FormsApiService {
       );
   }
 
+  getShortFormsWithFilter(userId: number, filter: any){
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.httpClient.get<any[]>(apiUrl + 'form/getShortFormsWithFilter/' + userId)
+  }
+
   uploadPhotoByUserId(userId:number, photo:any): Observable<string>{
     const headers = new HttpHeaders({
       'Content-Type': 'image/png'

@@ -13,7 +13,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 import { FilterLocationDialogComponent } from '../filter-location-dialog/filter-location-dialog.component';
-
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatSliderModule} from '@angular/material/slider';
 @Component({
   selector: 'app-filter',
   standalone: true,
@@ -26,7 +27,9 @@ import { FilterLocationDialogComponent } from '../filter-location-dialog/filter-
             MatButtonModule, 
             MatListModule,
             MatMenuModule,
-            MatIconModule],
+            MatIconModule,
+            MatExpansionModule,
+            MatSliderModule],
   templateUrl: './filter.component.html',
   styleUrl: './filter.component.scss'
 })
@@ -114,9 +117,12 @@ export class FilterComponent {
       
     });
   }
-
+  // Метод для изменения значений ползунков слайдера
+  onSliderChange(event: any, controlName: string) {
+    this.filterForm.get(['price', controlName])?.setValue(event.value);
+  }
   submitForm(){
-
+    console.log(this.filterForm)
   }
 
 }
