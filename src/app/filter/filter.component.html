@@ -1,20 +1,55 @@
-<mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title> Настройте фильтр </mat-panel-title>
-    </mat-expansion-panel-header>
-    <div class="filter-container">
+ <div class="filter-container">
         <form [formGroup]="filterForm" (ngSubmit)="submitForm()" class="filter-container__form">
             <!-- Группа предпочтений с чекбоксами -->
-            <mat-form-field>
+            <!-- <mat-form-field>
                 <mat-label>Выберите пердпочтения</mat-label>
                 <mat-select formControlName="preferences" multiple>
                      @for (preference of allPreferences; track preference) {
                         <mat-option [value]="preference.value" >{{preference.display}}</mat-option>
                     }
                 </mat-select> 
-            </mat-form-field>
+            </mat-form-field> -->
+            <mat-expansion-panel formControlName="preferences">
+                <mat-expansion-panel-header>
+                  <mat-panel-title> Выберите пердпочтения </mat-panel-title>
+                </mat-expansion-panel-header>
+                @for (preference of allPreferences; track preference) {
+                    <mat-option [value]="preference.value" >{{preference.display}}</mat-option>
+                }
+            </mat-expansion-panel>
 
-            <div formGroupName="age">
+            <mat-expansion-panel formGroupName="age">
+                <mat-expansion-panel-header>
+                  <mat-panel-title> Укажите возраст </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="age_inputs">
+                    <mat-form-field class="example-form-field">
+                        <mat-label>Возраст от: </mat-label>
+                        <input matInput type="number" formControlName="from" [value] = "filterForm.get('age.from')?.value"> 
+                    </mat-form-field>
+
+                    <mat-form-field>
+                    <mat-label>до:  </mat-label>
+                        <input matInput type="number" formControlName="to" [value] = "filterForm.get('age.to')?.value">
+                    </mat-form-field>
+                </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel formGroupName="price">
+                <mat-expansion-panel-header>
+                  <mat-panel-title> Укажите бюджет </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="price_inputs">
+                    <mat-form-field class="example-form-field">
+                        <mat-label>Цена от:</mat-label>
+                        <input matInput type="number" formControlName="from" [value] = "filterForm.get('price.from')?.value"> 
+                    </mat-form-field>
+                    <mat-form-field class="example-form-field">
+                        <mat-label>до:</mat-label>
+                        <input matInput type="number" formControlName="to" [value] = "filterForm.get('price.to')?.value"> 
+                    </mat-form-field>
+                </div>
+            </mat-expansion-panel>
+           <!--  <div formGroupName="age">
                 <div class="age_inputs">
                     <mat-form-field class="example-form-field">
                         <mat-label>Возраст от: </mat-label>
@@ -32,9 +67,9 @@
                     <input formControlName="to" value="120" matSliderEndThumb [value] = "filterForm.get('age.to')?.value">
                 </mat-slider>
                 
-            </div>
+            </div> -->
 
-            <div formGroupName="price">
+           <!--  <div formGroupName="price">
                 <div class="price_inputs">
                     <mat-form-field class="example-form-field">
                         <mat-label>Цена от:</mat-label>
@@ -58,7 +93,7 @@
                     [value]="filterForm.get('price.to')?.value"
                     />
                 </mat-slider>
-              </div>
+              </div> -->
           
             <!-- Возраст (диапазон) -->
             <!-- <div formGroupName="age">
@@ -109,5 +144,5 @@
           
           
     </div>
-  </mat-expansion-panel>
+
 

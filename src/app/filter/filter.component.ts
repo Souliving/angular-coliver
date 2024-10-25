@@ -117,14 +117,12 @@ export class FilterComponent {
       
     });
   }
- 
-
   // Метод для изменения значений ползунков слайдера
   onSliderChange(event: any, controlName: string) {
     this.filterForm.get(['price', controlName])?.setValue(event.value);
   }
   submitForm(){
-
+    console.log(this.filterForm)
   }
 
 }

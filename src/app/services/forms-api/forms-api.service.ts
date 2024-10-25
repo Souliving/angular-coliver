@@ -1,4 +1,4 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {catchError, map, Observable, of} from 'rxjs';
 import {User} from "../../data/userStructure";
@@ -28,6 +28,13 @@ export class FormsApiService {
           return objectURL;
         })
       );
+  }
+
+  getShortFormsWithFilter(userId: number, filter: any){
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.httpClient.get<any[]>(apiUrl + 'form/getShortFormsWithFilter/' + userId)
   }
 
   getFavoritesFormsByUserID (userId: number): Observable<any[]>{
