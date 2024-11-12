@@ -1,16 +1,17 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialog, MatDialogActions, MatDialogContent } from '@angular/material/dialog';
 import { catchError, Observable, of, switchMap } from 'rxjs';
 import { CityApiService } from '../services/city-api/city-api.service';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-filter-location-dialog',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule],
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule, MatButton, MatDialogActions, MatDialogContent],
   templateUrl: './filter-location-dialog.component.html',
   styleUrl: './filter-location-dialog.component.scss'
 })
@@ -37,7 +38,7 @@ export class FilterLocationDialogComponent {
 
   onCityChange(){
     if(this.data){
-      this.data.get('city')?.valueChanges
+      this.data.get('cityId')?.valueChanges
       .pipe(
         switchMap(city => {
           if (city) {
@@ -58,5 +59,10 @@ export class FilterLocationDialogComponent {
     }
     
   }
+
+  submit(){
+    this.dialogRef.close(this.data.value);
+  }
+  onNoClick = () => this.dialogRef.close()
   
 }

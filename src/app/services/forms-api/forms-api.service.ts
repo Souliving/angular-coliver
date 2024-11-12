@@ -2,6 +2,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {catchError, map, Observable, of, tap} from 'rxjs';
 import {User} from "../../data/userStructure";
+import { AdShortForm } from '../../data/formsStructure';
 
 const apiUrl = 'https://api.coliver.tech/api/v1/';
 
@@ -11,9 +12,6 @@ const apiUrl = 'https://api.coliver.tech/api/v1/';
 export class FormsApiService {
 
   constructor(private httpClient: HttpClient) { }
-
-  /* allAds = new BehaviorSubject(null);
-  getAllAds = () => this.allAds.asObservable(); */
 
   getAllShortForms() {
     let user: User = JSON.parse(<string>localStorage.getItem('user'));
@@ -44,11 +42,10 @@ export class FormsApiService {
       );
   }
 
-  getShortFormsWithFilter(userId: number, filter: any){
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
-    return this.httpClient.get<any[]>(apiUrl + 'form/getShortFormsWithFilter/' + userId)
+  postShortFormsWithFilter(userId: number, filter: any): Observable<AdShortForm []>{
+    return this.httpClient.post<AdShortForm[]>(apiUrl + 'form/getShortFormsWithFilter/' + userId, filter).pipe(
+      catchError(() => of([]))
+    );
   }
 
   uploadPhotoByUserId(userId:number, photo:any): Observable<string>{
