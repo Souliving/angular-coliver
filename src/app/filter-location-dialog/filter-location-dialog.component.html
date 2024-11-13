@@ -4,7 +4,8 @@
    
     <div style="display: flex; margin: 5px; gap: 10px;">
         <mat-form-field>
-            <mat-label>Выберите город</mat-label>
+            <mat-label>{{data.get('cityId')?.value?.name || 'Выберите город' }}</mat-label>
+            
             <mat-select formControlName="cityId">
                 @for (city of cities$ | async; track city) {
                     <mat-option [value]="city">{{ city.name }}</mat-option>
@@ -14,7 +15,7 @@
 
         <mat-form-field>
             <mat-label>Выберите станции метро</mat-label>
-            <mat-select formControlName="stationId" multiple>
+            <mat-select formControlName="metroIds" multiple>
                 @for (station of metroStations$ | async; track station) {
                     <mat-option [value]="station">{{ station.name }}</mat-option>
                 }

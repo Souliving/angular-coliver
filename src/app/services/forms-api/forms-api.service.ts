@@ -15,7 +15,8 @@ export class FormsApiService {
 
   getAllShortForms() {
     let user: User = JSON.parse(<string>localStorage.getItem('user'));
-    return this.httpClient.get<any[]>(apiUrl + 'form/getShortFormsForUserId/' + user.jwt.userId)
+    if(user) return this.httpClient.get<any[]>(apiUrl + 'form/getShortFormsForUserId/' + user.jwt.userId)
+    else return this.httpClient.get<any[]>(apiUrl + 'form/getShortForms')
   }
 
   getUserPhotoById (photoId: number): Observable<string>{

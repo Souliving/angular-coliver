@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog, MatDialogActions, MatDialogContent } from '@angular/material/dialog';
-import { catchError, Observable, of, switchMap } from 'rxjs';
+import { catchError, Observable, of, switchMap, tap } from 'rxjs';
 import { CityApiService } from '../services/city-api/city-api.service';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -27,13 +27,21 @@ export class FilterLocationDialogComponent {
 
   ngOnInit(){
     this.cities$ = this.cityService.getCities().pipe(
+      tap(cities => {
+        const cityFromForm = this.data.get('cityId')?.value;
+        
+        if (cityFromForm && cities.length > 0) {
+          const selectedCity = cities.find((city: any) => city.id === cityFromForm.id);
+          if (selectedCity) this.data.get('cityId')?.setValue(selectedCity);
+        }
+      }),
       catchError(error => {
         console.error('Ошибка загрузки городов', error);
         return of([]); // Возвращаем пустой массив в случае ошибки
       })
     );
     console.log(this.data)
-    this.onCityChange();
+    //this.onCityChange();
   }
 
   onCityChange(){
@@ -54,6 +62,7 @@ export class FilterLocationDialogComponent {
         })
       )
       .subscribe((stations: any) => {
+        console.log(stations)
         this.metroStations$ = of(stations);
       });
     }

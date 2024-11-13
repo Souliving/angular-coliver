@@ -37,8 +37,9 @@ import { FormsService } from '../services/forms/forms.service';
 export class FilterComponent {
 
   filterForm!: FormGroup ;
-  cities$: Observable<any> | undefined;
-  metroStations$:Observable<any> | undefined;
+
+  currentCity = {id: null, name: null}
+  currentMetro = [{id: null, name: null, cityId:null}]
   readonly allPreferences = [ 
     { value: 'smoking', display: 'Не курит' },
     { value: 'alcohol', display: 'Не пьет' },
@@ -62,21 +63,21 @@ export class FilterComponent {
     ); */
 
     this.filterForm = this.fb.group({
-      smoking: [true],
-      alcohol: [true],
-      petFriendly: [true],
-      isClean: [true],
+      smoking: null,
+      alcohol: null,
+      petFriendly: null,
+      isClean: null,
       age: this.fb.group({
-        startAge: [0, [Validators.min(0)]],
-        endAge: [0, [Validators.min(0)]]
+        startAge: [null, [Validators.min(0)]],
+        endAge: [null, [Validators.min(0)]]
       }),
 
       price: this.fb.group({
-        startPrice: [0, [Validators.min(0)]],
-        endPrice: [0, [Validators.min(0)]]
+        startPrice: [null, [Validators.min(0)]],
+        endPrice: [null, [Validators.min(0)]]
       }),
-      cityId: null,
-      metroIds: []
+      cityId: [[]],
+      metroIds: [[]]
     });
    
   //  this.onCityChange();
@@ -108,12 +109,27 @@ export class FilterComponent {
   openFilterDialog(){
     console.log('open')
     const dialogRef = this.dialog.open(FilterLocationDialogComponent, {
-      data: new FormGroup({cityId: new FormControl(this.filterForm.get('cityId')?.value), metroIds: new FormControl(this.filterForm.get('metroIds')?.value)}),
+      data: new FormGroup({cityId: new FormControl(this.currentCity), metroIds: new FormControl(this.currentMetro )}),
       width: '50%',
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result) this.filterForm.controls['location'].setValue(result)
+      if(result) {
+        this.filterForm.controls['cityId'].setValue([result.cityId.id]);
+        this.currentCity = result.cityId;
+        this.currentMetro = result.metroIds
+        let updatedMetroIds: any[] = [];
+        result.metroIds.forEach((element: any) => {
+          // Проверяем, чтобы избежать дублирования, если это необходимо
+          if (!updatedMetroIds.includes(element.id)) {
+            updatedMetroIds.push(element.id);
+          }
+        });
+
+        // Устанавливаем значение для metroIds после завершения цикла
+        this.filterForm.controls['metroIds'].setValue(updatedMetroIds);
+      
+      }
       console.log('The dialog was closed', result);
     });
   }
@@ -123,7 +139,7 @@ export class FilterComponent {
   }
 
   submitForm(){
-    //this.formService.filterFormWithPhoto(this.filterForm.value)
+    this.formService.filterFormWithPhoto(this.filterForm.value)
     console.log(this.filterForm)
   }
 

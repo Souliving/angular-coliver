@@ -1,6 +1,6 @@
  <div class="filter-container">
-        <form [formGroup]="filterForm"  class="filter-container__form">
-
+        <form [formGroup]="filterForm"  >
+            <mat-accordion multi="false" class="filter-container__form">
             <mat-expansion-panel>
                 <mat-expansion-panel-header>
                   <mat-panel-title> Выберите пердпочтения </mat-panel-title>
@@ -49,12 +49,15 @@
             </mat-expansion-panel>
           
             <!-- Местоположение -->
-            <button mat-raised-button (click)="openFilterDialog()">Выберите локацию</button>
+            <button mat-raised-button (click)="openFilterDialog()">
+                @if(currentCity.id){{{currentCity.name}}}
+                @else {Выберите локацию}</button>
           
             <button mat-button (click)="submitForm()">Отправить</button>
+            </mat-accordion>
           </form>
           
           
-    </div>
+</div>
 
 
