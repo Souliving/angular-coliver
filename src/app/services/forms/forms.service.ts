@@ -32,8 +32,14 @@ export class FormsService {
 
   filterFormWithPhoto( form: any){
    const userId = this.userApiService.getAuthUserValue()?.jwt.userId;
-   if(userId)
-    this.formsAPIService.postShortFormsWithFilter(userId, form).pipe(
+   let forms: Observable<AdShortForm[]>;
+   if(userId) {
+     forms = this.formsAPIService.postShortFormsWithFilter(userId, form)
+   }
+   else {
+    forms =  this.formsAPIService.postShortFormsWithFilterWithoutId(form)
+   }
+    forms.pipe(
       mergeMap((ads: AdShortForm[]) => {
         // Для каждого объявления загружаем фото
         const adsWithPhotos$ = ads.map(ad =>

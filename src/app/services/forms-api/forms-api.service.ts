@@ -49,6 +49,12 @@ export class FormsApiService {
     );
   }
 
+  postShortFormsWithFilterWithoutId(filter: any): Observable<AdShortForm []>{
+    return this.httpClient.post<AdShortForm[]>(apiUrl + 'form/getWithFilterWithoutId', filter).pipe(
+      catchError(() => of([]))
+    );
+  }
+
   uploadPhotoByUserId(userId:number, photo:any): Observable<string>{
     const headers = new HttpHeaders({
       'Content-Type': 'image/png'
