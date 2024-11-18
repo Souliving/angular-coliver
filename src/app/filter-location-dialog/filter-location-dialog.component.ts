@@ -41,7 +41,7 @@ export class FilterLocationDialogComponent {
       })
     );
     console.log(this.data)
-    //this.onCityChange();
+    this.onCityChange();
   }
 
   onCityChange(){
@@ -62,7 +62,13 @@ export class FilterLocationDialogComponent {
         })
       )
       .subscribe((stations: any) => {
-        console.log(stations)
+        const metroFromForm = this.data.get('metroIds')?.value;
+        if (metroFromForm && stations.length > 0) {
+          const selectedMetro = stations.filter((metro: any) =>
+            metroFromForm.map((tmp: any) => tmp.id)
+              .includes(metro.id))
+          if (selectedMetro) this.data.get('metroIds')?.setValue(selectedMetro);
+        }
         this.metroStations$ = of(stations);
       });
     }
