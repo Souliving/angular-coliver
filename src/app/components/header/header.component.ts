@@ -25,7 +25,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.isAuthUser = this.userApiService.getAuthUser()
   }
-  
+
   toHome = () =>{
     this.router.navigate(['/']);
   }
@@ -49,5 +49,9 @@ export class HeaderComponent implements OnInit {
     this.dialog.open(AuthComponent, {
       width: '500px',
     });
+  }
+
+  logOut() {
+    this.userApiService.logOut()
   }
 }
