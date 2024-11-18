@@ -37,7 +37,7 @@ export class FormsService {
      forms = this.formsAPIService.postShortFormsWithFilter(userId, form)
    }
    else {
-    forms =  this.formsAPIService.postShortFormsWithFilterWithoutId(form)
+    forms = this.formsAPIService.postShortFormsWithFilterWithoutId(form)
    }
     forms.pipe(
       mergeMap((ads: AdShortForm[]) => {
