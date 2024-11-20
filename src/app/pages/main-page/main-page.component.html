@@ -1,8 +1,16 @@
 <app-filter></app-filter>
-<div class="main-page-container" *ngIf="ads$ | async as ads">
-    <app-ad-card 
-    class="ad-card-container"
-    *ngFor="let ad of ads"
-    [ad] = "ad"
-    ></app-ad-card>
-</div>
+@if(ads$ | async; as ads){
+    @if(ads.length > 0){
+        <div class="main-page-container">
+            <app-ad-card 
+            class="ad-card-container"
+            *ngFor="let ad of ads"
+            [ad] = "ad"
+            ></app-ad-card>
+        </div>
+    }
+    @else{
+        <h2 class="no-ads">Объявлений пока нет</h2>
+    }
+}
+

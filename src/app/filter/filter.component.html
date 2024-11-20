@@ -5,19 +5,27 @@
                 <mat-expansion-panel-header>
                   <mat-panel-title> Выберите пердпочтения </mat-panel-title>
                 </mat-expansion-panel-header>
-                @for (preference of allPreferences; track preference) {
-                    <mat-option 
-                    [value]="preference.value" 
-                    (click)="updatePreference(preference.value, !filterForm.get(preference.value)?.value)"
-                    >
-                        {{preference.display}}
-                    </mat-option>
-                }
+                <div style="display: flex; flex-direction: column;">
+                    @for (preference of allPreferences; track preference) {
+                        <mat-checkbox
+                        (change)="updatePreference(preference.value, $event.checked)">
+                        {{ preference.display }}
+                    </mat-checkbox>
+                    }
+                </div>
             </mat-expansion-panel>
 
-            <mat-expansion-panel formGroupName="age">
+            <mat-expansion-panel formGroupName="age" class="filetr-item">
                 <mat-expansion-panel-header>
-                  <mat-panel-title> Укажите возраст </mat-panel-title>
+                  <mat-panel-title> Укажите возраст  
+                        @if(filterForm.get('age.startAge')?.value || filterForm.get('age.endAge')?.value){
+                            <span>
+                            от {{ filterForm.get('age.startAge')?.value || '...' }} 
+                            до {{ filterForm.get('age.endAge')?.value || '...' }}
+                            </span>
+                            <mat-icon (click) = 'toCleanAge()'>clear</mat-icon>
+                        }
+                    </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div class="age_inputs">
                     <mat-form-field class="example-form-field">
@@ -32,9 +40,18 @@
                 </div>
             </mat-expansion-panel>
 
-            <mat-expansion-panel formGroupName="price">
+            <mat-expansion-panel formGroupName="price" class="filetr-item">
                 <mat-expansion-panel-header>
-                  <mat-panel-title> Укажите бюджет </mat-panel-title>
+                    <mat-panel-title>   
+                        @if(filterForm.get('price.startPrice')?.value || filterForm.get('price.endPrice')?.value){
+                            Бюджет&nbsp;<span>
+                             от {{ filterForm.get('price.startPrice')?.value || '...' }} 
+                            до {{ filterForm.get('price.endPrice')?.value || '...' }}
+                            </span>
+                            <mat-icon (click) = 'toCleanPrice()'>clear</mat-icon>
+                        }
+                        @else{ Укажите бюджет }
+                    </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div class="price_inputs">
                     <mat-form-field class="example-form-field">
@@ -54,6 +71,7 @@
                 @else {Выберите локацию}</button>
           
             <button mat-button (click)="submitForm()">Отправить</button>
+            @if(filterForm.dirty) {<button mat-mini-fab (click) = 'toCleanForm()'><mat-icon>clear</mat-icon></button>}
             </mat-accordion>
           </form>
           

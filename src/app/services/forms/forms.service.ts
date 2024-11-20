@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, mergeMap, Observable, tap, zip } from 'rxjs';
+import { BehaviorSubject, map, mergeMap, Observable, of, tap, zip } from 'rxjs';
 import { AdShortForm } from '../../data/formsStructure';
 import { FormsApiService } from '../forms-api/forms-api.service';
 import { UserApiService } from '../user-api/user-api.service';
@@ -40,7 +40,12 @@ export class FormsService {
     forms = this.formsAPIService.postShortFormsWithFilterWithoutId(form)
    }
     forms.pipe(
+      tap(data => console.log('get filetr form', data)),
       mergeMap((ads: AdShortForm[]) => {
+        if (!ads || ads.length === 0) {
+          // Если массив пустой, сразу возвращаем Observable с пустым массивом
+          return of([]);
+        }
         // Для каждого объявления загружаем фото
         const adsWithPhotos$ = ads.map(ad =>
           this.formsAPIService.getUserPhotoById(ad.photoId).pipe(

@@ -4,6 +4,10 @@
         display: flex;
         gap: 10px;
         align-items: flex-start;
+        justify-content: space-around;
+    }
+    .filetr-item{
+        max-width: 25%;
     }
 }
 .age{
@@ -18,4 +22,8 @@
         display: flex;
         gap: 5px
     }
+}
+
+:host ::ng-deep .mat-accordion .mat-expansion-panel:not(.mat-expanded), .mat-accordion .mat-expansion-panel:not(.mat-expansion-panel-spacing){
+    border-radius: 10px;
 }

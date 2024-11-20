@@ -232,7 +232,7 @@ export class CreateFormPageComponent {
     if(this.secondStepGroup){
       const allRoomsCount =  this.secondStepGroup.get('neighbours.count')?.value || 0;
       const currentCount = this.secondStepGroup.get('freeRooms')?.value || 0;
-      console.log(allRoomsCount, currentCount)
+   //   console.log(allRoomsCount, currentCount)
       if(currentCount < allRoomsCount){
         const newCount = currentCount + 1;
         this.secondStepGroup.get('freeRooms')?.patchValue(newCount);

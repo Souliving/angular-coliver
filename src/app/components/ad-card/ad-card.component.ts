@@ -26,12 +26,12 @@ export class AdCardComponent {
   @Output() deleteCard: EventEmitter<number> = new EventEmitter();
 
   ngOnChanges() {
-    console.log(this.ad)
+   // console.log(this.ad)
   }
 
   toFavorites = (id: number | undefined) => {
     if (id) {
-      console.log('add favorites id', id)
+      //console.log('add favorites id', id)
     }
     let user: User = JSON.parse(<string>localStorage.getItem('user'));
     this.formsAPIService.addFavoriteFormForUserId(user.jwt.userId, id).subscribe(
@@ -41,7 +41,7 @@ export class AdCardComponent {
   }
   removeFavorites = (id: number | undefined) => {
     if (id) {
-      console.log('remove favorites id', id)
+     // console.log('remove favorites id', id)
     }
     let user: User = JSON.parse(<string>localStorage.getItem('user'));
     this.formsAPIService.deleteFavoriteFormForUserId(user.jwt.userId, id).subscribe(

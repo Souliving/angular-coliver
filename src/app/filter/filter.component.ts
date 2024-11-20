@@ -107,7 +107,6 @@ export class FilterComponent {
   } */
 
   openFilterDialog(){
-    console.log('open')
     const dialogRef = this.dialog.open(FilterLocationDialogComponent, {
       data: new FormGroup({cityId: new FormControl(this.currentCity), metroIds: new FormControl(this.currentMetro )}),
       width: '50%',
@@ -135,12 +134,32 @@ export class FilterComponent {
   }
 
   updatePreference(preference: string, isChecked: boolean) {
+    console.log(preference, isChecked)
     this.filterForm.get(preference)?.setValue(isChecked);
   }
 
   submitForm(){
     this.formService.filterFormWithPhoto(this.filterForm.value)
     console.log(this.filterForm)
+  }
+
+  toCleanAge(){
+    this.filterForm.get('age')?.patchValue({
+      startAge: null,
+      endAge: null
+    });
+  }
+
+  toCleanPrice(){
+    this.filterForm.get('price')?.patchValue({
+      startPrice: null,
+      endPrice: null
+    });
+  }
+
+  toCleanForm(){
+    this.filterForm.reset();
+    this.formService.initFormsWithPhoto()
   }
 
 }
