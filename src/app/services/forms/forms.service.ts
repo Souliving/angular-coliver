@@ -34,10 +34,10 @@ export class FormsService {
    const userId = this.userApiService.getAuthUserValue()?.jwt.userId;
    let forms: Observable<AdShortForm[]>;
    if(userId) {
-     forms = this.formsAPIService.postShortFormsWithFilter(userId, form)
+     forms = this.formsAPIService.getShortFormsWithFilter(userId, form)
    }
    else {
-    forms = this.formsAPIService.postShortFormsWithFilterWithoutId(form)
+    forms = this.formsAPIService.getShortFormsWithFilterWithoutId(form)
    }
     forms.pipe(
       tap(data => console.log('get filetr form', data)),

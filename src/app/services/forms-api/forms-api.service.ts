@@ -1,4 +1,4 @@
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {catchError, map, Observable, of, tap} from 'rxjs';
 import {User} from "../../data/userStructure";
@@ -43,14 +43,57 @@ export class FormsApiService {
       );
   }
 
-  postShortFormsWithFilter(userId: number, filter: any): Observable<AdShortForm []>{
-    return this.httpClient.post<AdShortForm[]>(apiUrl + 'form/getShortFormsWithFilter/' + userId, filter).pipe(
+  buildQueryParams(obj: { [key: string]: any }): HttpParams {
+    let params = new HttpParams();
+
+    Object.keys(obj).forEach((key) => {
+      const value = obj[key];
+
+      if (value === null || value === undefined || value === '' || (Array.isArray(value) && value.length === 0)) {
+        // Skip null, undefined, empty strings, or empty arrays
+        return;
+      }
+
+      if (Array.isArray(value)) {
+        // Serialize non-empty arrays as comma-separated strings
+        params = params.set(key, value.join(','));
+      } else {
+        // Set scalar values directly
+        params = params.set(key, value);
+      }
+    });
+
+    return params;
+  }
+
+  flattenObject(obj: any, parentKey = '', result: any = {}): any {
+    for (const key of Object.keys(obj)) {
+      const value = obj[key];
+      const newKey = key;
+
+      if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+        this.flattenObject(value, newKey, result);
+      } else {
+        result[newKey] = value;
+      }
+    }
+    return result;
+  }
+
+  getShortFormsWithFilter(userId: number, filter: any): Observable<AdShortForm []>{
+    const flattenedFilters = this.flattenObject(filter);
+    const params = this.buildQueryParams(flattenedFilters);
+    const options = {params}
+    return this.httpClient.get<AdShortForm[]>(apiUrl + 'form/getShortFormsWithFilter/' + userId, options).pipe(
       catchError(() => of([]))
     );
   }
 
-  postShortFormsWithFilterWithoutId(filter: any): Observable<AdShortForm []>{
-    return this.httpClient.post<AdShortForm[]>(apiUrl + 'form/getWithFilterWithoutId', filter).pipe(
+  getShortFormsWithFilterWithoutId(filter: any): Observable<AdShortForm []>{
+    const flattenedFilters = this.flattenObject(filter);
+    const params = this.buildQueryParams(flattenedFilters);
+    const options = {params}
+    return this.httpClient.get<AdShortForm[]>(apiUrl + 'form/getWithFilterWithoutId', options).pipe(
       catchError(() => of([]))
     );
   }
