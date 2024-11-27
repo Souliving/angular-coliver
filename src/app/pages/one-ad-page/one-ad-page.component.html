@@ -1,0 +1,25 @@
+<div *ngIf="adForm | async as adWithPhoto" class="one-ad_container">
+    <div class="one-ad_photos">
+        <img class = 'main-photo' [src]="adWithPhoto.photoUrl" alt="Ad Photo" />
+    </div>
+    <div  class="one-ad_info">
+        <p class="name">{{ adWithPhoto.ad[0].name }}</p>
+        <p> {{ adWithPhoto.ad[0].age}} лет, г.{{ adWithPhoto.ad[0].city.name }} </p>
+        <p>Желаемые районы:<mat-chip-set aria-label="Fish selection">
+            <mat-chip *ngFor = 'let metro of adWithPhoto.ad[0].metro'>{{metro.name}}</mat-chip>
+            </mat-chip-set>
+        </p>
+        <div class="homeType">
+           Пожелания по квартире: <ng-container *ngFor = 'let home of adWithPhoto.ad[0].homeType'> {{home.name}}, </ng-container>
+        </div>
+        
+        <div class="description">О себе 
+            <mat-card appearance="outlined" class="description_card">
+            <mat-card-content>{{ adWithPhoto.ad[0].description }}</mat-card-content>
+            </mat-card>
+        </div>
+       <!--  <p>Я хочу видеть в человеке: <ng-container *ngFor="let"> </ng-container></p> -->
+    </div>
+
+    
+  </div>

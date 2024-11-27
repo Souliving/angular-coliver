@@ -19,7 +19,7 @@ export interface AdShortForm {
 
 export interface AdForm extends AdShortForm {
     userId: number,
-    homeType: HomeType,
+    homeType: HomeType[],
     socialMediaIds: [],
     rating: number,
     reviews: []

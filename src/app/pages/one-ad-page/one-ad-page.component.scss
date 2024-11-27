@@ -1,0 +1,37 @@
+.one-ad{
+    &_container{
+        margin: 3px 15px;
+        display: flex;
+        justify-content: space-between;
+    }
+    &_photos{
+        display: flex;
+        align-content: center;
+        width: 40%;
+        align-items: center;
+        justify-content: center;
+        
+        .main-photo{
+            height: 400px;  
+        }
+      
+    }
+    &_info{
+        width: 50%;
+        .name{
+            font-size: 24px;
+        }
+        .hometype{
+            display: flex;
+        }
+        .description{
+            gap: 10px;
+            margin-top: 15px;
+            display: flex;
+            align-items: baseline;
+            &_card{
+                width: 90%;
+            }
+        }
+    }
+}

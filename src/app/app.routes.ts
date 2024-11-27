@@ -11,6 +11,7 @@ import { PayPageComponent } from './pages/pay-page/pay-page.component';
 import { SupportPageComponent } from './support-page/support-page.component';
 import { FaqPageComponent } from './pages/faq-page/faq-page.component';
 import { CreateFormPageComponent } from './create-form-page/create-form-page.component';
+import { OneAdPageComponent } from './pages/one-ad-page/one-ad-page.component';
 
 export const routes: Routes = [
     {
@@ -41,6 +42,7 @@ export const routes: Routes = [
         component: FavoriteAdsComponent,
         canActivate: [userGuardGuard]
     },
+    { path: 'ad/:id', component: OneAdPageComponent },
     {
         path:'',
         component: MainPageComponent,

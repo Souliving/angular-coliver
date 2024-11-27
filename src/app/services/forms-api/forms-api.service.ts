@@ -2,7 +2,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {catchError, map, Observable, of, tap} from 'rxjs';
 import {User} from "../../data/userStructure";
-import { AdShortForm } from '../../data/formsStructure';
+import { AdForm, AdShortForm } from '../../data/formsStructure';
 
 const apiUrl = 'https://api.coliver.tech/api/v1/';
 
@@ -12,6 +12,10 @@ const apiUrl = 'https://api.coliver.tech/api/v1/';
 export class FormsApiService {
 
   constructor(private httpClient: HttpClient) { }
+
+  getFullFormById(id: number){
+    return this.httpClient.get<AdForm[]>(apiUrl + 'form/getFullFormById/{id}?id='+id)
+  }
 
   getAllShortForms() {
     let user: User = JSON.parse(<string>localStorage.getItem('user'));

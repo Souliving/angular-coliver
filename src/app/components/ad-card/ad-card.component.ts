@@ -6,6 +6,7 @@ import {MatIcon} from '@angular/material/icon';
 import {CommonModule} from '@angular/common';
 import {FormsApiService} from "../../services/forms-api/forms-api.service";
 import {User} from "../../data/userStructure";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ad-card',
@@ -18,7 +19,8 @@ import {User} from "../../data/userStructure";
 export class AdCardComponent {
 
   constructor(
-    private formsAPIService: FormsApiService
+    private formsAPIService: FormsApiService,
+    private router: Router
   ) {
   }
 
@@ -51,6 +53,13 @@ export class AdCardComponent {
       }
     )
 
+  }
+
+  toAdPage(){
+    console.log('ad', this.ad)
+    if (this.ad?.ad?.id) {
+      this.router.navigate(['/ad', this.ad.ad.id]); // Переход на страницу объявления
+  }
   }
 
   delete(id: number | undefined) {
