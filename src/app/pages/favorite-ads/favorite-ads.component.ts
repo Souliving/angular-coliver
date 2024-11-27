@@ -44,11 +44,11 @@ export class FavoriteAdsComponent {
   }
 
   deleteCardById(id: number) {
-    console.log(id)
+ //   console.log(id)
     this.ads$ = this.ads$?.pipe(
       map(ad => {
         return ad.filter(function (elem) {
-          console.log(elem.ad.formId);
+         // console.log(elem.ad.formId);
           return elem.ad.formId !== id;
         })
       })

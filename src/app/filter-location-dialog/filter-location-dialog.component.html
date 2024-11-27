@@ -1,19 +1,30 @@
-<form [formGroup]="data" style="display: flex; margin: 5px;">
-    <mat-form-field>
-        <mat-label>Выберите город</mat-label>
-        <mat-select formControlName="city">
-            @for (city of cities$ | async; track city) {
-                <mat-option [value]="city">{{ city.name }}</mat-option>
-              }
-        </mat-select>
-    </mat-form-field>
+<form [formGroup]="data" >
+    <mat-dialog-content>
 
-    <mat-form-field>
-        <mat-label>Выберите станции метро</mat-label>
-        <mat-select formControlName="station">
-            @for (station of metroStations$ | async; track station) {
-                <mat-option [value]="station">{{ station.name }}</mat-option>
-              }
-        </mat-select>
-    </mat-form-field>
+   
+    <div style="display: flex; margin: 5px; gap: 10px;">
+        <mat-form-field>
+            <mat-label>{{data.get('cityId')?.value?.name || 'Выберите город' }}</mat-label>
+            
+            <mat-select formControlName="cityId">
+                @for (city of cities$ | async; track city) {
+                    <mat-option [value]="city">{{ city.name }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Выберите станции метро</mat-label>
+            <mat-select formControlName="metroIds" multiple>
+                @for (station of metroStations$ | async; track station) {
+                    <mat-option [value]="station">{{ station.name }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+    </div> 
+</mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-button (click)="onNoClick()">Закрыть</button>
+        <button mat-button (click)="submit()" cdkFocusInitial>Подтвердить</button>
+    </mat-dialog-actions>
 </form>

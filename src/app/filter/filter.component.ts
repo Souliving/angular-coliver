@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { catchError, Observable, of, switchMap } from 'rxjs';
 import { CityApiService } from '../services/city-api/city-api.service';
 import { CommonModule } from '@angular/common';
@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FilterLocationDialogComponent } from '../filter-location-dialog/filter-location-dialog.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSliderModule} from '@angular/material/slider';
+import { FormsService } from '../services/forms/forms.service';
 @Component({
   selector: 'app-filter',
   standalone: true,
@@ -36,8 +37,9 @@ import {MatSliderModule} from '@angular/material/slider';
 export class FilterComponent {
 
   filterForm!: FormGroup ;
-  cities$: Observable<any> | undefined;
-  metroStations$:Observable<any> | undefined;
+
+  currentCity = {id: null, name: null}
+  currentMetro = [{id: null, name: null, cityId:null}]
   readonly allPreferences = [ 
     { value: 'smoking', display: 'Не курит' },
     { value: 'alcohol', display: 'Не пьет' },
@@ -47,42 +49,41 @@ export class FilterComponent {
   constructor(
     private fb: FormBuilder,
     private cityService: CityApiService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private formService: FormsService
   ){}
 
   ngOnInit(){
 
-    this.cities$ = this.cityService.getCities().pipe(
+    /* this.cities$ = this.cityService.getCities().pipe(
       catchError(error => {
         console.error('Ошибка загрузки городов', error);
         return of([]); // Возвращаем пустой массив в случае ошибки
       })
-    );
+    ); */
 
     this.filterForm = this.fb.group({
-      preferences: [[]],
-
+      smoking: null,
+      alcohol: null,
+      petFriendly: null,
+      isClean: null,
       age: this.fb.group({
-        from: [null, [Validators.min(0)]],
-        to: [null, [Validators.min(0)]]
+        startAge: [null, [Validators.min(0)]],
+        endAge: [null, [Validators.min(0)]]
       }),
 
       price: this.fb.group({
-        from: [null, [Validators.min(0)]],
-        to: [null, [Validators.min(0)]]
+        startPrice: [null, [Validators.min(0)]],
+        endPrice: [null, [Validators.min(0)]]
       }),
-
-      location: this.fb.group({
-        city: null,
-        station: [null]
-      })
-
+      cityId: [[]],
+      metroIds: [[]]
     });
    
-    this.onCityChange();
+  //  this.onCityChange();
   }
 
-  onCityChange(){
+/*   onCityChange(){
     if(this.filterForm){
       this.filterForm.get('location.city')?.valueChanges
       .pipe(
@@ -103,26 +104,62 @@ export class FilterComponent {
       });
     }
     
-  }
+  } */
+
   openFilterDialog(){
-    console.log(this.filterForm.get('location'))
     const dialogRef = this.dialog.open(FilterLocationDialogComponent, {
-      data: this.filterForm.get('location'),
+      data: new FormGroup({cityId: new FormControl(this.currentCity), metroIds: new FormControl(this.currentMetro )}),
       width: '50%',
-      height: '50%'
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
+      if(result) {
+        this.filterForm.controls['cityId'].setValue([result.cityId.id]);
+        this.currentCity = result.cityId;
+        this.currentMetro = result.metroIds
+        let updatedMetroIds: any[] = [];
+        result.metroIds.forEach((element: any) => {
+          // Проверяем, чтобы избежать дублирования, если это необходимо
+          if (!updatedMetroIds.includes(element.id)) {
+            updatedMetroIds.push(element.id);
+          }
+        });
+
+        // Устанавливаем значение для metroIds после завершения цикла
+        this.filterForm.controls['metroIds'].setValue(updatedMetroIds);
       
+      }
+      console.log('The dialog was closed', result);
     });
   }
-  // Метод для изменения значений ползунков слайдера
-  onSliderChange(event: any, controlName: string) {
-    this.filterForm.get(['price', controlName])?.setValue(event.value);
+
+  updatePreference(preference: string, isChecked: boolean) {
+    console.log(preference, isChecked)
+    this.filterForm.get(preference)?.setValue(isChecked);
   }
+
   submitForm(){
+    this.formService.filterFormWithPhoto(this.filterForm.value)
     console.log(this.filterForm)
+  }
+
+  toCleanAge(){
+    this.filterForm.get('age')?.patchValue({
+      startAge: null,
+      endAge: null
+    });
+  }
+
+  toCleanPrice(){
+    this.filterForm.get('price')?.patchValue({
+      startPrice: null,
+      endPrice: null
+    });
+  }
+
+  toCleanForm(){
+    this.filterForm.reset();
+    this.formService.initFormsWithPhoto()
   }
 
 }

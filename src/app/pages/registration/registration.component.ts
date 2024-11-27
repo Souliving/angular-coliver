@@ -77,7 +77,7 @@ ngOnInit(){
 
   nextStep = () =>{ 
     this.isFirstStep = false;
-    console.log(this.registrationForm)
+  //  console.log(this.registrationForm)
 
   }
   prevStep = () =>{ this.isFirstStep = true}
@@ -91,7 +91,7 @@ ngOnInit(){
       ...this.registrationForm.get('firstStep')?.value,
       ...this.registrationForm.get('secondStep')?.value
     };
-    console.log(postData)
+   // console.log(postData)
     this.userService.registration(postData)
       /* .subscribe(
         data => {

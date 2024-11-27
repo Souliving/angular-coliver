@@ -27,7 +27,7 @@ export class AccountInfoComponent {
 
   ngOnInit(){
    this.userApiService.getAuthUser().subscribe(user =>{
-    console.log(user)
+   // console.log(user)
     if(user){
 
       this.user$ = forkJoin({
@@ -36,7 +36,7 @@ export class AccountInfoComponent {
       })
       this.user$.subscribe(data => {
         this.initForm(data.userData)
-        console.log(data)
+       // console.log(data)
     })
     }
     
@@ -55,13 +55,13 @@ export class AccountInfoComponent {
   }
 
   uploadPhoto(event:any){
-  console.log(event)
+//  console.log(event)
   let file = <File>event.target.files[0];
   const souceCsvFile = {
     file: file,
     url: URL.createObjectURL(file)
   };
-  console.log(souceCsvFile);
+  //console.log(souceCsvFile);
   this.user$ = this.user$?.pipe(
     map(data =>{ 
       return {
@@ -73,7 +73,7 @@ export class AccountInfoComponent {
 
   saveChanges(){
     
-    console.log(this.formUser)
+   // console.log(this.formUser)
   }
 
 }

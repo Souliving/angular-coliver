@@ -1,7 +1,8 @@
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {catchError, map, Observable, of, tap} from 'rxjs';
 import {User} from "../../data/userStructure";
+import { AdShortForm } from '../../data/formsStructure';
 
 const apiUrl = 'https://api.coliver.tech/api/v1/';
 
@@ -12,12 +13,10 @@ export class FormsApiService {
 
   constructor(private httpClient: HttpClient) { }
 
-  /* allAds = new BehaviorSubject(null);
-  getAllAds = () => this.allAds.asObservable(); */
-
   getAllShortForms() {
     let user: User = JSON.parse(<string>localStorage.getItem('user'));
-    return this.httpClient.get<any[]>(apiUrl + 'form/getShortFormsForUserId/' + user.jwt.userId)
+    if(user) return this.httpClient.get<any[]>(apiUrl + 'form/getShortFormsForUserId/' + user.jwt.userId)
+    else return this.httpClient.get<any[]>(apiUrl + 'form/getShortForms')
   }
 
   getUserPhotoById (photoId: number): Observable<string>{
@@ -44,11 +43,59 @@ export class FormsApiService {
       );
   }
 
-  getShortFormsWithFilter(userId: number, filter: any){
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+  buildQueryParams(obj: { [key: string]: any }): HttpParams {
+    let params = new HttpParams();
+
+    Object.keys(obj).forEach((key) => {
+      const value = obj[key];
+
+      if (value === null || value === undefined || value === '' || (Array.isArray(value) && value.length === 0)) {
+        // Skip null, undefined, empty strings, or empty arrays
+        return;
+      }
+
+      if (Array.isArray(value)) {
+        // Serialize non-empty arrays as comma-separated strings
+        params = params.set(key, value.join(','));
+      } else {
+        // Set scalar values directly
+        params = params.set(key, value);
+      }
     });
-    return this.httpClient.get<any[]>(apiUrl + 'form/getShortFormsWithFilter/' + userId)
+
+    return params;
+  }
+
+  flattenObject(obj: any, parentKey = '', result: any = {}): any {
+    for (const key of Object.keys(obj)) {
+      const value = obj[key];
+      const newKey = key;
+
+      if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+        this.flattenObject(value, newKey, result);
+      } else {
+        result[newKey] = value;
+      }
+    }
+    return result;
+  }
+
+  getShortFormsWithFilter(userId: number, filter: any): Observable<AdShortForm []>{
+    const flattenedFilters = this.flattenObject(filter);
+    const params = this.buildQueryParams(flattenedFilters);
+    const options = {params}
+    return this.httpClient.get<AdShortForm[]>(apiUrl + 'form/getShortFormsWithFilter/' + userId, options).pipe(
+      catchError(() => of([]))
+    );
+  }
+
+  getShortFormsWithFilterWithoutId(filter: any): Observable<AdShortForm []>{
+    const flattenedFilters = this.flattenObject(filter);
+    const params = this.buildQueryParams(flattenedFilters);
+    const options = {params}
+    return this.httpClient.get<AdShortForm[]>(apiUrl + 'form/getWithFilterWithoutId', options).pipe(
+      catchError(() => of([]))
+    );
   }
 
   uploadPhotoByUserId(userId:number, photo:any): Observable<string>{

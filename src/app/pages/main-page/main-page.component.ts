@@ -7,6 +7,7 @@ import {AdCardComponent} from '../../components/ad-card/ad-card.component';
 import {CommonModule} from '@angular/common';
 import {AdShortForm} from '../../data/formsStructure';
 import {FilterComponent} from '../../filter/filter.component';
+import { FormsService } from '../../services/forms/forms.service';
 
 @Component({
   selector: 'app-main-page',
@@ -20,24 +21,13 @@ export class MainPageComponent implements OnInit {
   ads$: Observable<{ ad: AdShortForm, photoUrl: string }[]> | undefined;
 
   constructor(
-    private formsAPIService: FormsApiService
+    private formService: FormsService
   ) {
   }
 
-
   ngOnInit(){
-    this.ads$ = this.formsAPIService.getAllShortForms().pipe(
-      mergeMap((ads: AdShortForm[]) => {
-        // Для каждого объявления загружаем фото
-        const adsWithPhotos$ = ads.map(ad =>
-          this.formsAPIService.getUserPhotoById(ad.photoId).pipe(
-            map(photoUrl => ({ ad, photoUrl }))
-          )
-        );
-        // Ожидаем завершения всех запросов
-        return zip(adsWithPhotos$);
-      })
-    );
+    this.formService.initFormsWithPhoto()
+    this.ads$ = this.formService.allForms$()
   }
 
 }
