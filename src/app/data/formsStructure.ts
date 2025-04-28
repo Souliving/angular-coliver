@@ -13,7 +13,7 @@ export interface AdShortForm {
     budget: number,
     description: string,
     dateMove: Date,
-    photoUrl?: string,
+    imageLink?: string,
     isFavorite: boolean;
 }
 
@@ -22,7 +22,8 @@ export interface AdForm extends AdShortForm {
     homeType: HomeType[],
     socialMediaIds: [],
     rating: number,
-    reviews: []
+    reviews: [],
+    imageLink?: string,
 }
 
 export interface NewForm {
@@ -73,4 +74,4 @@ export interface Subway{
     name: string
   }
 
-  
+

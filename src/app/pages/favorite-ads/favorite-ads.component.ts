@@ -24,22 +24,10 @@ export class FavoriteAdsComponent {
   ngOnInit(){
     const userId = this.userApiService.getAuthUserValue()?.jwt.userId;
     this.ads$ = this.formsAPIService.getFavoritesFormsByUserID(userId || 0).pipe(
-      mergeMap((ads: AdShortForm[]) => {
-        // Для каждого объявления загружаем фото
-        const adsWithPhotos$ = ads.map(ad =>
-          this.formsAPIService.getUserPhotoById(ad.photoId).pipe(
-            //map(_ => ad.isFavorite = true),
-            map(photoUrl => {
-              ad.isFavorite = true
-              return (
-                {ad, photoUrl}
-              );
-            })
-          )
-        );
-        // Ожидаем завершения всех запросов
-        return zip(adsWithPhotos$);
-      })
+      map((ads) => ads.map(ad => ({
+        ad: { ...ad, isFavorite: true },
+        photoUrl: ad.imageLink || ''
+      })))
     );
   }
 

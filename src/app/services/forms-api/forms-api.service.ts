@@ -84,21 +84,27 @@ export class FormsApiService {
     return result;
   }
 
-  getShortFormsWithFilter(userId: number, filter: any): Observable<AdShortForm []>{
+  getShortFormsWithFilter(userId: number, filter: any): Observable<{ad: AdShortForm, photoUrl: string} []>{
     const flattenedFilters = this.flattenObject(filter);
     const params = this.buildQueryParams(flattenedFilters);
     const options = {params}
     return this.httpClient.get<AdShortForm[]>(apiUrl + 'form/getShortFormsWithFilter/' + userId, options).pipe(
-      catchError(() => of([]))
+      map((ads) => ads.map(ad => ({
+        ad,
+        photoUrl: ad.imageLink || ''
+      })))
     );
   }
 
-  getShortFormsWithFilterWithoutId(filter: any): Observable<AdShortForm []>{
+  getShortFormsWithFilterWithoutId(filter: any): Observable<{ad: AdShortForm, photoUrl: string} []>{
     const flattenedFilters = this.flattenObject(filter);
     const params = this.buildQueryParams(flattenedFilters);
     const options = {params}
     return this.httpClient.get<AdShortForm[]>(apiUrl + 'form/getWithFilterWithoutId', options).pipe(
-      catchError(() => of([]))
+      map((ads) => ads.map(ad => ({
+        ad,
+        photoUrl: ad.imageLink || ''
+      })))
     );
   }
 
