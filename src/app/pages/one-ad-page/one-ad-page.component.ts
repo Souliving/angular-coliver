@@ -21,18 +21,17 @@ export class OneAdPageComponent {
      private formsAPIService: FormsApiService) {}
 
   ngOnInit() {
-      const adId = Number(this.route.snapshot.paramMap.get('id'));
-      this.formsAPIService.getFullFormById(adId).pipe(
-        mergeMap((ad: AdForm[]) => 
-          this.formsAPIService.getUserPhotoById(ad[0].photoId).pipe(
-              map(photoUrl => ({ ad, photoUrl })) 
-          )
-      ),
-        tap((adWithPhotos) => {
-          console.log(adWithPhotos)
-          this.adForm.next(adWithPhotos)
-        }) // Обновляем значение allForms
-      ).subscribe();
-      
+    const adId = Number(this.route.snapshot.paramMap.get('id'));
+    this.formsAPIService.getFullFormById(adId).pipe(
+      tap((ad: AdForm[]) => {
+        const adWithPhotos = {
+          ad: ad,
+          photoUrl: ad[0].imageLink!!
+        };
+        console.log(adWithPhotos);
+        this.adForm.next(adWithPhotos);
+      })
+    ).subscribe();
+
   }
 }
