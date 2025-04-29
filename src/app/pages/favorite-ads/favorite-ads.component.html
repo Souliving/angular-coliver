@@ -1,7 +1,9 @@
 <div class="main-page-container" *ngIf="ads$ | async as ads">
-    <app-ad-card (deleteCard)="deleteCardById($event)"
-    class="ad-card-container"
-    *ngFor="let ad of ads"
-    [ad] = "ad"
-    ></app-ad-card>
+   <div class="favorite-ads-container">
+     <app-ad-card (deleteCard)="deleteCardById($event)"
+                  class="ad-card-container"
+                  *ngFor="let ad of ads"
+                  [ad] = "ad"
+     ></app-ad-card>
+   </div>
 </div>

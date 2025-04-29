@@ -1,0 +1,14 @@
+.favorite-ads-container{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 10px 10px;
+  .ad-card-container{
+
+  }
+}
+
+.no-ads{
+  display: flex;
+  justify-content: center
+}
