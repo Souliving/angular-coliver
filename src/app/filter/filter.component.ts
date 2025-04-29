@@ -19,13 +19,13 @@ import { FormsService } from '../services/forms/forms.service';
 @Component({
   selector: 'app-filter',
   standalone: true,
-  imports: [CommonModule, 
-            ReactiveFormsModule, 
-            MatFormFieldModule, 
-            MatSelectModule, 
-            MatInputModule, 
-            MatCheckboxModule, 
-            MatButtonModule, 
+  imports: [CommonModule,
+            ReactiveFormsModule,
+            MatFormFieldModule,
+            MatSelectModule,
+            MatInputModule,
+            MatCheckboxModule,
+            MatButtonModule,
             MatListModule,
             MatMenuModule,
             MatIconModule,
@@ -40,12 +40,12 @@ export class FilterComponent {
 
   currentCity = {id: null, name: null}
   currentMetro = [{id: null, name: null, cityId:null}]
-  readonly allPreferences = [ 
+  readonly allPreferences = [
     { value: 'smoking', display: 'Не курит' },
     { value: 'alcohol', display: 'Не пьет' },
     { value: 'pets', display: 'Без животных' },
   ]
-  
+
   constructor(
     private fb: FormBuilder,
     private cityService: CityApiService,
@@ -79,7 +79,7 @@ export class FilterComponent {
       cityId: [[]],
       metroIds: [[]]
     });
-   
+
   //  this.onCityChange();
   }
 
@@ -103,7 +103,7 @@ export class FilterComponent {
         this.metroStations$ = of(stations);
       });
     }
-    
+
   } */
 
   openFilterDialog(){
@@ -114,7 +114,12 @@ export class FilterComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.filterForm.controls['cityId'].setValue([result.cityId.id]);
+        console.log(result.cityId)
+        if(result.cityId.id == null) {
+          this.filterForm.controls['cityId'].setValue([]);
+        } else {
+          this.filterForm.controls['cityId'].setValue([result.cityId.id]);
+        }
         this.currentCity = result.cityId;
         this.currentMetro = result.metroIds
         let updatedMetroIds: any[] = [];
@@ -126,8 +131,12 @@ export class FilterComponent {
         });
 
         // Устанавливаем значение для metroIds после завершения цикла
-        this.filterForm.controls['metroIds'].setValue(updatedMetroIds);
-      
+        if (result.metroIds[0].id != null) {
+          this.filterForm.controls['metroIds'].setValue(updatedMetroIds);
+        } else {
+          this.filterForm.controls['metroIds'].setValue([]);
+        }
+
       }
       console.log('The dialog was closed', result);
     });

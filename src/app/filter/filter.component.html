@@ -3,7 +3,7 @@
             <mat-accordion multi="false" class="filter-container__form">
             <mat-expansion-panel>
                 <mat-expansion-panel-header>
-                  <mat-panel-title> Выберите пердпочтения </mat-panel-title>
+                  <mat-panel-title> Выберите предпочтения </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div style="display: flex; flex-direction: column;">
                     @for (preference of allPreferences; track preference) {
@@ -17,10 +17,10 @@
 
             <mat-expansion-panel formGroupName="age" class="filetr-item">
                 <mat-expansion-panel-header>
-                  <mat-panel-title> Укажите возраст  
+                  <mat-panel-title> Укажите возраст
                         @if(filterForm.get('age.startAge')?.value || filterForm.get('age.endAge')?.value){
                             <span>
-                            от {{ filterForm.get('age.startAge')?.value || '...' }} 
+                            от {{ filterForm.get('age.startAge')?.value || '...' }}
                             до {{ filterForm.get('age.endAge')?.value || '...' }}
                             </span>
                             <mat-icon (click) = 'toCleanAge()'>clear</mat-icon>
@@ -30,7 +30,7 @@
                 <div class="age_inputs">
                     <mat-form-field class="example-form-field">
                         <mat-label>Возраст от: </mat-label>
-                        <input matInput type="number" formControlName="startAge" [value] = "filterForm.get('age.startAge')?.value"> 
+                        <input matInput type="number" formControlName="startAge" [value] = "filterForm.get('age.startAge')?.value">
                     </mat-form-field>
 
                     <mat-form-field>
@@ -42,10 +42,10 @@
 
             <mat-expansion-panel formGroupName="price" class="filetr-item">
                 <mat-expansion-panel-header>
-                    <mat-panel-title>   
+                    <mat-panel-title>
                         @if(filterForm.get('price.startPrice')?.value || filterForm.get('price.endPrice')?.value){
                             Бюджет&nbsp;<span>
-                             от {{ filterForm.get('price.startPrice')?.value || '...' }} 
+                             от {{ filterForm.get('price.startPrice')?.value || '...' }}
                             до {{ filterForm.get('price.endPrice')?.value || '...' }}
                             </span>
                             <mat-icon (click) = 'toCleanPrice()'>clear</mat-icon>
@@ -56,26 +56,26 @@
                 <div class="price_inputs">
                     <mat-form-field class="example-form-field">
                         <mat-label>Цена от:</mat-label>
-                        <input matInput type="number" formControlName="startPrice" [value] = "filterForm.get('price.startPrice')?.value"> 
+                        <input matInput type="number" formControlName="startPrice" [value] = "filterForm.get('price.startPrice')?.value">
                     </mat-form-field>
                     <mat-form-field class="example-form-field">
                         <mat-label>до:</mat-label>
-                        <input matInput type="number" formControlName="endPrice" [value] = "filterForm.get('price.endPrice')?.value"> 
+                        <input matInput type="number" formControlName="endPrice" [value] = "filterForm.get('price.endPrice')?.value">
                     </mat-form-field>
                 </div>
             </mat-expansion-panel>
-          
+
             <!-- Местоположение -->
             <button mat-raised-button (click)="openFilterDialog()">
                 @if(currentCity.id){{{currentCity.name}}}
                 @else {Выберите локацию}</button>
-          
+
             <button mat-button (click)="submitForm()">Отправить</button>
             @if(filterForm.dirty) {<button mat-mini-fab (click) = 'toCleanForm()'><mat-icon>clear</mat-icon></button>}
             </mat-accordion>
           </form>
-          
-          
+
+
 </div>
 
 

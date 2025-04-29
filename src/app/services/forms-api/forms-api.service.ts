@@ -52,6 +52,7 @@ export class FormsApiService {
 
     Object.keys(obj).forEach((key) => {
       const value = obj[key];
+      console.log(value)
 
       if (value === null || value === undefined || value === '' || (Array.isArray(value) && value.length === 0)) {
         // Skip null, undefined, empty strings, or empty arrays
@@ -85,6 +86,7 @@ export class FormsApiService {
   }
 
   getShortFormsWithFilter(userId: number, filter: any): Observable<{ad: AdShortForm, photoUrl: string} []>{
+    console.log(filter)
     const flattenedFilters = this.flattenObject(filter);
     const params = this.buildQueryParams(flattenedFilters);
     const options = {params}

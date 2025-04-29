@@ -7,11 +7,13 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButton } from '@angular/material/button';
+import {MatIcon} from "@angular/material/icon";
+
 
 @Component({
   selector: 'app-filter-location-dialog',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule, MatButton, MatDialogActions, MatDialogContent],
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule, MatButton, MatDialogActions, MatDialogContent, MatIcon],
   templateUrl: './filter-location-dialog.component.html',
   styleUrl: './filter-location-dialog.component.scss'
 })
@@ -29,7 +31,7 @@ export class FilterLocationDialogComponent {
     this.cities$ = this.cityService.getCities().pipe(
       tap(cities => {
         const cityFromForm = this.data.get('cityId')?.value;
-        
+
         if (cityFromForm && cities.length > 0) {
           const selectedCity = cities.find((city: any) => city.id === cityFromForm.id);
           if (selectedCity) this.data.get('cityId')?.setValue(selectedCity);
@@ -49,7 +51,8 @@ export class FilterLocationDialogComponent {
       this.data.get('cityId')?.valueChanges
       .pipe(
         switchMap(city => {
-          if (city) {
+          console.log(city)
+          if (city.cityId != null || city) {
             console.log(city)
             return this.cityService.getMetroStations(city.id);
           } else {
@@ -72,12 +75,24 @@ export class FilterLocationDialogComponent {
         this.metroStations$ = of(stations);
       });
     }
-    
+
   }
 
   submit(){
+    console.log(this.data)
     this.dialogRef.close(this.data.value);
   }
   onNoClick = () => this.dialogRef.close()
-  
+
+  resetFilters(): void {
+
+    const resetValues = {
+      cityId: {id: null, name: null},  // Объект вместо null
+      metroIds: [{id: null, name: null, cityId: null}]                      // Пустой массив
+    };
+
+    // Сбрасываем форму
+    this.data.reset(resetValues);
+
+  }
 }
