@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, inject, Injector} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { catchError, Observable, of, switchMap } from 'rxjs';
 import { CityApiService } from '../services/city-api/city-api.service';
@@ -16,6 +16,19 @@ import { FilterLocationDialogComponent } from '../filter-location-dialog/filter-
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSliderModule} from '@angular/material/slider';
 import { FormsService } from '../services/forms/forms.service';
+import {TuiButton, TuiDialogService, TuiLink} from '@taiga-ui/core';
+import {TuiInputSlider} from "@taiga-ui/kit";
+import {TuiNumberFormat, TuiTextfield} from '@taiga-ui/core';
+import {FormsModule} from '@angular/forms';
+import {TuiAccordion} from '@taiga-ui/experimental';
+import {ChangeDetectionStrategy} from '@angular/core';
+import {TuiInputRangeModule, TuiTextfieldControllerModule} from '@taiga-ui/legacy';
+import {TuiInputModule} from '@taiga-ui/legacy';
+import {TuiRange} from '@taiga-ui/kit';
+import {TuiForm, TuiHeader} from '@taiga-ui/layout';
+import {TuiCheckbox} from '@taiga-ui/kit';
+import {TuiLabel} from '@taiga-ui/core';
+import {PolymorpheusComponent} from "@tinkoff/ng-polymorpheus";
 @Component({
   selector: 'app-filter',
   standalone: true,
@@ -30,13 +43,26 @@ import { FormsService } from '../services/forms/forms.service';
             MatMenuModule,
             MatIconModule,
             MatExpansionModule,
-            MatSliderModule],
+            MatSliderModule,
+            FormsModule,
+      TuiForm, TuiCheckbox, TuiLabel,
+            TuiAccordion,TuiInputModule, TuiRange, TuiButton, TuiInputSlider, TuiNumberFormat, TuiTextfield,TuiInputRangeModule, TuiTextfieldControllerModule],
   templateUrl: './filter.component.html',
   styleUrl: './filter.component.scss'
 })
 export class FilterComponent {
 
   filterForm!: FormGroup ;
+
+  protected readonly minAge = 18;
+  protected readonly maxAge = 100;
+  protected readonly sliderStepAge = 1;
+  protected readonly stepsAge = (this.maxAge - this.minAge) / this.sliderStepAge;
+  protected readonly quantum = 0.00001;
+  protected readonly minPrice = 10000;
+  protected readonly maxPrice = 250000;
+  protected readonly sliderStepBudget = 5000;
+  protected readonly stepsBudget = (this.minPrice - this.maxPrice) / this.sliderStepBudget;
 
   currentCity = {id: null, name: null}
   currentMetro = [{id: null, name: null, cityId:null}]
@@ -50,7 +76,9 @@ export class FilterComponent {
     private fb: FormBuilder,
     private cityService: CityApiService,
     private dialog: MatDialog,
-    private formService: FormsService
+    private formService: FormsService,
+    private readonly dialogService: TuiDialogService,
+    private readonly injector: Injector
   ){}
 
   ngOnInit(){
@@ -67,16 +95,15 @@ export class FilterComponent {
       alcohol: null,
       petFriendly: null,
       isClean: null,
-      age: this.fb.group({
-        startAge: [null, [Validators.min(0)]],
-        endAge: [null, [Validators.min(0)]]
-      }),
-
-      price: this.fb.group({
-        startPrice: [null, [Validators.min(0)]],
-        endPrice: [null, [Validators.min(0)]]
-      }),
+      age: new FormControl([18,65]),
+      price: new FormControl([15000, 100000]),
       cityId: [[]],
+      selectedCity: new FormControl(
+        {
+          id: new FormControl(null),
+          name: new FormControl(null)
+        }
+      ),
       metroIds: [[]]
     });
 
@@ -108,8 +135,7 @@ export class FilterComponent {
 
   openFilterDialog(){
     const dialogRef = this.dialog.open(FilterLocationDialogComponent, {
-      data: new FormGroup({cityId: new FormControl(this.currentCity), metroIds: new FormControl(this.currentMetro )}),
-      width: '50%',
+      data: new FormGroup({cityId: new FormControl(this.currentCity), metroIds: new FormControl(this.currentMetro )})
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -142,7 +168,7 @@ export class FilterComponent {
     });
   }
 
-  updatePreference(preference: string, isChecked: boolean) {
+  updatePreference(preference: string, isChecked: MouseEvent) {
     console.log(preference, isChecked)
     this.filterForm.get(preference)?.setValue(isChecked);
   }

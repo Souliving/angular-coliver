@@ -1,81 +1,142 @@
- <div class="filter-container">
-        <form [formGroup]="filterForm"  >
-            <mat-accordion multi="false" class="filter-container__form">
-            <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                  <mat-panel-title> Выберите предпочтения </mat-panel-title>
-                </mat-expansion-panel-header>
-                <div style="display: flex; flex-direction: column;">
-                    @for (preference of allPreferences; track preference) {
-                        <mat-checkbox
-                        (change)="updatePreference(preference.value, $event.checked)">
-                        {{ preference.display }}
-                    </mat-checkbox>
-                    }
-                </div>
-            </mat-expansion-panel>
+<!--<div class="filter-container">-->
+<!--  <form [formGroup]="filterForm">-->
+<!--    <mat-accordion multi="false" class="filter-container__form">-->
+<!--      &lt;!&ndash;            <mat-expansion-panel>&ndash;&gt;-->
+<!--      &lt;!&ndash;                <mat-expansion-panel-header>&ndash;&gt;-->
+<!--      &lt;!&ndash;                  <mat-panel-title> Выберите предпочтения </mat-panel-title>&ndash;&gt;-->
+<!--      &lt;!&ndash;                </mat-expansion-panel-header>&ndash;&gt;-->
+<!--      &lt;!&ndash;                <div style="display: flex; flex-direction: column;">&ndash;&gt;-->
+<!--      &lt;!&ndash;                    @for (preference of allPreferences; track preference) {&ndash;&gt;-->
+<!--      &lt;!&ndash;                        <mat-checkbox&ndash;&gt;-->
+<!--      &lt;!&ndash;                        (change)="updatePreference(preference.value, $event.checked)">&ndash;&gt;-->
+<!--      &lt;!&ndash;                        {{ preference.display }}&ndash;&gt;-->
+<!--      &lt;!&ndash;                    </mat-checkbox>&ndash;&gt;-->
+<!--      &lt;!&ndash;                    }&ndash;&gt;-->
+<!--      &lt;!&ndash;                </div>&ndash;&gt;-->
+<!--      &lt;!&ndash;            </mat-expansion-panel>&ndash;&gt;-->
 
-            <mat-expansion-panel formGroupName="age" class="filetr-item">
-                <mat-expansion-panel-header>
-                  <mat-panel-title> Укажите возраст
-                        @if(filterForm.get('age.startAge')?.value || filterForm.get('age.endAge')?.value){
-                            <span>
-                            от {{ filterForm.get('age.startAge')?.value || '...' }}
-                            до {{ filterForm.get('age.endAge')?.value || '...' }}
-                            </span>
-                            <mat-icon (click) = 'toCleanAge()'>clear</mat-icon>
-                        }
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-                <div class="age_inputs">
-                    <mat-form-field class="example-form-field">
-                        <mat-label>Возраст от: </mat-label>
-                        <input matInput type="number" formControlName="startAge" [value] = "filterForm.get('age.startAge')?.value">
-                    </mat-form-field>
+<!--      &lt;!&ndash; Местоположение &ndash;&gt;-->
 
-                    <mat-form-field>
-                    <mat-label>до:  </mat-label>
-                        <input matInput type="number" formControlName="endAge" [value] = "filterForm.get('age.endAge')?.value">
-                    </mat-form-field>
-                </div>
-            </mat-expansion-panel>
-
-            <mat-expansion-panel formGroupName="price" class="filetr-item">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        @if(filterForm.get('price.startPrice')?.value || filterForm.get('price.endPrice')?.value){
-                            Бюджет&nbsp;<span>
-                             от {{ filterForm.get('price.startPrice')?.value || '...' }}
-                            до {{ filterForm.get('price.endPrice')?.value || '...' }}
-                            </span>
-                            <mat-icon (click) = 'toCleanPrice()'>clear</mat-icon>
-                        }
-                        @else{ Укажите бюджет }
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-                <div class="price_inputs">
-                    <mat-form-field class="example-form-field">
-                        <mat-label>Цена от:</mat-label>
-                        <input matInput type="number" formControlName="startPrice" [value] = "filterForm.get('price.startPrice')?.value">
-                    </mat-form-field>
-                    <mat-form-field class="example-form-field">
-                        <mat-label>до:</mat-label>
-                        <input matInput type="number" formControlName="endPrice" [value] = "filterForm.get('price.endPrice')?.value">
-                    </mat-form-field>
-                </div>
-            </mat-expansion-panel>
-
-            <!-- Местоположение -->
-            <button mat-raised-button (click)="openFilterDialog()">
-                @if(currentCity.id){{{currentCity.name}}}
-                @else {Выберите локацию}</button>
-
-            <button mat-button (click)="submitForm()">Отправить</button>
-            @if(filterForm.dirty) {<button mat-mini-fab (click) = 'toCleanForm()'><mat-icon>clear</mat-icon></button>}
-            </mat-accordion>
-          </form>
+<!--    </mat-accordion>-->
+<!--  </form>-->
 
 
+<!--</div>-->
+<div class="filter-container">
+  <form
+    tuiForm="l"
+    [formGroup]="filterForm"
+  >
+
+    <fieldset>
+
+      <div class="form-stack">
+        <tui-accordion>
+          <button tuiAccordion>Предпочтения</button>
+          <tui-expand class="form-age">
+            <label tuiLabel>
+              <input
+                tuiCheckbox
+                type="checkbox"
+                formControlName="smoking"
+              />
+              Не курит
+            </label>
+            <label tuiLabel>
+              <input
+                tuiCheckbox
+                type="checkbox"
+                formControlName="alcohol"
+              />
+              Не пьет
+            </label>
+            <label tuiLabel>
+              <input
+                tuiCheckbox
+                type="checkbox"
+                formControlName="petFriendly"
+              />
+              Не против животных
+            </label>
+            <label tuiLabel>
+              <input
+                tuiCheckbox
+                type="checkbox"
+                formControlName="isClean"
+              />
+              Чистоплотный
+            </label>
+
+
+          </tui-expand>
+        </tui-accordion>
+      </div>
+      <div class="form-stack">
+
+        <tui-accordion>
+          <button tuiAccordion>Укажите возраст</button>
+          <tui-expand class="form-age">
+            <tui-input-range
+              [max]="maxAge"
+              [min]="minAge"
+              formControlName="age"
+              [quantum]="quantum"
+              [steps]="stepsAge"
+              [tuiTextfieldLabelOutside]=true
+              class="form-input-range"
+            >
+            </tui-input-range>
+
+          </tui-expand>
+
+        </tui-accordion>
+
+      </div>
+      <div class="form-stack">
+        <tui-accordion>
+          <button tuiAccordion>Укажите цену</button>
+          <tui-expand class="form-budget">
+            <tui-input-range
+              formControlName="price"
+              [max]="maxPrice"
+              [min]="minPrice"
+              [quantum]="quantum"
+              [steps]="stepsBudget"
+              class="form-input-range"
+              [tuiTextfieldLabelOutside]=true
+            >
+            </tui-input-range>
+
+          </tui-expand>
+        </tui-accordion>
+
+      </div>
+      <div class="form-search">
+        <button
+          appearance="outline"
+          tuiButton
+          type="button"
+          size="m"
+          (click)="submitForm()"
+        >
+          Отправить
+        </button>
+      </div>
+      <button mat-raised-button (click)="openFilterDialog()">
+        @if (currentCity.id) {
+          {{ currentCity.name }}
+        } @else {
+          Выберите локацию
+        }</button>
+
+
+      @if (filterForm.dirty) {
+        <button mat-mini-fab (click)='toCleanForm()'>
+          <mat-icon>clear</mat-icon>
+        </button>
+      }
+    </fieldset>
+
+  </form>
 </div>
-
 

@@ -1,5 +1,5 @@
 .filter-container{
-   
+
     &__form{
         display: flex;
         gap: 10px;
@@ -10,13 +10,7 @@
         max-width: 25%;
     }
 }
-.age{
-    
-    &_inputs{
-        display: flex;
-        gap: 5px
-    }
-}
+
 .price{
     &_inputs{
         display: flex;
@@ -27,3 +21,5 @@
 :host ::ng-deep .mat-accordion .mat-expansion-panel:not(.mat-expanded), .mat-accordion .mat-expansion-panel:not(.mat-expansion-panel-spacing){
     border-radius: 10px;
 }
+
+

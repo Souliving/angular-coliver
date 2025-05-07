@@ -1,32 +1,72 @@
-<form [formGroup]="data" >
-    <mat-dialog-content>
+<!--<form [formGroup]="data" >-->
+<!--    <mat-dialog-content>-->
 
-      <button mat-icon-button class="close-button" (click)="onNoClick()" aria-label="Закрыть">
-        <mat-icon class="close-icon">close</mat-icon>
-      </button>
-      <div style="display: flex; margin: 5px; gap: 10px;">
-        <mat-form-field appearance="outline">
-            <mat-label>{{data.get('cityId')?.value?.name || 'Выберите город' }}</mat-label>
+<!--      <button mat-icon-button class="close-button" (click)="onNoClick()" aria-label="Закрыть">-->
+<!--        <mat-icon class="close-icon">close</mat-icon>-->
+<!--      </button>-->
+<!--      <div style="display: flex; margin: 5px; gap: 10px;">-->
+<!--        <mat-form-field appearance="outline">-->
+<!--            <mat-label>{{data.get('cityId')?.value?.name || 'Выберите город' }}</mat-label>-->
 
-            <mat-select formControlName="cityId">
-                @for (city of cities$ | async; track city) {
-                    <mat-option [value]="city">{{ city.name }}</mat-option>
-                }
-            </mat-select>
-        </mat-form-field>
+<!--            <mat-select formControlName="cityId">-->
+<!--                @for (city of cities$ | async; track city) {-->
+<!--                    <mat-option [value]="city">{{ city.name }}</mat-option>-->
+<!--                }-->
+<!--            </mat-select>-->
+<!--        </mat-form-field>-->
 
-        <mat-form-field appearance="outline">
-            <mat-label>Выберите станции метро</mat-label>
-            <mat-select formControlName="metroIds" multiple>
-                @for (station of metroStations$ | async; track station) {
-                    <mat-option [value]="station">{{ station.name }}</mat-option>
-                }
-            </mat-select>
-        </mat-form-field>
+<!--        <mat-form-field appearance="outline">-->
+<!--            <mat-label>Выберите станции метро</mat-label>-->
+<!--            <mat-select formControlName="metroIds" multiple>-->
+<!--                @for (station of metroStations$ | async; track station) {-->
+<!--                    <mat-option [value]="station">{{ station.name }}</mat-option>-->
+<!--                }-->
+<!--            </mat-select>-->
+<!--        </mat-form-field>-->
+<!--    </div>-->
+<!--</mat-dialog-content>-->
+<!--    <mat-dialog-actions>-->
+<!--        <button mat-button (click)="resetFilters()">Сбросить</button>-->
+<!--        <button mat-button (click)="submit()" cdkFocusInitial>Подтвердить</button>-->
+<!--    </mat-dialog-actions>-->
+<!--</form>-->
+
+
+<div>
+  <form
+    tuiForm="l"
+    [formGroup]="data"
+  >
+
+
+    <div >
+      <tui-textfield [stringify]="'name' | tuiStringify">
+        <input
+          tuiSelect
+          formControlName="cityId"
+        />
+
+        <tui-data-list-wrapper
+          *tuiLet="cities$ | async as citiiis"
+          new
+          [itemContent]="itemContent"
+          [items]="citiiis"
+        />
+        <ng-template
+          #itemContent
+          let-data
+        >
+          <div>
+
+            {{ data.name }}
+          </div>
+        </ng-template>
+      </tui-textfield>
+
+
     </div>
-</mat-dialog-content>
-    <mat-dialog-actions>
-        <button mat-button (click)="resetFilters()">Сбросить</button>
-        <button mat-button (click)="submit()" cdkFocusInitial>Подтвердить</button>
-    </mat-dialog-actions>
-</form>
+
+
+  </form>
+</div>
+

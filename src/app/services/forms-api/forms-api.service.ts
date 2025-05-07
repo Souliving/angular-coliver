@@ -2,7 +2,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {catchError, map, Observable, of, tap} from 'rxjs';
 import {User} from "../../data/userStructure";
-import { AdForm, AdShortForm } from '../../data/formsStructure';
+import {AdForm, AdShortForm} from '../../data/formsStructure';
 
 const apiUrl = 'https://api.coliver.tech/api/v1/';
 
@@ -11,23 +11,24 @@ const apiUrl = 'https://api.coliver.tech/api/v1/';
 })
 export class FormsApiService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {
+  }
 
-  getFullFormById(id: number){
-    return this.httpClient.get<AdForm[]>(apiUrl + 'form/getFullFormById/{id}?id='+id)
+  getFullFormById(id: number) {
+    return this.httpClient.get<AdForm[]>(apiUrl + 'form/getFullFormById/{id}?id=' + id)
   }
 
   getAllShortForms() {
     let user: User = JSON.parse(<string>localStorage.getItem('user'));
-    if(user) return this.httpClient.get<any[]>(apiUrl + 'form/getShortFormsForUserId/' + user.jwt.userId)
+    if (user) return this.httpClient.get<any[]>(apiUrl + 'form/getShortFormsForUserId/' + user.jwt.userId)
     else return this.httpClient.get<any[]>(apiUrl + 'form/getShortForms')
   }
 
-  getUserPhotoById (photoId: number): Observable<string>{
-      return this.httpClient.get<string>('https://images.coliver.tech/getImageById/'+photoId,   { responseType: 'text' as 'json' } )
-        .pipe(
-          catchError(() => of(''))
-        );
+  getUserPhotoById(photoId: number): Observable<string> {
+    return this.httpClient.get<string>('https://images.coliver.tech/getImageById/' + photoId, {responseType: 'text' as 'json'})
+    .pipe(
+      catchError(() => of(''))
+    );
   }
 
   /* getUserPhotoByUserId(userId: number):  Observable<string>{
@@ -40,11 +41,11 @@ export class FormsApiService {
       );
   } */
 
-  getUserPhotoByUserId(userId: number):  Observable<string>{
-    return this.httpClient.get<string>('https://images.coliver.tech/getImageByUserId/'+userId,   { responseType: 'text' as 'json' } )
-      .pipe(
-        catchError(() => of(''))
-      );
+  getUserPhotoByUserId(userId: number): Observable<string> {
+    return this.httpClient.get<string>('https://images.coliver.tech/getImageByUserId/' + userId, {responseType: 'text' as 'json'})
+    .pipe(
+      catchError(() => of(''))
+    );
   }
 
   buildQueryParams(obj: { [key: string]: any }): HttpParams {
@@ -61,7 +62,16 @@ export class FormsApiService {
 
       if (Array.isArray(value)) {
         // Serialize non-empty arrays as comma-separated strings
-        params = params.set(key, value.join(','));
+        console.log('array', key)
+        if (key == 'age') {
+          params = params.set('startAge', value[0])
+          params = params.set('endAge', value[1])
+        } else if(key=='price') {
+          params = params.set('startPrice', value[0])
+          params = params.set('endPrice', value[1])
+        } else {
+          params = params.set(key, value.join(','));
+        }
       } else {
         // Set scalar values directly
         params = params.set(key, value);
@@ -85,9 +95,13 @@ export class FormsApiService {
     return result;
   }
 
-  getShortFormsWithFilter(userId: number, filter: any): Observable<{ad: AdShortForm, photoUrl: string} []>{
+  getShortFormsWithFilter(userId: number, filter: any): Observable<{
+    ad: AdShortForm,
+    photoUrl: string
+  } []> {
     console.log(filter)
     const flattenedFilters = this.flattenObject(filter);
+    console.log('flat', flattenedFilters)
     const params = this.buildQueryParams(flattenedFilters);
     const options = {params}
     return this.httpClient.get<AdShortForm[]>(apiUrl + 'form/getShortFormsWithFilter/' + userId, options).pipe(
@@ -98,7 +112,10 @@ export class FormsApiService {
     );
   }
 
-  getShortFormsWithFilterWithoutId(filter: any): Observable<{ad: AdShortForm, photoUrl: string} []>{
+  getShortFormsWithFilterWithoutId(filter: any): Observable<{
+    ad: AdShortForm,
+    photoUrl: string
+  } []> {
     const flattenedFilters = this.flattenObject(filter);
     const params = this.buildQueryParams(flattenedFilters);
     const options = {params}
@@ -110,18 +127,19 @@ export class FormsApiService {
     );
   }
 
-  uploadPhotoByUserId(userId:number, photo:any): Observable<string>{
+  uploadPhotoByUserId(userId: number, photo: any): Observable<string> {
     const headers = new HttpHeaders({
       'Content-Type': 'image/png'
     });
 
-    return this.httpClient.post<any>('https://images.coliver.tech/uploadImageByUserId/', photo, { headers: headers })
-      .pipe(
-        catchError( error => of(error))
-      )
+    return this.httpClient.post<any>('https://images.coliver.tech/uploadImageByUserId/', photo, {headers: headers})
+    .pipe(
+      catchError(error => of(error))
+    )
   }
-  getFavoritesFormsByUserID (userId: number): Observable<any[]>{
-    return this.httpClient.get<any>(apiUrl+ 'form/getFavoriteFormsByUserId/'+userId)
+
+  getFavoritesFormsByUserID(userId: number): Observable<any[]> {
+    return this.httpClient.get<any>(apiUrl + 'form/getFavoriteFormsByUserId/' + userId)
     .pipe(catchError(() => of([])));
   }
 
