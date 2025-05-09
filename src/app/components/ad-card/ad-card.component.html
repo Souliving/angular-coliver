@@ -1,30 +1,79 @@
-<mat-card class="ad-card" appearance="outlined" (click) = 'toAdPage()'>
-    <img mat-card-image [src]="ad?.photoUrl" alt="User Photo" class="ad-card-image"/>
-    <mat-card-header>
-        <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title>{{ad?.ad!.name}}</mat-card-title>
-        <mat-card-subtitle>{{ad?.ad!.age}} года</mat-card-subtitle>
-    </mat-card-header>
+<!--<mat-card class="ad-card" appearance="outlined" (click) = 'toAdPage()'>-->
+<!--    <img mat-card-image [src]="ad?.photoUrl" alt="User Photo" class="ad-card-image"/>-->
+<!--    <mat-card-header>-->
+<!--        <div mat-card-avatar class="example-header-image"></div>-->
+<!--        <mat-card-title>{{ad?.ad!.name}}</mat-card-title>-->
+<!--        <mat-card-subtitle>{{ad?.ad!.age}} года</mat-card-subtitle>-->
+<!--    </mat-card-header>-->
 
-    <mat-card-content class="ad-card-content">
-        <div class="text-xs">
-            Город {{ad?.ad!.city!.name}},
-            <div class="metro">м.
-                <ng-container *ngFor="let metroStation of ad?.ad!.metro">
-                     {{metroStation?.name}}
-                </ng-container>
-            </div>
-        </div>
-        <p class="ml-auto mr-0">Бюджет {{ad?.ad!.budget}}</p>
-        <p class="ad-description">{{ad?.ad!.description}}</p>
-    </mat-card-content>
+<!--    <mat-card-content class="ad-card-content">-->
+<!--        <div class="text-xs">-->
+<!--            Город {{ad?.ad!.city!.name}},-->
+<!--            <div class="metro">м.-->
+<!--                <ng-container *ngFor="let metroStation of ad?.ad!.metro">-->
+<!--                     {{metroStation?.name}}-->
+<!--                </ng-container>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <p class="ml-auto mr-0">Бюджет {{ad?.ad!.budget}}</p>-->
+<!--        <p class="ad-description">{{ad?.ad!.description}}</p>-->
+<!--    </mat-card-content>-->
 
-    <mat-card-actions>
-        <button mat-icon-button *ngIf ='ad?.ad?.isFavorite' (click)="removeFavorites(ad?.ad!.id)">
-            <mat-icon>favorite</mat-icon>
-        </button>
-      <button mat-icon-button *ngIf ='!ad?.ad?.isFavorite' (click)="toFavorites(ad?.ad!.id)">
-        <mat-icon>favorite_outline</mat-icon>
-      </button>
-    </mat-card-actions>
-</mat-card>
+<!--    <mat-card-actions>-->
+<!--        <button mat-icon-button *ngIf ='ad?.ad?.isFavorite' (click)="removeFavorites(ad?.ad!.id)">-->
+<!--            <mat-icon>favorite</mat-icon>-->
+<!--        </button>-->
+<!--      <button mat-icon-button *ngIf ='!ad?.ad?.isFavorite' (click)="toFavorites(ad?.ad!.id)">-->
+<!--        <mat-icon>favorite_outline</mat-icon>-->
+<!--      </button>-->
+<!--    </mat-card-actions>-->
+<!--</mat-card>-->
+<div
+  tuiAppearance="floating"
+  tuiCardLarge
+  (click) = 'toAdPage()'
+>
+  <img [src]="ad?.photoUrl" alt="User Photo" class="ad-card-image"/>
+  <header tuiHeader>
+    <h2 tuiTitle>{{ ad?.ad!.name }}
+      <h3 tuiSubtitle>{{ ad?.ad!.age }}</h3>
+    </h2>
+
+  </header>
+
+  <section>
+    <div class="text-xs">
+      Город {{ ad?.ad!.city!.name }},
+      <div class="metro">м.
+        <ng-container *ngFor="let metroStation of ad?.ad!.metro">
+          <tui-chip>{{ metroStation?.name }}</tui-chip>
+        </ng-container>
+      </div>
+    </div>
+    <p class="ml-auto mr-0">Бюджет {{ ad?.ad!.budget }}</p>
+    <p class="ad-description">{{ ad?.ad!.description }}</p>
+  </section>
+
+  <footer>
+    <button
+      appearance="secondary"
+      size="m"
+      tuiButton
+      iconStart="@tui.heart"
+      type="button"
+      *ngIf='!ad?.ad?.isFavorite'
+      (click)="toFavorites(ad?.ad!.id)"
+    >
+    </button>
+    <button
+      appearance="primary"
+      size="m"
+      tuiButton
+      iconStart="@tui.heart"
+      type="button"
+      *ngIf='ad?.ad?.isFavorite'
+      (click)="removeFavorites(ad?.ad!.id)"
+    >
+    </button>
+  </footer>
+</div>

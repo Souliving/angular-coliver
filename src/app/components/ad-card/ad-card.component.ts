@@ -7,12 +7,15 @@ import {CommonModule} from '@angular/common';
 import {FormsApiService} from "../../services/forms-api/forms-api.service";
 import {User} from "../../data/userStructure";
 import { Router } from '@angular/router';
+import {TuiAppearance, TuiButton, TuiTitle} from "@taiga-ui/core";
+import {TuiCardLarge, TuiHeader, TuiSubheaderComponent} from "@taiga-ui/layout";
+import {TuiChip} from "@taiga-ui/kit";
 
 @Component({
   selector: 'app-ad-card',
   standalone: true,
   providers: [FormsApiService],
-  imports: [MatButtonModule, MatCardModule, MatIcon, CommonModule],
+  imports: [MatButtonModule, MatCardModule, MatIcon, CommonModule, TuiAppearance, TuiCardLarge, TuiHeader, TuiTitle, TuiButton, TuiSubheaderComponent, TuiChip],
   templateUrl: './ad-card.component.html',
   styleUrl: './ad-card.component.scss'
 })
