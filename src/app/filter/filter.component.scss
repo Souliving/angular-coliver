@@ -1,25 +1,44 @@
-.filter-container{
+.filter-container {
 
-    &__form{
-        display: flex;
-        gap: 10px;
-        align-items: flex-start;
-        justify-content: space-around;
-    }
-    .filetr-item{
-        max-width: 25%;
-    }
+  &__form {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: space-around;
+  }
+
+  .filetr-item {
+    max-width: 25%;
+  }
 }
 
-.price{
-    &_inputs{
-        display: flex;
-        gap: 5px
-    }
+.price {
+  &_inputs {
+    display: flex;
+    gap: 5px
+  }
 }
 
-:host ::ng-deep .mat-accordion .mat-expansion-panel:not(.mat-expanded), .mat-accordion .mat-expansion-panel:not(.mat-expansion-panel-spacing){
-    border-radius: 10px;
+:host ::ng-deep .mat-accordion .mat-expansion-panel:not(.mat-expanded), .mat-accordion .mat-expansion-panel:not(.mat-expansion-panel-spacing) {
+  border-radius: 10px;
 }
 
+.form-stack {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.form-budget {
+  min-width: 15rem;
+}
+
+.form-age {
+  min-width: 15rem;
+}
+
+.form-input-range {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 10px;
+}
 

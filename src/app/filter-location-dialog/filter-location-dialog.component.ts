@@ -1,158 +1,143 @@
-import {Component, EventEmitter, Inject, inject, Input, Optional, Output} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogRef,
-  MatDialog,
-  MatDialogActions,
-  MatDialogContent
-} from '@angular/material/dialog';
-import {catchError, Observable, of, switchMap, tap} from 'rxjs';
-import {CityApiService} from '../services/city-api/city-api.service';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatSelectModule} from '@angular/material/select';
-import {MatButton, MatMiniFabButton} from '@angular/material/button';
-import {MatIcon} from "@angular/material/icon";
-import {TuiAccordionComponent, TuiAccordionDirective, TuiExpand} from "@taiga-ui/experimental";
+import {catchError, Observable, of, Subject, switchMap, tap} from 'rxjs';
+
+import {FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
   TuiButton,
-  TuiDialogComponent,
   TuiDialogContext,
-  TuiIcon, TuiInitialsPipe,
-  TuiLabel,
-  TuiTextfield
-} from "@taiga-ui/core";
+  TuiDialogService,
+  TuiTextfield,
+} from '@taiga-ui/core';
 import {
-  TuiCheckbox,
-  TuiChevron,
-  TuiDataListWrapper, TuiFilterByInputPipe,
-  TuiSelect, TuiStringifyContentPipe,
-  TuiStringifyPipe
-} from "@taiga-ui/kit";
-import {TuiForm} from "@taiga-ui/layout";
+  TuiDataListWrapper,
+  TuiSelect,
+  TuiStringifyPipe,
+} from '@taiga-ui/kit';
+import {TuiForm} from '@taiga-ui/layout';
 import {
   TuiComboBoxModule,
   TuiInputModule,
   TuiInputRangeModule,
-  TuiTextfieldControllerModule
-} from "@taiga-ui/legacy";
-import {TuiContext, TuiLet} from "@taiga-ui/cdk";
-import {PolymorpheusContent} from "@tinkoff/ng-polymorpheus";
-import {City} from "../data/formsStructure";
-
+} from '@taiga-ui/legacy';
+import {TuiIdentityMatcher, TuiLet} from '@taiga-ui/cdk';
+import {injectContext} from '@taiga-ui/polymorpheus';
+import {
+  TuiMultiSelectModule,
+  TuiTextfieldControllerModule,
+} from '@taiga-ui/legacy';
+import {City, Subway} from "../data/formsStructure";
+import {CityApiService} from "../services/city-api/city-api.service";
 
 @Component({
   selector: 'app-filter-location-dialog',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule, MatButton, MatDialogActions, MatDialogContent, MatIcon, MatMiniFabButton,
-    TuiAccordionComponent, TuiAccordionDirective, TuiButton, TuiCheckbox, TuiExpand, TuiForm,
-    TuiInputRangeModule, TuiLabel, TuiTextfield, FormsModule, TuiDataListWrapper,
-    TuiSelect, TuiIcon, TuiChevron, TuiDialogComponent, TuiInputModule, TuiTextfieldControllerModule, TuiLet, TuiStringifyPipe, TuiStringifyContentPipe, TuiFilterByInputPipe, TuiComboBoxModule, TuiInitialsPipe],
+  imports: [CommonModule,
+    ReactiveFormsModule,
+    TuiButton,
+    TuiForm,
+    TuiInputRangeModule,
+    TuiTextfield,
+    FormsModule,
+    TuiDataListWrapper,
+    TuiSelect,
+    TuiInputModule,
+    TuiTextfieldControllerModule,
+    TuiLet,
+    TuiStringifyPipe,
+    TuiComboBoxModule,
+    TuiMultiSelectModule,],
   templateUrl: './filter-location-dialog.component.html',
   styleUrl: './filter-location-dialog.component.scss'
 })
-export class FilterLocationDialogComponent {
-  readonly dialogRef = inject(MatDialogRef<FilterLocationDialogComponent>);
-  data = inject<FormGroup>(MAT_DIALOG_DATA);
-  protected value: any | null = null;
-  cities$: Observable<City[]> | undefined;
-  //selectedCity?: { id: number; name: string };
-  citis: City[] = [
-    { id: 1, name: 'Москва' },
-    { id: 2, name: 'Санкт-Петербург' },
-    { id: 3, name: 'Казань' },
-  ];
-  addressGroup = new FormGroup({
-    id: new FormControl(null),
-    name: new FormControl(null),
-  });
-  metroStations$: Observable<any> | undefined;
+export class FilterLocationDialogComponent implements OnInit {
+  private readonly dialogs = inject(TuiDialogService);
 
-  constructor(
-    private cityService: CityApiService,
-  ) {
+  protected value: FormGroup | null = null;
+  protected name = '';
+  protected items = [10, 50, 100];
+
+  public readonly context =
+    injectContext<TuiDialogContext<FormGroup, FormGroup>>();
+
+  protected get data(): FormGroup {
+    return this.context.data;
   }
 
-  // cityStringify = (item: TuiContextWithImplicit<City> | City): string => {
-  //   if ('$' in item) {
-  //     return item.$.name;
-  //   }
-  //   return item.name;
-  // };
+  protected submit(): void {
+    if (this.context.data !== null) {
+      console.log(this.context.data);
+      this.context.completeWith(this.context.data);
+    }
+  }
 
+  cities$: Observable<City[]> | undefined;
+  metroStations$: Observable<Subway[]> | undefined;
+
+  constructor(private cityService: CityApiService) {
+  }
 
   protected readonly stringify = ({name, id}: City): string =>
     `${name} ${id}`;
+
   ngOnInit() {
     // this.data.addControl('selectedCity', this.addressGroup)
     this.cities$ = this.cityService.getCities().pipe(
-      tap(cities => {
+      tap((cities) => {
         const cityFromForm = this.data.get('cityId')?.value;
 
         if (cityFromForm && cities.length > 0) {
-          const selectedCity = cities.find((city: any) => city.id === cityFromForm.id);
+          const selectedCity = cities.find(
+            (city: any) => city.id === cityFromForm.id
+          );
           if (selectedCity) this.data.get('cityId')?.setValue(selectedCity);
         }
       }),
-      catchError(error => {
+      catchError((error) => {
         console.error('Ошибка загрузки городов', error);
         return of([]); // Возвращаем пустой массив в случае ошибки
       })
     );
-    console.log(this.data)
-    this.cities$.forEach((value: any) => console.log(value))
+    console.log(this.data);
+    this.cities$.forEach((value: any) => console.log(value));
     this.onCityChange();
   }
 
   onCityChange() {
     if (this.data) {
-      this.data.get('cityId')?.valueChanges
-      .pipe(
-        switchMap(city => {
-          console.log(city)
+      this.data
+      .get('cityId')
+      ?.valueChanges.pipe(
+        switchMap((city) => {
+          console.log(city);
           if (city.cityId != null || city) {
-            console.log(city)
+            //this.data.get('metroIds')?.setValue([[]])
+            console.log('filter', this.data.get('metroIds')?.value);
             return this.cityService.getMetroStations(city.id);
           } else {
+            console.log('drop cities');
             return of([]); // Возвращаем пустой массив, если город не выбран
           }
         }),
-        catchError(error => {
+        catchError((error) => {
           console.error('Ошибка загрузки станций метро', error);
           return of([]); // Возвращаем пустой массив в случае ошибки
         })
       )
       .subscribe((stations: any) => {
         const metroFromForm = this.data.get('metroIds')?.value;
+        console.log('metro From form', metroFromForm);
         if (metroFromForm && stations.length > 0) {
+          console.log('stations', stations);
           const selectedMetro = stations.filter((metro: any) =>
-            metroFromForm.map((tmp: any) => tmp.id)
-            .includes(metro.id))
-          if (selectedMetro) this.data.get('metroIds')?.setValue(selectedMetro);
+            metroFromForm.map((tmp: any) => tmp.id).includes(metro.id)
+          );
+          console.log('selected metro', selectedMetro);
+          if (selectedMetro)
+            this.data.get('metroIds')?.setValue(selectedMetro);
         }
         this.metroStations$ = of(stations);
       });
     }
-
-  }
-
-  submit() {
-    console.log(this.data)
-    this.dialogRef.close(this.data.value);
-  }
-
-  onNoClick = () => this.dialogRef.close()
-
-  resetFilters(): void {
-
-    const resetValues = {
-      cityId: {id: null, name: null},  // Объект вместо null
-      metroIds: [{id: null, name: null, cityId: null}]                      // Пустой массив
-    };
-
-    // Сбрасываем форму
-    this.data.reset(resetValues);
-
   }
 }

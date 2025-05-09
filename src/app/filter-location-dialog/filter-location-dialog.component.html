@@ -1,72 +1,167 @@
-<!--<form [formGroup]="data" >-->
-<!--    <mat-dialog-content>-->
-
-<!--      <button mat-icon-button class="close-button" (click)="onNoClick()" aria-label="Закрыть">-->
-<!--        <mat-icon class="close-icon">close</mat-icon>-->
-<!--      </button>-->
-<!--      <div style="display: flex; margin: 5px; gap: 10px;">-->
-<!--        <mat-form-field appearance="outline">-->
-<!--            <mat-label>{{data.get('cityId')?.value?.name || 'Выберите город' }}</mat-label>-->
-
-<!--            <mat-select formControlName="cityId">-->
-<!--                @for (city of cities$ | async; track city) {-->
-<!--                    <mat-option [value]="city">{{ city.name }}</mat-option>-->
-<!--                }-->
-<!--            </mat-select>-->
-<!--        </mat-form-field>-->
-
-<!--        <mat-form-field appearance="outline">-->
-<!--            <mat-label>Выберите станции метро</mat-label>-->
-<!--            <mat-select formControlName="metroIds" multiple>-->
-<!--                @for (station of metroStations$ | async; track station) {-->
-<!--                    <mat-option [value]="station">{{ station.name }}</mat-option>-->
-<!--                }-->
-<!--            </mat-select>-->
-<!--        </mat-form-field>-->
-<!--    </div>-->
-<!--</mat-dialog-content>-->
-<!--    <mat-dialog-actions>-->
-<!--        <button mat-button (click)="resetFilters()">Сбросить</button>-->
-<!--        <button mat-button (click)="submit()" cdkFocusInitial>Подтвердить</button>-->
-<!--    </mat-dialog-actions>-->
-<!--</form>-->
-
-
 <div>
-  <form
-    tuiForm="l"
-    [formGroup]="data"
-  >
-
-
-    <div >
+  <form tuiForm="l" [formGroup]="data">
+    <div>
       <tui-textfield [stringify]="'name' | tuiStringify">
         <input
-          tuiSelect
-          formControlName="cityId"
+            tuiSelect
+            formControlName="cityId"
+            placeholder="Выберите город"
         />
-
         <tui-data-list-wrapper
-          *tuiLet="cities$ | async as citiiis"
-          new
-          [itemContent]="itemContent"
-          [items]="citiiis"
+            *tuiTextfieldDropdown
+            new
+            [items]="cities$ | async"
         />
-        <ng-template
-          #itemContent
-          let-data
-        >
-          <div>
-
-            {{ data.name }}
-          </div>
-        </ng-template>
       </tui-textfield>
-
-
     </div>
 
+    <div>
+      <tui-multi-select
+          *tuiLet="metroStations$ | async as metroStation"
+          formControlName="metroIds"
+          [stringify]="'name' | tuiStringify"
+          [tuiTextfieldCleaner]="true"
+      >
+        Метро
+        <tui-data-list-wrapper
+            *tuiDataList
+            tuiMultiSelectGroup
+            [items]="metroStation"
+            [itemContent]="itemContent"
+        />
+      </tui-multi-select>
 
+      <ng-template #itemContent let-data>
+        {{ data.name }}
+      </ng-template>
+    </div>
+
+    <div>
+      <div class="form-stack">
+        <button size="m" tuiButton type="button" (click)="submit()">OK</button>
+      </div>
+    </div>
   </form>
 </div>
 
+<!--<div>-->
+<!--  <form-->
+<!--    tuiForm="l"-->
+<!--    [formGroup]="data"-->
+<!--  >-->
+<!--    <div>-->
+<!--      <tui-textfield [stringify]="'name' | tuiStringify">-->
+<!--        <input-->
+<!--          tuiSelect-->
+<!--          formControlName="cityId"-->
+<!--          placeholder="Выберите город"-->
+<!--        />-->
+<!--        <tui-data-list-wrapper-->
+<!--          *tuiTextfieldDropdown-->
+<!--          new-->
+<!--          [items]="cities$ | async"-->
+<!--        />-->
+<!--      </tui-textfield>-->
+<!--    </div>-->
+
+<!--    <div>-->
+<!--      <tui-multi-select-->
+<!--        *tuiLet="metroStations$ | async as metroStation"-->
+<!--        formControlName="metroIds"-->
+<!--        [stringify]="'name' | tuiStringify"-->
+<!--        [tuiTextfieldCleaner]="true"-->
+<!--      >-->
+<!--        Метро-->
+<!--        <tui-data-list-wrapper-->
+<!--          *tuiDataList-->
+<!--          tuiMultiSelectGroup-->
+<!--          [items]="metroStation"-->
+<!--          [itemContent]="itemContent"-->
+<!--        />-->
+<!--      </tui-multi-select>-->
+
+<!--      <ng-template #itemContent let-data>-->
+<!--        {{ data.name }}-->
+<!--      </ng-template>-->
+<!--    </div>-->
+
+<!--    <div>-->
+<!--      <div class="form-stack">-->
+<!--        <button-->
+<!--          size="m"-->
+<!--          tuiButton-->
+<!--          type="button"-->
+<!--          (click)="submit()"-->
+<!--        >-->
+<!--          OK-->
+<!--        </button>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </form>-->
+<!--</div>-->
+
+<!--<p class="text">-->
+<!--  Your balance:-->
+<!--  <span>{{ data | tuiAmount: 'RUB' | async  }}</span>-->
+<!--</p>-->
+
+<!--<tui-input-->
+<!--  tuiAutoFocus-->
+<!--  tuiTextfieldSize="m"-->
+<!--  [(ngModel)]="name"-->
+<!--&gt;-->
+<!--  Type a name-->
+<!--</tui-input>-->
+
+<!--<tui-textfield-->
+<!--  tuiChevron-->
+<!--  tuiTextfieldSize="m"-->
+<!--  class="tui-space_top-3 tui-space_bottom-5"-->
+<!--&gt;-->
+<!--  <input-->
+<!--    placeholder="Select a sum"-->
+<!--    tuiSelect-->
+<!--    [(ngModel)]="value"-->
+<!--  />-->
+
+<!--  <tui-data-list-wrapper-->
+<!--    *tuiTextfieldDropdown-->
+<!--    new-->
+<!--    [items]="items"-->
+<!--  />-->
+<!--</tui-textfield>-->
+
+<!--<input-->
+<!--  tuiSlider-->
+<!--  type="range"-->
+<!--  class="tui-space_bottom-5"-->
+<!--  [max]="10"-->
+<!--  [ngModel]="5"-->
+<!--/>-->
+
+<!--<button-->
+<!--  size="m"-->
+<!--  tuiButton-->
+<!--  type="button"-->
+<!--  [disabled]="!hasValue"-->
+<!--  (click)="submit()"-->
+<!--&gt;-->
+<!--  Submit-->
+<!--</button>-->
+
+<!--<p>-->
+<!--  <button-->
+<!--    size="m"-->
+<!--    tuiButton-->
+<!--    type="button"-->
+<!--    (click)="showDialog(template)"-->
+<!--  >-->
+<!--    Show one more dialog-->
+<!--  </button>-->
+<!--</p>-->
+
+<!--<ng-template #template>-->
+<!--  <div class="dialog">-->
+<!--    <p>This one is a template dialog</p>-->
+<!--  </div>-->
+<!--</ng-template>-->

@@ -1,58 +1,37 @@
-import {Component, inject, Injector} from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { catchError, Observable, of, switchMap } from 'rxjs';
-import { CityApiService } from '../services/city-api/city-api.service';
-import { CommonModule } from '@angular/common';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatButtonModule } from '@angular/material/button';
-import {MatListModule} from '@angular/material/list';
-import {MatIconModule} from '@angular/material/icon';
-import {MatMenuModule} from '@angular/material/menu';
-import { MatDialog } from '@angular/material/dialog';
-import { FilterLocationDialogComponent } from '../filter-location-dialog/filter-location-dialog.component';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatSliderModule} from '@angular/material/slider';
-import { FormsService } from '../services/forms/forms.service';
-import {TuiButton, TuiDialogService, TuiLink} from '@taiga-ui/core';
-import {TuiInputSlider} from "@taiga-ui/kit";
-import {TuiNumberFormat, TuiTextfield} from '@taiga-ui/core';
-import {FormsModule} from '@angular/forms';
-import {TuiAccordion} from '@taiga-ui/experimental';
-import {ChangeDetectionStrategy} from '@angular/core';
-import {TuiInputRangeModule, TuiTextfieldControllerModule} from '@taiga-ui/legacy';
-import {TuiInputModule} from '@taiga-ui/legacy';
-import {TuiRange} from '@taiga-ui/kit';
-import {TuiForm, TuiHeader} from '@taiga-ui/layout';
-import {TuiCheckbox} from '@taiga-ui/kit';
-import {TuiLabel} from '@taiga-ui/core';
-import {PolymorpheusComponent} from "@tinkoff/ng-polymorpheus";
+import {CommonModule} from '@angular/common';
+import {Component, OnInit} from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+
+import {
+  FilterLocationDialogComponent
+} from '../filter-location-dialog/filter-location-dialog.component';
+import {TuiButton, tuiDialog, TuiLabel} from '@taiga-ui/core';
+import {City, Subway} from '../data/formsStructure';
+import {TuiInputRangeModule, TuiTextfieldControllerModule} from "@taiga-ui/legacy";
+import {FormsService} from "../services/forms/forms.service";
+import {TuiForm} from "@taiga-ui/layout";
+import {TuiAccordion, TuiExpand} from "@taiga-ui/experimental";
+import {TuiCheckbox} from "@taiga-ui/kit";
+
 @Component({
   selector: 'app-filter',
   standalone: true,
   imports: [CommonModule,
-            ReactiveFormsModule,
-            MatFormFieldModule,
-            MatSelectModule,
-            MatInputModule,
-            MatCheckboxModule,
-            MatButtonModule,
-            MatListModule,
-            MatMenuModule,
-            MatIconModule,
-            MatExpansionModule,
-            MatSliderModule,
-            FormsModule,
-      TuiForm, TuiCheckbox, TuiLabel,
-            TuiAccordion,TuiInputModule, TuiRange, TuiButton, TuiInputSlider, TuiNumberFormat, TuiTextfield,TuiInputRangeModule, TuiTextfieldControllerModule],
+    ReactiveFormsModule,
+    FormsModule, TuiButton, TuiAccordion, TuiExpand, TuiInputRangeModule, TuiTextfieldControllerModule, TuiForm, TuiAccordion, TuiLabel, TuiCheckbox, TuiAccordion,
+  ],
   templateUrl: './filter.component.html',
   styleUrl: './filter.component.scss'
 })
 export class FilterComponent {
 
-  filterForm!: FormGroup ;
+  filterForm!: FormGroup;
 
   protected readonly minAge = 18;
   protected readonly maxAge = 100;
@@ -64,24 +43,25 @@ export class FilterComponent {
   protected readonly sliderStepBudget = 5000;
   protected readonly stepsBudget = (this.minPrice - this.maxPrice) / this.sliderStepBudget;
 
-  currentCity = {id: null, name: null}
-  currentMetro = [{id: null, name: null, cityId:null}]
+  currentCity: City = {id: null, name: null}
+  currentMetro: Subway[] = [{id: null, name: null, cityId: null}]
   readonly allPreferences = [
-    { value: 'smoking', display: 'Не курит' },
-    { value: 'alcohol', display: 'Не пьет' },
-    { value: 'pets', display: 'Без животных' },
+    {value: 'smoking', display: 'Не курит'},
+    {value: 'alcohol', display: 'Не пьет'},
+    {value: 'pets', display: 'Без животных'},
   ]
+  private readonly dialogTui = tuiDialog(FilterLocationDialogComponent, {
+    dismissible: true,
+
+  });
 
   constructor(
-    private fb: FormBuilder,
-    private cityService: CityApiService,
-    private dialog: MatDialog,
-    private formService: FormsService,
-    private readonly dialogService: TuiDialogService,
-    private readonly injector: Injector
-  ){}
+      private fb: FormBuilder,
+      private formService: FormsService,
+  ) {
+  }
 
-  ngOnInit(){
+  ngOnInit() {
 
     /* this.cities$ = this.cityService.getCities().pipe(
       catchError(error => {
@@ -95,77 +75,96 @@ export class FilterComponent {
       alcohol: null,
       petFriendly: null,
       isClean: null,
-      age: new FormControl([18,65]),
+      age: new FormControl([18, 65]),
       price: new FormControl([15000, 100000]),
       cityId: [[]],
       selectedCity: new FormControl(
-        {
-          id: new FormControl(null),
-          name: new FormControl(null)
-        }
+          {
+            id: new FormControl(null),
+            name: new FormControl(null)
+          }
       ),
       metroIds: [[]]
     });
 
-  //  this.onCityChange();
+    //  this.onCityChange();
   }
 
-/*   onCityChange(){
-    if(this.filterForm){
-      this.filterForm.get('location.city')?.valueChanges
-      .pipe(
-        switchMap(city => {
-          if (city) {
-            return this.cityService.getMetroStations(city.id);
+
+  openFilterDialog() {
+    const data = new FormGroup({
+      cityId: new FormControl<City>(this.currentCity),
+      metroIds: new FormControl<Subway[]>(this.currentMetro)
+    })
+
+    this.dialogTui(data).subscribe({
+      next: (result) => {
+        if (result) {
+          console.log(result.get('cityId')?.value)
+          if (result.get('cityId')?.value.id == null) {
+            console.log('if null')
+            this.filterForm.controls['cityId'].setValue([]);
           } else {
-            return of([]); // Возвращаем пустой массив, если город не выбран
+            this.filterForm.controls['cityId'].setValue([result.get('cityId')?.value.id]);
           }
-        }),
-        catchError(error => {
-          console.error('Ошибка загрузки станций метро', error);
-          return of([]); // Возвращаем пустой массив в случае ошибки
-        })
-      )
-      .subscribe(stations => {
-        this.metroStations$ = of(stations);
-      });
-    }
+          this.currentCity = result.get('cityId')?.value;
+          console.log('old metro', this.currentMetro)
+          this.currentMetro = result.get('metroIds')?.value
+          console.log('new metro', this.currentMetro)
+          let updatedMetroIds: any[] = [];
+          //console.log('check', result.get('metroIds')?.value)
+          this.currentMetro.forEach((element: any) => {
+            // Проверяем, чтобы избежать дублирования, если это необходимо
+            if (!updatedMetroIds.includes(element.id)) {
+              updatedMetroIds.push(element.id);
+            }
+          });
 
-  } */
+          // Устанавливаем значение для metroIds после завершения цикла
 
-  openFilterDialog(){
-    const dialogRef = this.dialog.open(FilterLocationDialogComponent, {
-      data: new FormGroup({cityId: new FormControl(this.currentCity), metroIds: new FormControl(this.currentMetro )})
+          if (result.get('metroIds')?.value[0].id != null) {
+            console.log('updated', updatedMetroIds)
+            this.filterForm.controls['metroIds'].setValue(updatedMetroIds);
+          } else {
+            this.filterForm.controls['metroIds'].setValue([]);
+          }
+
+        }
+        console.log('The dialog was closed', result);
+      },
+      complete: () => {
+        console.info('Dialog closed');
+      },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if(result) {
-        console.log(result.cityId)
-        if(result.cityId.id == null) {
-          this.filterForm.controls['cityId'].setValue([]);
-        } else {
-          this.filterForm.controls['cityId'].setValue([result.cityId.id]);
-        }
-        this.currentCity = result.cityId;
-        this.currentMetro = result.metroIds
-        let updatedMetroIds: any[] = [];
-        result.metroIds.forEach((element: any) => {
-          // Проверяем, чтобы избежать дублирования, если это необходимо
-          if (!updatedMetroIds.includes(element.id)) {
-            updatedMetroIds.push(element.id);
-          }
-        });
-
-        // Устанавливаем значение для metroIds после завершения цикла
-        if (result.metroIds[0].id != null) {
-          this.filterForm.controls['metroIds'].setValue(updatedMetroIds);
-        } else {
-          this.filterForm.controls['metroIds'].setValue([]);
-        }
-
-      }
-      console.log('The dialog was closed', result);
-    });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if(result) {
+    //     console.log(result.cityId)
+    //     if(result.cityId.id == null) {
+    //       this.filterForm.controls['cityId'].setValue([]);
+    //     } else {
+    //       this.filterForm.controls['cityId'].setValue([result.cityId.id]);
+    //     }
+    //     this.currentCity = result.cityId;
+    //     this.currentMetro = result.metroIds
+    //     let updatedMetroIds: any[] = [];
+    //     result.metroIds.forEach((element: any) => {
+    //       // Проверяем, чтобы избежать дублирования, если это необходимо
+    //       if (!updatedMetroIds.includes(element.id)) {
+    //         updatedMetroIds.push(element.id);
+    //       }
+    //     });
+    //
+    //     // Устанавливаем значение для metroIds после завершения цикла
+    //     if (result.metroIds[0].id != null) {
+    //       this.filterForm.controls['metroIds'].setValue(updatedMetroIds);
+    //     } else {
+    //       this.filterForm.controls['metroIds'].setValue([]);
+    //     }
+    //
+    //   }
+    //   console.log('The dialog was closed', result);
+    // });
   }
 
   updatePreference(preference: string, isChecked: MouseEvent) {
@@ -173,28 +172,102 @@ export class FilterComponent {
     this.filterForm.get(preference)?.setValue(isChecked);
   }
 
-  submitForm(){
+  submitForm() {
     this.formService.filterFormWithPhoto(this.filterForm.value)
     console.log(this.filterForm)
   }
 
-  toCleanAge(){
+  toCleanAge() {
     this.filterForm.get('age')?.patchValue({
       startAge: null,
       endAge: null
     });
   }
 
-  toCleanPrice(){
+  toCleanPrice() {
     this.filterForm.get('price')?.patchValue({
       startPrice: null,
       endPrice: null
     });
   }
 
-  toCleanForm(){
+  toCleanForm() {
+    this.currentCity = {id: null, name: null}
+    this.currentMetro = [{id: null, name: null, cityId: null}]
     this.filterForm.reset();
     this.formService.initFormsWithPhoto()
   }
 
 }
+
+// export class FilterComponent implements OnInit {
+//   // @ts-ignore
+//   currentCity: City = { id: null, name: null };
+//   currentMetro: Subway[] = [{ id: null, name: null, cityId: null }];
+//   filterForm!: FormGroup;
+//   private readonly dialogTui = tuiDialog(FilterLocationDialogComponent, {
+//     dismissible: true,
+//   });
+//   constructor(private fb: FormBuilder) {}
+//
+//   ngOnInit() {
+//     this.filterForm = this.fb.group({
+//       smoking: null,
+//       alcohol: null,
+//       petFriendly: null,
+//       isClean: null,
+//       age: new FormControl([18, 65]),
+//       price: new FormControl([15000, 100000]),
+//       cityId: [[]],
+//       metroIds: [[]],
+//     });
+//   }
+//   openFilterDialog() {
+//     console.log('start metro', this.currentMetro);
+//     const data = new FormGroup({
+//       cityId: new FormControl<City>(this.currentCity),
+//       metroIds: new FormControl<Subway[]>(this.currentMetro),
+//     });
+//
+//     this.dialogTui(data).subscribe({
+//       next: (result) => {
+//         if (result) {
+//           console.log(result.get('cityId')?.value);
+//           if (result.get('cityId')?.value.id == null) {
+//             console.log('if null');
+//             this.filterForm.controls['cityId'].setValue([]);
+//           } else {
+//             this.filterForm.controls['cityId'].setValue([
+//               result.get('cityId')?.value.id,
+//             ]);
+//           }
+//           this.currentCity = result.get('cityId')?.value;
+//           console.log('old metro', this.currentMetro);
+//           this.currentMetro = result.get('metroIds')?.value;
+//           console.log('new metro', this.currentMetro);
+//           let updatedMetroIds: any[] = [];
+//           //console.log('check', result.get('metroIds')?.value)
+//           this.currentMetro.forEach((element: any) => {
+//             // Проверяем, чтобы избежать дублирования, если это необходимо
+//             if (!updatedMetroIds.includes(element.id)) {
+//               updatedMetroIds.push(element.id);
+//             }
+//           });
+//
+//           // Устанавливаем значение для metroIds после завершения цикла
+//
+//           if (result.get('metroIds')?.value[0].id != null) {
+//             console.log('updated', updatedMetroIds);
+//             this.filterForm.controls['metroIds'].setValue(updatedMetroIds);
+//           } else {
+//             this.filterForm.controls['metroIds'].setValue([]);
+//           }
+//         }
+//         console.log('The dialog was closed', result);
+//       },
+//       complete: () => {
+//         console.info('Dialog closed');
+//       },
+//     });
+//   }
+// }

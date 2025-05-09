@@ -24,8 +24,8 @@
 <!--</div>-->
 <div class="filter-container">
   <form
-    tuiForm="l"
-    [formGroup]="filterForm"
+      tuiForm="l"
+      [formGroup]="filterForm"
   >
 
     <fieldset>
@@ -36,33 +36,33 @@
           <tui-expand class="form-age">
             <label tuiLabel>
               <input
-                tuiCheckbox
-                type="checkbox"
-                formControlName="smoking"
+                  tuiCheckbox
+                  type="checkbox"
+                  formControlName="smoking"
               />
               Не курит
             </label>
             <label tuiLabel>
               <input
-                tuiCheckbox
-                type="checkbox"
-                formControlName="alcohol"
+                  tuiCheckbox
+                  type="checkbox"
+                  formControlName="alcohol"
               />
               Не пьет
             </label>
             <label tuiLabel>
               <input
-                tuiCheckbox
-                type="checkbox"
-                formControlName="petFriendly"
+                  tuiCheckbox
+                  type="checkbox"
+                  formControlName="petFriendly"
               />
               Не против животных
             </label>
             <label tuiLabel>
               <input
-                tuiCheckbox
-                type="checkbox"
-                formControlName="isClean"
+                  tuiCheckbox
+                  type="checkbox"
+                  formControlName="isClean"
               />
               Чистоплотный
             </label>
@@ -77,13 +77,13 @@
           <button tuiAccordion>Укажите возраст</button>
           <tui-expand class="form-age">
             <tui-input-range
-              [max]="maxAge"
-              [min]="minAge"
-              formControlName="age"
-              [quantum]="quantum"
-              [steps]="stepsAge"
-              [tuiTextfieldLabelOutside]=true
-              class="form-input-range"
+                [max]="maxAge"
+                [min]="minAge"
+                formControlName="age"
+                [quantum]="quantum"
+                [steps]="stepsAge"
+                [tuiTextfieldLabelOutside]=true
+                class="form-input-range"
             >
             </tui-input-range>
 
@@ -97,13 +97,13 @@
           <button tuiAccordion>Укажите цену</button>
           <tui-expand class="form-budget">
             <tui-input-range
-              formControlName="price"
-              [max]="maxPrice"
-              [min]="minPrice"
-              [quantum]="quantum"
-              [steps]="stepsBudget"
-              class="form-input-range"
-              [tuiTextfieldLabelOutside]=true
+                formControlName="price"
+                [max]="maxPrice"
+                [min]="minPrice"
+                [quantum]="quantum"
+                [steps]="stepsBudget"
+                class="form-input-range"
+                [tuiTextfieldLabelOutside]=true
             >
             </tui-input-range>
 
@@ -111,30 +111,40 @@
         </tui-accordion>
 
       </div>
-      <div class="form-search">
+      <div class="form-stack">
         <button
-          appearance="outline"
-          tuiButton
-          type="button"
-          size="m"
-          (click)="submitForm()"
+            size="l"
+            tuiButton
+            type="button"
+            (click)="openFilterDialog()"
+        >
+          Локация
+        </button>
+      </div>
+      <div class="form-stack">
+        <button
+            appearance="outline"
+            tuiButton
+            type="button"
+            size="l"
+            (click)="submitForm()"
         >
           Отправить
         </button>
       </div>
-      <button mat-raised-button (click)="openFilterDialog()">
-        @if (currentCity.id) {
-          {{ currentCity.name }}
-        } @else {
-          Выберите локацию
-        }</button>
-
-
-      @if (filterForm.dirty) {
-        <button mat-mini-fab (click)='toCleanForm()'>
-          <mat-icon>clear</mat-icon>
+      <div class="form-stack">
+        <button
+            appearance="outline"
+            tuiButton
+            type="button"
+            size="l"
+            (click)="toCleanForm()"
+        >
+          Сбросить
         </button>
-      }
+      </div>
+
+
     </fieldset>
 
   </form>

@@ -53,14 +53,14 @@ export interface Properties extends NewFormProperties{
 }
 
 export interface Subway{
-    id: number,
-    name: string,
-    cityId: number
+    id: number|null,
+    name: string|null,
+    cityId: number|null
 }
 
   export interface City{
-    id: number,
-    name: string
+    id: number|null,
+    name: string|null
   }
 
   export interface District{
