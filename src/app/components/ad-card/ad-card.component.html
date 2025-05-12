@@ -31,17 +31,16 @@
 <div
   tuiAppearance="floating"
   tuiCardLarge
-  (click) = 'toAdPage()'
+
 >
-  <img [src]="ad?.photoUrl" alt="User Photo" class="ad-card-image"/>
-  <header tuiHeader>
+  <img [src]="ad?.photoUrl" alt="User Photo" class="ad-card-image" (click) = 'toAdPage()'/>
+  <header tuiHeader (click) = 'toAdPage()'>
     <h2 tuiTitle>{{ ad?.ad!.name }}
       <h3 tuiSubtitle>{{ ad?.ad!.age }}</h3>
     </h2>
-
   </header>
 
-  <section>
+  <section (click) = 'toAdPage()'>
     <div class="text-xs">
       Город {{ ad?.ad!.city!.name }},
       <div class="metro">м.
