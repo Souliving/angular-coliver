@@ -9,17 +9,23 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { UserApiService } from '../../services/user-api/user-api.service';
 import { CommonModule } from '@angular/common';
+import {TuiAppBar} from "@taiga-ui/layout";
+import {TuiButton, TuiDataList, TuiDropdown, TuiIcon, TuiVerticalDirection} from "@taiga-ui/core";
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [MatToolbarModule, MatButtonModule, MatIconModule, MatMenuModule, CommonModule],
+  imports: [MatToolbarModule, MatButtonModule, MatIconModule, MatMenuModule, CommonModule, TuiAppBar, TuiButton, TuiDropdown, TuiDataList, TuiIcon],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent implements OnInit {
   readonly dialog = inject(MatDialog);
   isAuthUser: Observable<any> | undefined;
+  protected open = false;
 
+  protected onClick(): void {
+    this.open = false;
+  }
   constructor(private router: Router, private userApiService:UserApiService ) {}
 
   ngOnInit(): void {

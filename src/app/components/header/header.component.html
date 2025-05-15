@@ -1,39 +1,110 @@
-<mat-toolbar>
-    <button mat-icon-button class="example-icon" (click) = 'toHome()'>
-      <mat-icon>home</mat-icon>
-    </button>
+<!--<mat-toolbar>-->
+<!--    <button mat-icon-button class="example-icon" (click) = 'toHome()'>-->
+<!--      <mat-icon>home</mat-icon>-->
+<!--    </button>-->
 
-    <span class="example-spacer"></span>
+<!--    <span class="example-spacer"></span>-->
 
-    <ng-container *ngIf="!(isAuthUser | async); else authUser">
-      <button mat-button class="example-icon favorite-icon" (click) = 'toRegistration()'>
-        Зарегистрироваться
-      </button>
-      <button mat-button class="example-icon" (click) = 'toLogin()'>
-        Авторизоваться
-      </button>
-    </ng-container>
+<!--    <ng-container *ngIf="!(isAuthUser | async); else authUser">-->
+<!--      <button mat-button class="example-icon favorite-icon" (click) = 'toRegistration()'>-->
+<!--        Зарегистрироваться-->
+<!--      </button>-->
+<!--      <button mat-button class="example-icon" (click) = 'toLogin()'>-->
+<!--        Авторизоваться-->
+<!--      </button>-->
+<!--    </ng-container>-->
 
-    <ng-template #authUser>
+<!--    <ng-template #authUser>-->
 
-      <button mat-mini-fab (click)="toFavorites()" >
-        <mat-icon>favorite</mat-icon>
-      </button>
+<!--      <button mat-mini-fab (click)="toFavorites()" >-->
+<!--        <mat-icon>favorite</mat-icon>-->
+<!--      </button>-->
 
-      <button mat-icon-button [matMenuTriggerFor]="menu" style="margin-left: 10px;">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item (click) = 'toAccount()'>
-          <mat-icon>account_circle</mat-icon>
-          <span>Личный кабинет</span>
+<!--      <button mat-icon-button [matMenuTriggerFor]="menu" style="margin-left: 10px;">-->
+<!--        <mat-icon>more_vert</mat-icon>-->
+<!--      </button>-->
+<!--      <mat-menu #menu="matMenu">-->
+<!--        <button mat-menu-item (click) = 'toAccount()'>-->
+<!--          <mat-icon>account_circle</mat-icon>-->
+<!--          <span>Личный кабинет</span>-->
+<!--        </button>-->
+<!--        <button mat-menu-item (click) = 'logOut()'>-->
+<!--          <mat-icon>exit_to_app</mat-icon>-->
+<!--          <span>Выйти</span>-->
+<!--        </button>-->
+
+<!--      </mat-menu>-->
+<!--    </ng-template>-->
+
+<!--</mat-toolbar>-->
+<tui-app-bar size="m">
+  <button
+    iconStart="@tui.house"
+    tuiButton
+    tuiSlot="left"
+    type="button"
+    (click)='toHome()'
+  >
+  </button>
+  Coliver
+
+  <button
+
+    tuiButton
+    *ngIf="!(isAuthUser | async)"
+    tuiSlot="right"
+    type="button"
+    (click)='toRegistration()'
+  >
+    Зарегистрироваться
+  </button>
+  <button
+    tuiButton
+    *ngIf="!(isAuthUser | async)"
+    tuiSlot="right"
+    type="button"
+    (click)='toLogin()'
+  >
+    Авторизоваться
+  </button>
+  <button
+    class="menu"
+    appearance="flat"
+    *ngIf="isAuthUser|async"
+    iconStart="@tui.ellipsis-vertical"
+    tuiSlot="right"
+    size="m"
+    tuiButton
+    tuiDropdownAlign="center"
+    tuiDropdownLimitWidth="auto"
+    type="button"
+    [tuiAppearanceState]="open ? 'active' : null"
+    [tuiDropdown]="dropdown"
+    tuiDropdownDirection="bottom"
+    [(tuiDropdownOpen)]="open"
+  >
+  </button>
+  <ng-template
+    #dropdown
+    let-close
+  >
+    <tui-data-list>
+      <tui-opt-group>
+        <button
+          tuiOption
+          type="button"
+          (click)="toAccount()"
+        >
+          Личный кабинет
         </button>
-        <button mat-menu-item (click) = 'logOut()'>
-          <mat-icon>exit_to_app</mat-icon>
-          <span>Выйти</span>
+        <button
+          tuiOption
+          type="button"
+          (click)="logOut()"
+        >
+          Выйти
         </button>
-
-      </mat-menu>
-    </ng-template>
-
-</mat-toolbar>
+      </tui-opt-group>
+    </tui-data-list>
+  </ng-template>
+</tui-app-bar>
