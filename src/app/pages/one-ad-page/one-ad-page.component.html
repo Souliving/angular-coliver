@@ -3,6 +3,35 @@
         <img class = 'main-photo' [src]="adWithPhoto.photoUrl" alt="Ad Photo" />
     </div>
     <div  class="one-ad_info">
+        <tui-tabs [(activeItemIndex)]="activeItemIndex">
+        <button
+            [ngClass]="{'active_button': activeItemIndex == 0 }"
+            tuiTab
+            type="button"
+            (click)="changeTab(0)"
+        >
+            О себе
+        </button>
+        <button
+            [ngClass]="{'active_button': activeItemIndex == 1 }"
+            tuiTab
+            class="no-margin-left"
+            type="button"
+            (click)="changeTab(1)"
+        >
+            О квартире
+        </button>
+
+        </tui-tabs>
+        @if(activeItemIndex === 0){
+            <ad-person-info></ad-person-info>
+        }@else{
+            <p>Здесь информация "О квартире".</p>
+        }
+    </div>
+
+
+  <!--   <div  class="one-ad_info">
         <p class="name">{{ adWithPhoto.ad[0].name }}</p>
         <p> {{ adWithPhoto.ad[0].age}} лет, г.{{ adWithPhoto.ad[0].city.name }} </p>
         <p>Желаемые районы:<mat-chip-set aria-label="Fish selection">
@@ -18,8 +47,8 @@
             <mat-card-content>{{ adWithPhoto.ad[0].description }}</mat-card-content>
             </mat-card>
         </div>
-       <!--  <p>Я хочу видеть в человеке: <ng-container *ngFor="let"> </ng-container></p> -->
-    </div>
+        <p>Я хочу видеть в человеке: <ng-container *ngFor="let"> </ng-container></p>
+    </div> -->
 
     
   </div>

@@ -6,7 +6,7 @@ import { UserApiService } from './app/services/user-api/user-api.service';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { APP_INITIALIZER, importProvidersFrom } from '@angular/core';
-import {NG_EVENT_PLUGINS} from "@taiga-ui/event-plugins";
+import { NG_EVENT_PLUGINS, provideEventPlugins } from "@taiga-ui/event-plugins";
 
 export function initializeUser(authService: UserApiService) {
   return () => {
@@ -29,7 +29,8 @@ bootstrapApplication(AppComponent,{
       multi: true
     },
     UserApiService,  // Регистрация UserApiService
-    NG_EVENT_PLUGINS
+    NG_EVENT_PLUGINS,
+      provideEventPlugins()
 ]
 })
   .catch((err) => console.error(err));

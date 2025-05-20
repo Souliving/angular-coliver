@@ -6,15 +6,18 @@ import { AdForm, AdShortForm } from '../../data/formsStructure';
 import { CommonModule } from '@angular/common';
 import {MatChipsModule} from '@angular/material/chips'
 import {MatCardModule} from '@angular/material/card';
+import { TuiTabs } from '@taiga-ui/kit';
+import { FormsModule } from '@angular/forms';
+import { AdPersonInfoComponent } from '../../components/ad-person-info/ad-person-info.component';
 @Component({
   selector: 'app-one-ad-page',
   standalone: true,
-  imports: [CommonModule, MatChipsModule, MatCardModule],
+  imports: [CommonModule, MatChipsModule, MatCardModule, TuiTabs, FormsModule, AdPersonInfoComponent],
   templateUrl: './one-ad-page.component.html',
   styleUrl: './one-ad-page.component.scss'
 })
 export class OneAdPageComponent {
-
+   activeItemIndex = 0;
   adForm = new Subject<{ ad: AdForm[], photoUrl: string }>();
 
   constructor(private route: ActivatedRoute,
@@ -34,4 +37,9 @@ export class OneAdPageComponent {
     ).subscribe();
 
   }
+
+  changeTab(index: number){
+    this.activeItemIndex = index
+  }
+
 }
