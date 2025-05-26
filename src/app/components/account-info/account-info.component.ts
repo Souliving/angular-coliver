@@ -1,24 +1,35 @@
 import { Component } from '@angular/core';
 import { UserApiService } from '../../services/user-api/user-api.service';
-import { filter, forkJoin, map, merge, Observable, tap } from 'rxjs';
+import {
+  forkJoin,
+  map,
+  Observable,
+} from 'rxjs';
 import { User, UserData } from '../../data/userStructure';
 import {CommonModule} from '@angular/common';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatButtonModule} from '@angular/material/button';
 import { FormsApiService } from '../../services/forms-api/forms-api.service';
+import {
+  TuiDataListWrapperComponent,
+  TuiSelectDirective
+} from "@taiga-ui/kit";
+import {TuiAppearance, TuiButton, TuiTextfield, TuiTitle} from "@taiga-ui/core";
+import {TuiCardLarge, TuiForm, TuiHeader} from "@taiga-ui/layout";
+import {Gender} from "../../data/formsStructure";
+import {TuiSelectModule} from "@taiga-ui/legacy";
 @Component({
   selector: 'app-account-info',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+  imports: [CommonModule, ReactiveFormsModule, TuiAppearance, TuiCardLarge, TuiForm, TuiHeader, TuiTitle, TuiTextfield, TuiButton, TuiDataListWrapperComponent, TuiSelectDirective, TuiSelectModule],
   templateUrl: './account-info.component.html',
   styleUrl: './account-info.component.scss'
 })
 export class AccountInfoComponent {
   user$: Observable<{userData: UserData, photoUrl:string}> | undefined
   formUser!: FormGroup;
+  genderOptions = Object.values(Gender);
+  isChanged = true;
 
   constructor(private userApiService: UserApiService,
     private formsApiService: FormsApiService,
@@ -39,16 +50,16 @@ export class AccountInfoComponent {
        // console.log(data)
     })
     }
-    
+
 
    })
-    
   }
 
   initForm(data: UserData){
+    console.log(Gender[data.gender as keyof typeof Gender])
     this.formUser = this.fb.group({
       name:[data.name],
-      gender:[data.gender],
+      gender: Gender[data.gender as keyof typeof Gender],
       email: [data.email],
       age:[data.age]
     });
@@ -63,7 +74,7 @@ export class AccountInfoComponent {
   };
   //console.log(souceCsvFile);
   this.user$ = this.user$?.pipe(
-    map(data =>{ 
+    map(data =>{
       return {
       ...data,
       photoUrl : souceCsvFile.url}
@@ -72,8 +83,8 @@ export class AccountInfoComponent {
   }
 
   saveChanges(){
-    
-   // console.log(this.formUser)
+
+   console.log(this.formUser.value)
   }
 
 }

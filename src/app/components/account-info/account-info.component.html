@@ -1,41 +1,117 @@
+<!--<div class="account-info-container">-->
+<!--    @if (user$ | async; as user) {-->
+<!--    <form [formGroup]="formUser" (submit)="saveChanges()">-->
+
+<!--        <div class="account-info-header">-->
+<!--            <div  class="account-info-header__image">-->
+<!--                <img mat-card-image [src]="user.photoUrl" alt="Фото пользователя">-->
+<!--                <input type="file" name="file" (change)="uploadPhoto($event)"/>-->
+
+<!--            </div>-->
+<!--            <div class="account-info-header__name">-->
+<!--                {{formUser.controls['name'].value}}-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="account-info-items">-->
+<!--            <mat-form-field class="account-info-items__name">-->
+<!--                <mat-label>Имя пользователя</mat-label>-->
+<!--                <input  matInput type="text" formControlName="name">-->
+<!--            </mat-form-field>-->
+
+<!--            <mat-form-field>-->
+<!--                <mat-label>Пол</mat-label>-->
+<!--                <select matNativeControl  formControlName="gender" required>-->
+<!--                    <option value="FEMALE">Женщина</option>-->
+<!--                    <option value="MALE">Мужчина</option>-->
+<!--                </select>-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field >-->
+<!--                <mat-label>Возраст пользователя</mat-label>-->
+<!--                <input  matInput type="number" formControlName="age">-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field >-->
+<!--                <mat-label>Email</mat-label>-->
+<!--                <input  matInput type="text" formControlName="email">-->
+<!--            </mat-form-field>-->
+<!--        </div>-->
+<!--        <button style="margin-left: 40%; margin-bottom: 1%;" mat-fab extended type="submit">Сохранить изменения</button>-->
+<!--   </form>-->
+<!--    }-->
+<!--</div>-->
 <div class="account-info-container">
-    @if (user$ | async; as user) { 
-    <form [formGroup]="formUser" (submit)="saveChanges()">
+  @if (user$ | async; as user) {
+    <form
+      tuiAppearance="floating"
+      tuiCardLarge
+      tuiForm="m"
+      [formGroup]="formUser"
+      [style.max-width.rem]="32"
+    >
+      <div class="account-info-header__image">
+        <img [src]="user.photoUrl" alt="User Photo" class="ad-card-image"/>
+      </div>
 
-        <div class="account-info-header">
-            <div  class="account-info-header__image">
-                <img mat-card-image [src]="user.photoUrl" alt="Фото пользователя">
-                <input type="file" name="file" (change)="uploadPhoto($event)"/>
-               
-            </div>
-            <div class="account-info-header__name">
-                {{formUser.controls['name'].value}}
-            </div>
-        </div>
+      <header tuiHeader>
+        <h1 tuiTitle>
+          <div class="account-info-header__name">
+            {{ formUser.controls['name'].value }}
+          </div>
+        </h1>
+      </header>
 
-        <div class="account-info-items">
-            <mat-form-field class="account-info-items__name">
-                <mat-label>Имя пользователя</mat-label>
-                <input  matInput type="text" formControlName="name">
-            </mat-form-field>
+      <tui-textfield tuiTextfieldSize="l">
+        <label tuiLabel>Имя</label>
+        <input
+          formControlName="name"
+          placeholder="Имя пользователя"
+          tuiTextfield
+        />
+      </tui-textfield>
 
-            <mat-form-field>
-                <mat-label>Пол</mat-label>
-                <select matNativeControl  formControlName="gender" required>
-                    <option value="FEMALE">Женщина</option>
-                    <option value="MALE">Мужчина</option>
-                </select>
-            </mat-form-field>
-            <mat-form-field >
-                <mat-label>Возраст пользователя</mat-label>
-                <input  matInput type="number" formControlName="age">
-            </mat-form-field>
-            <mat-form-field >
-                <mat-label>Email</mat-label>
-                <input  matInput type="text" formControlName="email">
-            </mat-form-field>
-        </div>
-        <button style="margin-left: 40%; margin-bottom: 1%;" mat-fab extended type="submit">Сохранить изменения</button>
-   </form>
-    }
+      <tui-textfield tuiTextfieldSize="l">
+        <input
+          tuiSelect
+          formControlName="gender"
+          placeholder="Пол"
+        />
+        <tui-data-list-wrapper
+          *tuiTextfieldDropdown
+          new
+          [items]="genderOptions"
+        />
+      </tui-textfield>
+
+      <tui-textfield tuiTextfieldSize="l">
+        <label tuiLabel>Возраст</label>
+        <input
+          formControlName="age"
+          placeholder="Возраст пользователя"
+          tuiTextfield
+        />
+      </tui-textfield>
+
+      <tui-textfield tuiTextfieldSize="l">
+        <label tuiLabel>Email</label>
+        <input
+          formControlName="email"
+          placeholder="Возраст пользователя"
+          tuiTextfield
+        />
+      </tui-textfield>
+
+      <footer>
+        <button
+          *ngIf="isChanged"
+          tuiButton
+          type="submit"
+          (click)="saveChanges()"
+        >
+          Сохранить изменения
+        </button>
+      </footer>
+    </form>
+
+
+  }
 </div>

@@ -74,4 +74,8 @@ export interface Subway{
     name: string
   }
 
+  export enum Gender {
+    FEMALE = "Женщина",
+    MALE = "Мужчина"
+  }
 
