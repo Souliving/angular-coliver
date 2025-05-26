@@ -1,15 +1,17 @@
-import { Component, ComponentRef, ViewChild, ViewContainerRef } from '@angular/core';
+import {Component, ComponentRef, ViewChild, ViewContainerRef} from '@angular/core';
 import {MatListModule} from '@angular/material/list';
 import {MatButtonModule} from '@angular/material/button';
-import {  FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatSidenavModule} from '@angular/material/sidenav';
-import { MatIcon } from '@angular/material/icon';
-import { Router, RouterModule } from '@angular/router';
+import {MatIcon} from '@angular/material/icon';
+import {Router, RouterModule} from '@angular/router';
+import {TuiTab, TuiTabsVertical} from "@taiga-ui/kit";
+import {routes} from "../../app.routes";
 
 @Component({
   selector: 'app-account',
   standalone: true,
-  imports: [MatListModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatIcon, MatSidenavModule, RouterModule ],
+  imports: [MatListModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatIcon, MatSidenavModule, RouterModule, TuiTabsVertical, TuiTab],
   templateUrl: './account.component.html',
   styleUrl: './account.component.scss'
 })
@@ -26,7 +28,7 @@ export class AccountComponent {
 
   constructor(private router: Router) {}
   ngOnInit(){
-    
+
   }
   selectTopic(topic: any){
     switch (topic){

@@ -1,16 +1,27 @@
 .account-container {
   height: 90vh;
   .sidenav-bar{
-    background-color: aliceblue; 
+    background-color: aliceblue;
     }
 }
    /*  .expansion-panel-container {
         background-color: aliceblue;
         width: 40%;
-        
+
     }
 
     .info-container {
         width: 55%;
     } */
 
+.content {
+  display: flex;
+  margin: 2rem 0 1rem;
+  padding-left: 1rem;
+}
+
+.left {
+  margin-right: 0rem;
+  min-inline-size: 10rem;
+  inline-size: 10rem;
+}

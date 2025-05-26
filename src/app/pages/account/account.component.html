@@ -1,25 +1,51 @@
-<mat-sidenav-container class="account-container">
-  <mat-sidenav #sidenav mode="side" [(opened)]="opened" class="sidenav-bar">
-              <mat-selection-list  [multiple]="false" >
-                @for (topic of topics; track topic) {
-                  <mat-list-item (click)="selectTopic(topic)">{{topic}}</mat-list-item>
-                }
-              </mat-selection-list>
-              @if (forms){
-                <mat-list-item (click)="selectForm(forms)">{{forms}}</mat-list-item>
-              }
-              @else{
-                <button mat-fab extended (click)="selectTopic('addNewForm')"><mat-icon>add</mat-icon>Создать анкету</button>
-              }
-  </mat-sidenav>
+<!--<mat-sidenav-container class="account-container">-->
+<!--  <mat-sidenav #sidenav mode="side" [(opened)]="opened" class="sidenav-bar">-->
+<!--              <mat-selection-list  [multiple]="false" >-->
+<!--                @for (topic of topics; track topic) {-->
+<!--                  <mat-list-item (click)="selectTopic(topic)">{{topic}}</mat-list-item>-->
+<!--                }-->
+<!--              </mat-selection-list>-->
+<!--              @if (forms){-->
+<!--                <mat-list-item (click)="selectForm(forms)">{{forms}}</mat-list-item>-->
+<!--              }-->
+<!--              @else{-->
+<!--                <button mat-fab extended (click)="selectTopic('addNewForm')"><mat-icon>add</mat-icon>Создать анкету</button>-->
+<!--              }-->
+<!--  </mat-sidenav>-->
 
-  <mat-sidenav-content>
-    <button mat-icon-button  (click)="toggleSideNav()">
-      @if(opened){<mat-icon>keyboard_arrow_left</mat-icon>}
-      @else{<mat-icon>keyboard_arrow_right</mat-icon>}
-    </button>
-    <div class="info-container">
-      <router-outlet></router-outlet>
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+<!--  <mat-sidenav-content>-->
+<!--    <button mat-icon-button  (click)="toggleSideNav()">-->
+<!--      @if(opened){<mat-icon>keyboard_arrow_left</mat-icon>}-->
+<!--      @else{<mat-icon>keyboard_arrow_right</mat-icon>}-->
+<!--    </button>-->
+<!--    <div class="info-container">-->
+<!--      <router-outlet></router-outlet>-->
+<!--    </div>-->
+<!--  </mat-sidenav-content>-->
+<!--</mat-sidenav-container>-->
+
+<section class="content">
+  <nav
+    tuiTabs
+    vertical="left"
+    class="left"
+  >
+    @for (topic of topics; track topic) {
+      <button
+        tuiTab
+        type="button"
+        routerLinkActive="active"
+        (click)="selectTopic(topic)"
+      >
+        {{ topic }}
+
+      </button>
+    }
+  </nav>
+  <div class="info-container">
+    <router-outlet></router-outlet>
+  </div>
+</section>
+
+
+

@@ -68,6 +68,14 @@
     Авторизоваться
   </button>
   <button
+    iconStart="@tui.heart"
+    tuiButton
+    tuiSlot="right"
+    type="button"
+    (click)='toFavorites()'
+  >
+  </button>
+  <button
     class="menu"
     appearance="flat"
     *ngIf="isAuthUser|async"
