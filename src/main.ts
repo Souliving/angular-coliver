@@ -30,7 +30,7 @@ bootstrapApplication(AppComponent,{
     },
     UserApiService,  // Регистрация UserApiService
     NG_EVENT_PLUGINS,
-      provideEventPlugins()
+    provideEventPlugins()
 ]
 })
   .catch((err) => console.error(err));
