@@ -4,15 +4,13 @@ import { FormsApiService } from '../../services/forms-api/forms-api.service';
 import { BehaviorSubject, map, mergeMap, Observable, Subject, tap, zip } from 'rxjs';
 import { AdForm, AdShortForm } from '../../data/formsStructure';
 import { CommonModule } from '@angular/common';
-import {MatChipsModule} from '@angular/material/chips'
-import {MatCardModule} from '@angular/material/card';
 import { TuiTabs } from '@taiga-ui/kit';
 import { FormsModule } from '@angular/forms';
 import { AdPersonInfoComponent } from '../../components/ad-person-info/ad-person-info.component';
 @Component({
   selector: 'app-one-ad-page',
   standalone: true,
-  imports: [CommonModule, MatChipsModule, MatCardModule, TuiTabs, FormsModule, AdPersonInfoComponent],
+  imports: [CommonModule, TuiTabs, FormsModule, AdPersonInfoComponent],
   templateUrl: './one-ad-page.component.html',
   styleUrl: './one-ad-page.component.scss'
 })

@@ -3,15 +3,13 @@ import {map, mergeMap, Observable, zip} from 'rxjs';
 import {AdShortForm} from '../../data/formsStructure';
 import {FormsApiService} from '../../services/forms-api/forms-api.service';
 import {AdCardComponent} from '../../components/ad-card/ad-card.component';
-import {MatButtonModule} from '@angular/material/button';
-import {MatCardModule} from '@angular/material/card';
 import {CommonModule} from '@angular/common';
 import {UserApiService} from '../../services/user-api/user-api.service';
 
 @Component({
   selector: 'app-favorite-ads',
   standalone: true,
-  imports: [AdCardComponent, MatButtonModule, MatCardModule, CommonModule],
+  imports: [AdCardComponent, CommonModule],
   templateUrl: './favorite-ads.component.html',
   styleUrl: './favorite-ads.component.scss'
 })

@@ -1,8 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatMenuModule} from '@angular/material/menu';
 import { Router } from '@angular/router';
 import { AuthComponent } from '../../pages/auth/auth.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -14,7 +10,7 @@ import {TuiButton, TuiDataList, TuiDropdown, TuiIcon, TuiVerticalDirection} from
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [MatToolbarModule, MatButtonModule, MatIconModule, MatMenuModule, CommonModule, TuiAppBar, TuiButton, TuiDropdown, TuiDataList, TuiIcon],
+  imports: [CommonModule, TuiAppBar, TuiButton, TuiDropdown, TuiDataList, TuiIcon],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
