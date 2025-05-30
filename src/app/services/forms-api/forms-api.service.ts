@@ -25,7 +25,7 @@ export class FormsApiService {
   }
 
   getUserPhotoById(photoId: number): Observable<string> {
-    return this.httpClient.get<string>('https://images.coliver.tech/getImageById/' + photoId, {responseType: 'text' as 'json'})
+    return this.httpClient.get<string>('https://api.coliver.tech/api/v1/images/getImageById/' + photoId, {responseType: 'text' as 'json'})
     .pipe(
       catchError(() => of(''))
     );
@@ -42,7 +42,7 @@ export class FormsApiService {
   } */
 
   getUserPhotoByUserId(userId: number): Observable<string> {
-    return this.httpClient.get<string>('https://images.coliver.tech/getImageByUserId/' + userId, {responseType: 'text' as 'json'})
+    return this.httpClient.get<string>('https://api.coliver.tech/api/v1/images/getImageByUserId/' + userId, {responseType: 'text' as 'json'})
     .pipe(
       catchError(() => of(''))
     );
@@ -132,7 +132,7 @@ export class FormsApiService {
       'Content-Type': 'image/png'
     });
 
-    return this.httpClient.post<any>('https://images.coliver.tech/uploadImageByUserId/', photo, {headers: headers})
+    return this.httpClient.post<any>('https://api.coliver.tech/api/v1/images/uploadImageByUserId/', photo, {headers: headers})
     .pipe(
       catchError(error => of(error))
     )

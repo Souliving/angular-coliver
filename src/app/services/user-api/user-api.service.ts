@@ -49,7 +49,7 @@ export class UserApiService {
           this.authUser.next(response)
           localStorage.setItem('user', JSON.stringify(response))
           console.log('Registration successful', response);
-          
+
           // Перенаправление на другой маршрут, например, на страницу логина
           this.router.navigate(['/main']);
         },
@@ -79,7 +79,7 @@ export class UserApiService {
           this.authUser.next(response)
           localStorage.setItem('user', JSON.stringify(response))
           console.log('Registration successful', response);
-          
+
           // Перенаправление на другой маршрут, например, на страницу логина
           this.router.navigate(['/main']);
         },
@@ -88,7 +88,7 @@ export class UserApiService {
           console.error('Registration failed', error);
         }
       );;
-    
+
   }
 
   logOut() {
