@@ -68,6 +68,7 @@
     Авторизоваться
   </button>
   <button
+    *ngIf="isAuthUser|async"
     iconStart="@tui.heart"
     tuiButton
     tuiSlot="right"
