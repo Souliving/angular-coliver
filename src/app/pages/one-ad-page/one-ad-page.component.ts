@@ -7,10 +7,12 @@ import { CommonModule } from '@angular/common';
 import { TuiTabs } from '@taiga-ui/kit';
 import { FormsModule } from '@angular/forms';
 import { AdPersonInfoComponent } from '../../components/ad-person-info/ad-person-info.component';
+import { AdHouseInfoComponent } from '../../components/ad-house-info/ad-house-info.component';
+import { ReviewComponent } from '../../components/review/review.component';
 @Component({
   selector: 'app-one-ad-page',
   standalone: true,
-  imports: [CommonModule, TuiTabs, FormsModule, AdPersonInfoComponent],
+  imports: [CommonModule, TuiTabs, FormsModule, AdPersonInfoComponent, AdHouseInfoComponent, ReviewComponent],
   templateUrl: './one-ad-page.component.html',
   styleUrl: './one-ad-page.component.scss'
 })

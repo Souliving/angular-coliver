@@ -31,30 +31,36 @@
 <div
   tuiAppearance="floating"
   tuiCardLarge
-
+  style="gap: 10px; max-height: 80vh; max-width: 24vw;"
+ (click) = 'toAdPage()'
 >
-  <img [src]="ad?.photoUrl" alt="User Photo" class="ad-card-image" (click) = 'toAdPage()'/>
-  <header tuiHeader (click) = 'toAdPage()'>
-    <h2 tuiTitle>{{ ad?.ad!.name }}
-      <h3 tuiSubtitle>{{ ad?.ad!.age }}</h3>
-    </h2>
+  <img [src]="ad?.photoUrl" alt="User Photo" class="ad-card-image"/>
+  <header tuiHeader class="ad-card-header">
+    <div class="title-wrapper">
+    <h2 class="ad-name">{{ ad?.ad!.name }}, </h2>
+    <h2 class="coliver-age">{{ ad?.ad!.age | ageWord}}</h2>
+  </div>
   </header>
 
-  <section (click) = 'toAdPage()'>
+  <section >
     <div class="text-xs">
-      Город {{ ad?.ad!.city!.name }},
-      <div class="metro">м.
+      <div class="start-body-container">
+        <div>г. {{ ad?.ad!.city!.name }},</div>
+        <div class="ml-auto mr-0">{{ ad?.ad!.budget }} р/месяц</div>
+      </div>
+      
+      <div class="metro">
         <ng-container *ngFor="let metroStation of ad?.ad!.metro">
-          <tui-chip>{{ metroStation?.name }}</tui-chip>
+          <tui-chip>#{{ metroStation?.name }}</tui-chip>
         </ng-container>
       </div>
     </div>
-    <p class="ml-auto mr-0">Бюджет {{ ad?.ad!.budget }}</p>
     <p class="ad-description">{{ ad?.ad!.description }}</p>
   </section>
 
-  <footer>
+  <footer *ngIf="isAuth">
     <button
+    style=" margin-left: auto;"
       appearance="secondary"
       size="m"
       tuiButton
@@ -65,6 +71,7 @@
     >
     </button>
     <button
+    style=" margin-left: auto;"
       appearance="primary"
       size="m"
       tuiButton

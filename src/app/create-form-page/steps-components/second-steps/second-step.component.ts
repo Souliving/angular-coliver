@@ -10,7 +10,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatSelectModule} from '@angular/material/select';
 import { catchError, Observable, of, switchMap } from 'rxjs';
 import { CityApiService } from '../../../services/city-api/city-api.service';
-import { CreateNewFormService } from '../../../create-new-form.service';
+import { CreateNewFormService } from '../../../services/create-new-form/create-new-form.service';
 @Component({
   selector: 'app-second-step',
   standalone: true,

@@ -1,6 +1,10 @@
 <div *ngIf="adForm | async as adWithPhoto" class="one-ad_container">
-    <div class="one-ad_photos">
-        <img class = 'main-photo' [src]="adWithPhoto.photoUrl" alt="Ad Photo" />
+    <div class="one-ad_leftside">
+        <div class="one-ad_photos">
+            <img class = 'main-photo' [src]="adWithPhoto.photoUrl" alt="Ad Photo" />
+            
+        </div>
+        <review style="width: 100%;"></review>
     </div>
     <div  class="one-ad_info">
         <tui-tabs [(activeItemIndex)]="activeItemIndex">
@@ -26,7 +30,7 @@
         @if(activeItemIndex === 0){
             <ad-person-info></ad-person-info>
         }@else{
-            <p>Здесь информация "О квартире".</p>
+            <ad-house-info></ad-house-info>
         }
     </div>
 

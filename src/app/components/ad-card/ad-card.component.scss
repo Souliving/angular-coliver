@@ -1,19 +1,49 @@
 .ad-card{
-    width: 300px; /* Задайте ширину карточки */
-    height: 500px; /* Фиксированная высота карточки */
+    width: 300px; 
+    height: 500px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 .ad-card-image {
     width: 100%;
-    max-height: 300px; /* Фиксированная высота для изображения */
-    object-fit: cover; /* Изображение будет заполнять контейнер, сохраняя пропорции */
+    max-height: 300px; 
+    object-fit: cover;
+}
+
+.ad-card-header{
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+  flex-wrap: nowrap;
+}
+
+.title-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  flex-grow: 1;
+}
+
+.ad-name {
+  display: inline-block;
+  white-space: nowrap;
+  /* Scale text down if needed */
+  transform-origin: left;
+  font-size:  1.5vw;
+}
+
+.coliver-age{
+    font-weight: 300;
+    color: rgba(0, 0, 0, 0.452);
+    font-size: 1.5vw
 }
 
 .ad-card-content {
-    flex-grow: 1; /* Занимает оставшееся пространство между header и actions */
-    overflow: hidden; /* Обрезка переполненного контента */
+    flex-grow: 1;
+    overflow: hidden; 
     text-overflow: ellipsis;
 }
 
@@ -27,4 +57,8 @@
 
 .mat-card-actions {
     justify-content: flex-end; /* Выравнивание кнопок справа */
+}
+.start-body-container{
+    display: flex;
+    justify-content: space-between;
 }

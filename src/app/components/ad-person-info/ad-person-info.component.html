@@ -1,22 +1,23 @@
 <div class="person-info-container">
-    <div class="info-item">
-        <div class="info-name-container">Дата переезда</div>
-        <div class="info-data-container"></div>
-    </div>
 
-    <div class="info-item">
-        <div class="info-name-container">Привычки и увлечения</div>
-        <div class="info-data-container"></div>
-    </div>
+    <ng-container *ngFor="let item of userFields">
+  <!-- Без вложенных -->
+  <info-container
+    *ngIf="!item.children"
+    [label]="item.label"
+    [value]="userDataFromServer[item.key]">
+  </info-container>
 
-    <div class="info-item">
-        <div class="info-name-container">О будущем соседе</div>
-        <div class="info-data-container"></div>
+  <!-- С вложенными -->
+  <info-container *ngIf="item.children" [label]="item.label">
+    <div >
+      <info-container 
+        *ngFor="let child of item.children"
+        [label]="child.label"
+        [value]="userDataFromServer[child.key]">
+      </info-container>
     </div>
-
-    <div class="info-item">
-        <div class="info-name-container">Описание</div>
-        <div class="info-data-container">hhsfdddddddddddddddddddddddddddddddddddddd*9jkhjfbfjhfhjfhjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjdf</div>
-    </div>
+  </info-container>
+</ng-container>
 
 </div>

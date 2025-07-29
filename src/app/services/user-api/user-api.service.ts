@@ -14,7 +14,8 @@ export class UserApiService {
 
   authUser = new BehaviorSubject<User | null>(null);
 
-  constructor(private httpClient: HttpClient, private router: Router) {}
+  constructor(private httpClient: HttpClient, private router: Router) {
+  }
 
 
   // Метод для авторизации пользователя (например, после успешного входа)
@@ -31,6 +32,10 @@ export class UserApiService {
     return this.authUser.value;
   }
 
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+  
   isAuthUser() {
     return !!this.getAuthUserValue();
   }

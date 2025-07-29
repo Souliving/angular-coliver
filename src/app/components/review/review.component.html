@@ -1,0 +1,47 @@
+<div class="review-container">
+   <div class="review-header">
+        <h2>Отзывы</h2>
+    </div>
+
+    <div class="review-body">
+        @for(review of reviews; track review.id) {
+            <div class="review-item">
+
+                <div class="review-item_photo"></div>
+
+                <div class="review-item_content">
+                    <div class="review-item_header">
+                        {{ review.name }}, {{ review.age }} лет 
+                        <div class="review-item_stars"></div>
+                    </div>
+                    <div class="review-item_text">{{ review.text }}</div>
+                </div>
+                
+            </div>
+
+        }@empty{
+            <div class="no-reviews">
+                <p>Нет отзывов</p>
+            </div>
+        }
+    </div> 
+    <div class="users-review">
+            <div class="review-stars"></div>
+<tui-input
+    iconRight="@tui.settings"
+    iconLeft="@tui.search"
+    placeholder="I am placeholder"
+    [(ngModel)]="newReview"
+>
+    <label tuiLabel>I am a label</label>
+</tui-input>
+
+	<tui-textfield>
+    <label tuiLabel>Large with label inside</label>
+    <textarea
+        placeholder="Placeholder"
+        tuiTextarea
+    ></textarea>
+</tui-textfield>
+    </div>
+</div>

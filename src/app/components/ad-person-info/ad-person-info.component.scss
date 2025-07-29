@@ -1,6 +1,14 @@
 .person-info-container{
-    margin-top: 2%;
+   
+    padding: 5px;
     display: flex;
     flex-direction: column;
     gap: 10px;
+    background-color: #FFFFFF;
+    border-bottom:  1px solid #e1e1e1;
+    border-left:  1px solid #e1e1e1;
+    border-right:  1px solid #e1e1e1;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
+

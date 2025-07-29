@@ -8,7 +8,7 @@ import { FavoriteAdsComponent } from './pages/favorite-ads/favorite-ads.componen
 import { AccountInfoComponent } from './components/account-info/account-info.component';
 import { PrivatePageComponent } from './pages/private-page/private-page.component';
 import { PayPageComponent } from './pages/pay-page/pay-page.component';
-import { SupportPageComponent } from './support-page/support-page.component';
+import { SupportPageComponent } from './pages/support-page/support-page.component';
 import { FaqPageComponent } from './pages/faq-page/faq-page.component';
 import { CreateFormPageComponent } from './create-form-page/create-form-page.component';
 import { OneAdPageComponent } from './pages/one-ad-page/one-ad-page.component';

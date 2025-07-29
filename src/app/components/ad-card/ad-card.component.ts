@@ -7,20 +7,24 @@ import { Router } from '@angular/router';
 import {TuiAppearance, TuiButton, TuiTitle} from "@taiga-ui/core";
 import {TuiCardLarge, TuiHeader, TuiSubheaderComponent} from "@taiga-ui/layout";
 import {TuiChip} from "@taiga-ui/kit";
+import { AgeWordPipe } from '../../pipe/age-word.pipe';
+import { UserApiService } from '../../services/user-api/user-api.service';
 
 @Component({
   selector: 'app-ad-card',
   standalone: true,
   providers: [FormsApiService],
-  imports: [CommonModule, TuiAppearance, TuiCardLarge, TuiHeader, TuiTitle, TuiButton, TuiChip],
+  imports: [CommonModule, TuiAppearance, TuiCardLarge, TuiHeader, TuiTitle, TuiButton, TuiChip, AgeWordPipe],
   templateUrl: './ad-card.component.html',
   styleUrl: './ad-card.component.scss'
 })
 export class AdCardComponent {
-
+  isAuth = this.userApiService.getToken()
+  
   constructor(
     private formsAPIService: FormsApiService,
-    private router: Router
+    private router: Router,
+    private userApiService: UserApiService
   ) {
   }
 

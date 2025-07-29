@@ -1,0 +1,14 @@
+<div class="info-item">
+  <div class="info-name-container">{{ label }}</div>
+  <div class="info-data-container">
+    <!-- Если есть value — показываем его -->
+    <span *ngIf="value !== undefined && value !== null && value !== ''">
+      {{ value }}
+    </span>
+
+    <!-- Если value нет, но есть вложенное содержимое (например, вложенные info-item) -->
+    <div class="info-container" *ngIf="value === undefined || value === null || value === ''">
+    <ng-content ></ng-content>
+    </div>
+  </div>
+</div>
