@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormsApiService } from '../services/forms-api/forms-api.service';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserApiService } from '../services/user-api/user-api.service';
 import { User } from '../data/userStructure';
 import {MatStepperModule} from '@angular/material/stepper';
@@ -15,35 +15,41 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { CityApiService } from '../services/city-api/city-api.service';
 import { catchError, Observable, of, switchMap } from 'rxjs';
 import { SecondStepComponent } from './steps-components/second-steps/second-step.component';
-import {MatRadioModule} from '@angular/material/radio';
+
+import { TuiCardLarge, TuiForm, TuiHeader } from '@taiga-ui/layout';
+import { TuiAppearance, TuiButton, TuiTextfield, TuiTitle } from '@taiga-ui/core';
+import { TuiDataListWrapper, TuiDataListWrapperComponent, TuiSelect, TuiSelectDirective } from '@taiga-ui/kit';
+import { TuiSelectModule } from '@taiga-ui/legacy';
+import { RentFlatStepComponent } from './steps-components/rent-flat-step/rent-flat-step.component';
+import { CreateNewAdService } from '../services/create-new-ad/create-new-ad.service';
 @Component({
   selector: 'app-create-form-page',
   standalone: true,
   imports: [
-    MatStepperModule, 
-    MatInputModule, 
     ReactiveFormsModule, 
-    MatCheckboxModule, 
-    MatButtonModule, 
-    MatFormFieldModule, 
-    MatSelectModule, 
     CommonModule, 
-    MatIcon, 
-    MatChipsModule,
-    MatRadioModule,
-    SecondStepComponent],
+    FormsModule,
+    RentFlatStepComponent,
+    TuiAppearance, 
+    TuiCardLarge, 
+    TuiForm,  
+    TuiHeader, 
+    TuiTitle, 
+    TuiTextfield,  
+    TuiButton,],
   templateUrl: './create-form-page.component.html',
   styleUrl: './create-form-page.component.scss'
 })
 export class CreateFormPageComponent {
-  newAdForm!: FormGroup ;
-  firstStepGroup!: FormGroup ;
-  secondStepGroup: FormGroup | undefined ;
-  secondStepNoFlatGroup: FormGroup | undefined;
-  thirdStepGroup!: FormGroup;
-  fourthStepGroup!: FormGroup;
+  newAdForm!: FormGroup;
+  rentNewAd!: FormGroup;
+  ownNewAd!: FormGroup;
+  isFirstStepCompleted: boolean = false;
+
+
+  
   user: User | null | undefined;
-  selectedHomeOwnerType: number | undefined;
+
   cities$: Observable<any> | undefined;
   metroStations$:Observable<any> | undefined;
   readonly genderList = [
@@ -74,199 +80,59 @@ export class CreateFormPageComponent {
     {value: 'middleGetUp', label:'Плавающий режим сна'},
   ]
  readonly cleaning = [0, 1, 2, 3, 4, 5]
+
+
+
+ activeTypeRent: string = 'rent';
   constructor(
     private formsApiService: FormsApiService,
     private cityService: CityApiService,
     private cdr: ChangeDetectorRef,
-    private fb: FormBuilder, private userApiService: UserApiService,){}
+    private fb: FormBuilder, private userApiService: UserApiService, private cd: ChangeDetectorRef, private newAdService: CreateNewAdService){}
 
   ngOnInit(){
    this.user= this.userApiService.getAuthUserValue()
-   if(this.user){
-    this.firstStepGroup = this.fb.group({
-      homeOwnerType:null,
-    })
-    this.changeFirstStep()
-
-    this.thirdStepGroup = this.fb.group({
-      budget: 0,
-      dateMove: '',
-    })
-   }
-   
-  }
-  changeFirstStep() {
-    this.firstStepGroup.get('homeOwnerType')?.valueChanges.subscribe(value => {
-      if(value ==0){
-        this.secondStepNoFlatGroup = undefined;
-          this.secondStepGroup = this.fb.group({
-            homeTypesIds: null,
-            location: this.fb.group({
-              city: null,
-              station: []
-            }),
-            neighbours: this.fb.group({
-              count: null,
-              gender: null
-            }),
-            freeRooms:null,
-            price: null,
-            conditionsList: this.fb.group({
-              internet: false,
-              tv: false,
-              kitchen: false,
-              furniture: false,
-              washingMachine: false,
-              balcony: false,
-              airConditioner: false,
-              parking: false
-            })
-        })
-      }
-      else{
-        this.secondStepGroup = undefined;
-        this.secondStepNoFlatGroup = this.fb.group({
-        price:this.fb.group({
-          from: [null, [Validators.min(0)]],
-          to: [null, [Validators.min(0)]]
-        }),
-        homeTypesIds: [],
-        location: this.fb.group({
-          city: null,
-          station: []
-        }),
-        conditionsList: this.fb.group({
-          internet: false,
-          tv: false,
-          kitchen: false,
-          furniture: false,
-          washingMachine: false,
-          balcony: false,
-          airConditioner: false,
-          parking: false
-        }),
-      })
-      }
-      this.thirdStepGroup = this.fb.group({
-        maritalStatus: null,
-        employmentType: null,
-        lifeStyle: null,
-        smoking: false,
-        cleaning: null,
-        pets:false
-      });
-      this.fourthStepGroup = this.fb.group({
-         neighboursAge:this.fb.group({
-          from: [null, [Validators.min(0)]],
-          to: [null, [Validators.min(0)]]
-        }), 
-        neighboursGender:null,
-      })
-    });
-  }
-  onCityChange(){
-    if(this.secondStepGroup){
-      this.secondStepGroup.get('location.city')?.valueChanges
-      .pipe(
-        switchMap(city => {
-          if (city) {
-            return this.cityService.getMetroStations(city.id);
-          } else {
-            return of([]); // Возвращаем пустой массив, если город не выбран
-          }
-        }),
-        catchError(error => {
-          console.error('Ошибка загрузки станций метро', error);
-          return of([]); // Возвращаем пустой массив в случае ошибки
-        })
-      )
-      .subscribe(stations => {
-        this.metroStations$ = of(stations);
-      });
-    }
-
-    if(this.secondStepNoFlatGroup){
-      this.secondStepNoFlatGroup.get('location.city')?.valueChanges
-      .pipe(
-        switchMap(city => {
-          if (city) {
-            return this.cityService.getMetroStations(city.id);
-          } else {
-            return of([]); // Возвращаем пустой массив, если город не выбран
-          }
-        }),
-        catchError(error => {
-          console.error('Ошибка загрузки станций метро', error);
-          return of([]); // Возвращаем пустой массив в случае ошибки
-        })
-      )
-      .subscribe(stations => {
-        this.metroStations$ = of(stations);
-      });
-    }
-    
-  }
-  decrementRoomsCount(){
-    if(this.secondStepGroup){
-      const currentCount = this.secondStepGroup.get('neighbours.count')?.value || 0;
-      if(currentCount > 0){
-        const newCount = currentCount - 1;
-        this.secondStepGroup.get('neighbours')?.patchValue({
-          count: newCount
-        });
-      }
-    }
+   this.newAdService.loadCities()
+   //this.setRentNewAd()
   }
 
-  incrementRoomsCount(){
-    if(this.secondStepGroup){
-       const currentCount = this.secondStepGroup.get('neighbours.count')?.value || 0;
-      const newCount = currentCount + 1;
-      this.secondStepGroup.get('neighbours')?.patchValue({
-        count: newCount
-      });
-    }
-  }
+setActive = (mode: string) =>{
+  this.activeTypeRent = this.activeTypeRent === mode ? '' : mode;
+  console.log(this.ownNewAd)
+  if(this.activeTypeRent !== mode && !this.ownNewAd) this.setOwnNewAd()
+}
 
-  incrementFreeRoomsCount(){ 
-    if(this.secondStepGroup){
-      const allRoomsCount =  this.secondStepGroup.get('neighbours.count')?.value || 0;
-      const currentCount = this.secondStepGroup.get('freeRooms')?.value || 0;
-   //   console.log(allRoomsCount, currentCount)
-      if(currentCount < allRoomsCount){
-        const newCount = currentCount + 1;
-        this.secondStepGroup.get('freeRooms')?.patchValue(newCount);
-      }
-    }
-  }
-  decrementFreeRoomsCount(){
-    if(this.secondStepGroup){
-      const currentCount = this.secondStepGroup.get('freeRooms')?.value || 0;
-   
-      if(currentCount > 0 ){
-        const newCount = currentCount - 1;
-        this.secondStepGroup.get('freeRooms')?.patchValue({
-          count: newCount
-        });
-      }
-    }
-  }
+setRentNewAd(){
+  this.rentNewAd = this.fb.group({
+    city:[''],
+     metro:[[], Validators.required],
+     withColivers:[''],
+     coliversCount:[0],
+     coliversGender:[[]],
+     budget:[0],
+     moveDate:[new Date()],
+  })
+  setTimeout(() => this.cd.detectChanges());  
+}
 
-  toggleGender(gender: string) {
-    if(this.secondStepGroup)
-      this.secondStepGroup.get('neighbours.gender')?.patchValue(gender); // Обновляем форму
-    
-  }
+setOwnNewAd(){
+  this.ownNewAd = this.fb.group({
+    address: ['', Validators.required],
+    metro:[[], Validators.required],
+    roomsCount:[0],
+    freeRoomsCount:[0],
+    coliversCount:[0],
+    genderColivers:[[]],
+    budget:[0],
+    moveDate:[new Date()],
+    photos:[[]],
+  })
 
- addGender(gender: string){
-  if(this.secondStepGroup){
-    let currentGenderArray = this.secondStepGroup.get('neighbours.gender')?.value || [];
-    currentGenderArray.push(gender);
-    this.secondStepGroup.get('neighbours.gender')?.patchValue(currentGenderArray);
-  }
- }
- setNeighboursGender(gender:string){
-  this.fourthStepGroup.get('neighboursGender')?.patchValue(gender)
- }
+}
+
+nextStep(form: FormGroup){
+  this.isFirstStepCompleted= true;
+  console.log(form.value) 
+}
 
 }

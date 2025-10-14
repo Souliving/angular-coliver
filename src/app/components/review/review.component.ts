@@ -1,19 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TuiIcon, TuiTextfield, TuiTextfieldComponent } from '@taiga-ui/core';
+import { TuiIcon, TuiTextfield } from '@taiga-ui/core';
 import { TuiTextarea } from '@taiga-ui/kit';
-import { TuiInputModule, TuiTextareaDirective } from '@taiga-ui/legacy';
 @Component({
   selector: 'review',
   standalone: true,
-  imports: [CommonModule, FormsModule, TuiIcon, TuiInputModule, TuiTextarea, TuiTextfield],
+  imports: [CommonModule, FormsModule, TuiIcon, TuiTextarea, TuiTextfield],
   templateUrl: './review.component.html',
   styleUrl: './review.component.scss'
 })
 export class ReviewComponent {
   newReview: string = '';
-  
+  hoveredStar: number | null = null;
+  selectedStar: number = 0;
+
 reviews = [
   {id: 1, name:'Марина', age:20, text: 'Great product!', rating: 5},
   {id: 2, name:'Анастасия', age:22, text: 'Not bad, could be better.', rating: 3},

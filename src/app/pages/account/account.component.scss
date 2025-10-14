@@ -18,10 +18,26 @@
   display: flex;
   margin: 2rem 0 1rem;
   padding-left: 1rem;
+  gap: 20px;
+  .nav-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  
+    margin-right: 0rem;
+    min-inline-size: 10rem;
+    inline-size: 15rem;
+    .account-btn{
+      margin-top: 0;
+      padding: 1rem 0.6rem;
+      width: 100%;
+    }
+  }
+
+  .info-container {
+        width: 80%;
+    }
+
 }
 
-.left {
-  margin-right: 0rem;
-  min-inline-size: 10rem;
-  inline-size: 10rem;
-}

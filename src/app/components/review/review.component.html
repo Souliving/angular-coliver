@@ -12,13 +12,20 @@
                 <div class="review-item_content">
                     <div class="review-item_header">
                         {{ review.name }}, {{ review.age }} лет 
-                        <div class="review-item_stars"></div>
+                        <div class="review-stars">
+                            @for(i of [1,2,3,4,5]; track i){
+                                <tui-icon 
+                                    [icon]="i <= review.rating ? '@tui.fa.solid.star' : '@tui.fa.regular.star'"
+                                    [style.color]="'#FFA726'"
+                                />
+                            }
+                        </div>
                     </div>
                     <div class="review-item_text">{{ review.text }}</div>
                 </div>
                 
             </div>
-
+        
         }@empty{
             <div class="no-reviews">
                 <p>Нет отзывов</p>
@@ -26,22 +33,24 @@
         }
     </div> 
     <div class="users-review">
-            <div class="review-stars"></div>
-<tui-input
-    iconRight="@tui.settings"
-    iconLeft="@tui.search"
-    placeholder="I am placeholder"
-    [(ngModel)]="newReview"
->
-    <label tuiLabel>I am a label</label>
-</tui-input>
+            <div class="review-stars">
+                @for(i of [1,2,3,4,5]; track i){
+                	<tui-icon 
+                        [icon]="i <= (hoveredStar || selectedStar) ? '@tui.fa.solid.star' : '@tui.fa.regular.star'"
+                        [style.color]="'#FFA726'"
+                        (mouseenter)="hoveredStar = i"
+                        (mouseleave)="hoveredStar = null"
+                        (click)="selectedStar = i"
+                    />
+                }
+            </div>
 
-	<tui-textfield>
-    <label tuiLabel>Large with label inside</label>
-    <textarea
-        placeholder="Placeholder"
-        tuiTextarea
-    ></textarea>
-</tui-textfield>
+            <tui-textfield iconEnd="@tui.send">
+                <label tuiLabel>Отзыв</label>
+                <textarea
+                    placeholder="Оставьте отзыв..."
+                    tuiTextarea
+                ></textarea>
+            </tui-textfield>
     </div>
 </div>

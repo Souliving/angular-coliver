@@ -7,10 +7,12 @@ import { UserApiService } from '../../services/user-api/user-api.service';
 import { CommonModule } from '@angular/common';
 import {TuiAppBar} from "@taiga-ui/layout";
 import {TuiButton, TuiDataList, TuiDropdown, TuiIcon, TuiVerticalDirection} from "@taiga-ui/core";
+import { NotificationComponent } from '../notification/notification.component';
+import { TuiAvatar } from '@taiga-ui/kit';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, TuiAppBar, TuiButton, TuiDropdown, TuiDataList, TuiIcon],
+  imports: [CommonModule, TuiAppBar, TuiButton, TuiDropdown, TuiDataList, TuiIcon, NotificationComponent, TuiAvatar],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
@@ -39,6 +41,8 @@ export class HeaderComponent implements OnInit {
   toFavorites = () =>{
     this.router.navigate(['/favorites']);
   }
+
+  toChat = () => this.router.navigate(['/chat']);
 
   toRegistration = () => {
     this.router.navigate(['/registration']);

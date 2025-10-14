@@ -25,14 +25,11 @@
 <!--</mat-sidenav-container>-->
 
 <section class="content">
-  <nav
-    tuiTabs
-    vertical="left"
-    class="left"
-  >
+  <div class="nav-bar">
     @for (topic of topics; track topic) {
       <button
-        tuiTab
+      [ngClass]="{'coliver-btn_active': topic === selectedTopic}"
+        class="coliver-btn account-btn"
         type="button"
         routerLinkActive="active"
         (click)="selectTopic(topic)"
@@ -41,7 +38,8 @@
 
       </button>
     }
-  </nav>
+    
+  </div>
   <div class="info-container">
     <router-outlet></router-outlet>
   </div>

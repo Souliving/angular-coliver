@@ -42,7 +42,7 @@ export const routes: Routes = [
         component: FavoriteAdsComponent,
         canActivate: [userGuardGuard]
     },
-    { path: 'ad/:id', component: OneAdPageComponent },
+    { path: 'ad/:id', component: OneAdPageComponent, canActivate: [userGuardGuard] },
     {
         path:'',
         component: MainPageComponent,

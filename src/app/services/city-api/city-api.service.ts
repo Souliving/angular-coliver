@@ -19,7 +19,7 @@ export class CityApiService {
   }
 
   // Получение списка станций метро для выбранного города
-  getMetroStations(cityId: string): Observable<Subway[]> {
+  getMetroStations(cityId: string | number): Observable<Subway[]> {
     return this.http.get<Subway[]>(`${apiUrl}metro/getAllMetroByCityId/${cityId}`);
   }
 }

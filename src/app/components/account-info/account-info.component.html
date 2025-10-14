@@ -39,79 +39,102 @@
 <!--   </form>-->
 <!--    }-->
 <!--</div>-->
-<div class="account-info-container">
+
   @if (user$ | async; as user) {
     <form
       tuiAppearance="floating"
       tuiCardLarge
       tuiForm="m"
       [formGroup]="formUser"
-      [style.max-width.rem]="32"
-    >
+      
+    ><div class="account-info-container">
       <div class="account-info-header__image">
         <img [src]="user.photoUrl" alt="User Photo" class="ad-card-image"/>
       </div>
 
-      <header tuiHeader>
-        <h1 tuiTitle>
-          <div class="account-info-header__name">
-            {{ formUser.controls['name'].value }}
+
+      <div class="info-container">
+        <!-- <header tuiHeader>
+          <h1 tuiTitle>
+            <div class="account-info-header__name">
+              {{ formUser.controls['name'].value }}
+            </div>
+          </h1>
+        </header> -->
+        <div class="info-container_item">
+          <div class="info-container_item_label">
+            Имя
           </div>
-        </h1>
-      </header>
+        
+          <tui-textfield class="account-info-items" tuiTextfieldSize="l">
+            <input
+              formControlName="name"
+              placeholder="Имя пользователя"
+              tuiTextfield
+            />
+          </tui-textfield>
+        </div>
 
-      <tui-textfield class="account-info-items" tuiTextfieldSize="l">
-        <label tuiLabel>Имя</label>
-        <input
-          formControlName="name"
-          placeholder="Имя пользователя"
-          tuiTextfield
-        />
-      </tui-textfield>
+        <div class="info-container_item">
+          <div class="info-container_item_label">
+            Пол
+          </div>
+        <tui-textfield class="account-info-items" tuiTextfieldSize="l">
+          <input
+            tuiSelect
+            formControlName="gender"
+            placeholder="Пол"
+          />
+          <tui-data-list-wrapper
+            *tuiTextfieldDropdown
+            new
+            [items]="genderOptions"
+          />
+        </tui-textfield>
+        </div>
 
-      <tui-textfield class="account-info-items" tuiTextfieldSize="l">
-        <input
-          tuiSelect
-          formControlName="gender"
-          placeholder="Пол"
-        />
-        <tui-data-list-wrapper
-          *tuiTextfieldDropdown
-          new
-          [items]="genderOptions"
-        />
-      </tui-textfield>
+        <div class="info-container_item">
+          <div class="info-container_item_label">
+            Возраст
+          </div>
 
-      <tui-textfield class="account-info-items" tuiTextfieldSize="l">
-        <label tuiLabel>Возраст</label>
-        <input
-          formControlName="age"
-          placeholder="Возраст пользователя"
-          tuiTextfield
-        />
-      </tui-textfield>
+          <tui-textfield class="account-info-items" tuiTextfieldSize="l">
+            <label tuiLabel>Возраст</label>
+            <input
+              formControlName="age"
+              placeholder="Возраст пользователя"
+              tuiTextfield
+            />
+          </tui-textfield>
+        </div>
+        <div class="info-container_item">
+          <div class="info-container_item_label">
+            Email
+          </div>
+          <tui-textfield class="account-info-items" tuiTextfieldSize="l">
+            <label tuiLabel>Email</label>
+            <input
+              formControlName="email"
+              placeholder="Возраст пользователя"
+              tuiTextfield
+            />
+          </tui-textfield>
+        </div>
 
-      <tui-textfield class="account-info-items" tuiTextfieldSize="l">
-        <label tuiLabel>Email</label>
-        <input
-          formControlName="email"
-          placeholder="Возраст пользователя"
-          tuiTextfield
-        />
-      </tui-textfield>
-
-      <footer>
-        <button
-          *ngIf="isChanged"
-          tuiButton
-          type="submit"
-          (click)="saveChanges()"
-        >
-          Сохранить изменения
-        </button>
-      </footer>
+        <footer>
+          <button
+            *ngIf="isChanged"
+            tuiButton
+            type="submit"
+            (click)="saveChanges()"
+          >
+            Сохранить изменения
+          </button>
+        </footer>
+      </div>
+    </div>
     </form>
 
 
   }
-</div>
+

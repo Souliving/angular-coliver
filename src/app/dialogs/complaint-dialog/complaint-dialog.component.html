@@ -1,0 +1,15 @@
+<tui-textfield tuiTextfieldSize="l" class="complaint-textfield">
+        <textarea
+          [(ngModel)]="complaint"
+          placeholder="Опишите проблему..."
+          tuiTextarea
+        ></textarea>
+</tui-textfield>
+
+<div style="display: flex; align-items: center; justify-content: center;">
+    <button
+        [ngClass]="{'disabled-btn': !complaint}"
+        [disabled]="!complaint"
+        class="fill-center-btn"
+        (click)="submitComplaint()">Отправить</button>
+</div>

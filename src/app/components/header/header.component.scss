@@ -1,12 +1,34 @@
+
 .example-spacer {
     flex: 1 1 auto;
 }
-tui-app-bar {
-  inline-size: 100%;
-  margin: 0.5rem 0.5rem 1rem;
 
+.bar-container{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 30px;
+  padding: 0.3rem 0;
+  border: 1px solid #e0e0e0;
+  margin:10px;
+  font-size: large;
+  background-color: white;
+  .logo-container{
+    display: flex;
+    width: 20%;
+    align-items: center;
+    margin-left: 1rem;
+    cursor: pointer;
+    &_icon{
+      margin-right: 0.2rem;
+    }
+    &_name{}
+  }
 }
-.menu {
-  max-width: 5rem;
-  margin-right: 1rem;
+
+.auth-user-btns{
+  margin-right: 20px;
+  tui-avatar {
+    cursor: pointer;
+  }
 }

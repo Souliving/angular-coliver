@@ -1,0 +1,134 @@
+<form [formGroup]="form" class="rent-container">
+
+    <tui-textfield tuiChevron [stringify]="stringify">
+        <label tuiLabel>Город</label>
+        <input tuiSelect formControlName="city" placeholder="Выберите город"/>
+        <tui-data-list *tuiTextfieldDropdown>
+            @for(item of citiesComputed(); track item.id){
+                <button
+                    new
+                    tuiOption
+                    type="button"
+                    [value]="item"
+                >{{ item.name }}
+                </button>
+            }
+        </tui-data-list>
+    </tui-textfield>
+ 
+    @if(this.form.controls['city'].value){
+        <tui-textfield
+            multi
+            tuiChevron
+            [stringify]="metroName"
+        >
+        <label tuiLabel>Метро</label>
+        <input
+            tuiInputChip
+            tuiSelectLike
+            [placeholder]="form.value.metro.length ? '' : 'Выберите метро'"
+            formControlName="metro"
+        />
+        <tui-data-list
+            *tuiTextfieldDropdown
+            tuiMultiSelectGroup
+            
+        >
+            @for(item of metroComputed(); track item.id){
+                <button
+                    new
+                    tuiOption
+                    type="button"
+                    [value]="item"
+                >{{ item.name }}
+                </button>
+            }
+        </tui-data-list>
+    </tui-textfield>
+
+    }
+
+    <tui-textfield tuiChevron [stringify]="stringifyWithColivers">
+        <label tuiLabel>С кем ищете коливера?</label>
+        <input
+            tuiSelect
+            formControlName="withColivers"
+            placeholder="С кем ищете коливера?"
+        />
+
+        <tui-data-list *tuiTextfieldDropdown>
+        <button
+            *ngFor="let item of withColiversOptions"
+            new
+            tuiOption
+            type="button"
+            [value]="item.id"
+        >
+            {{ item.label }}
+        </button>
+    </tui-data-list>
+    </tui-textfield>
+
+
+    <div class="new-ad-field-container">   
+        <tui-textfield class="half">
+            <label tuiLabel>Количество людей, с которыми ищите коливера</label>
+                <input
+                    tuiInputNumber
+                    placeholder="Укажите количество людей, с которыми ищите коливера"
+                    formControlName="coliversCount"
+                    [min]="1"
+                    [step]="1"
+                    [disabled]="(form.get('withColivers')?.valueChanges | async) === '1'"
+
+                />
+        </tui-textfield>
+
+        <tui-textfield tuiChevron [stringify]="stringifyGenderColivers" class="half">
+            <input
+                tuiSelect
+                formControlName="coliversGender"
+                placeholder="Выберите пол будующего коливера"
+            />
+
+            <tui-data-list *tuiTextfieldDropdown>
+                <button
+                    *ngFor="let item of genderOptions"
+                    new
+                    tuiOption
+                    type="button"
+                    [value]="item.gender"
+                >
+                    {{ item.label }}
+                </button>
+            </tui-data-list>
+        </tui-textfield>
+    </div>
+
+    <div class="new-ad-field-container">
+        <tui-textfield class="half">
+            <label tuiLabel>Бюджет, руб.</label>
+            <input
+                tuiInputNumber
+                formControlName="budget"
+                [min]="1000"
+                [step]="1000"
+                 placeholder="Укажите Ваш бюджет"
+
+            />
+            </tui-textfield>
+
+       
+
+        <tui-textfield class="half">
+                
+                <input
+                    tuiInputDate
+                   formControlName="moveDate"
+                   placeholder="Дата переезда"
+                />
+                <tui-calendar *tuiTextfieldDropdown />
+        </tui-textfield>
+    </div>
+<button (click)="submitForm()"> Далее</button>
+</form>   

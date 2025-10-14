@@ -33,7 +33,7 @@ export class UserApiService {
   }
 
   getToken(): string | null {
-    return localStorage.getItem('token');
+    return localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}' ).jwt.token : null;
   }
   
   isAuthUser() {

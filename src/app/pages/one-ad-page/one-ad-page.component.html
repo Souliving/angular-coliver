@@ -1,14 +1,18 @@
 <div *ngIf="adForm | async as adWithPhoto" class="one-ad_container">
     <div class="one-ad_leftside">
         <div class="one-ad_photos">
-            <img class = 'main-photo' [src]="adWithPhoto.photoUrl" alt="Ad Photo" />
-            
+            <img class = 'main-photo' [src]="adWithPhoto.photoUrl" alt="Ad Photo" /> 
+        </div>
+        <div class="one-ad_action-btns">
+            <button (click)="navigateTo('/chat')">Чат</button>
+            <button (click)="openModal()">Жалоба</button>
         </div>
         <review style="width: 100%;"></review>
     </div>
     <div  class="one-ad_info">
-        <tui-tabs [(activeItemIndex)]="activeItemIndex">
+        
         <button
+            class = 'tab'
             [ngClass]="{'active_button': activeItemIndex == 0 }"
             tuiTab
             type="button"
@@ -17,6 +21,7 @@
             О себе
         </button>
         <button
+            class = 'tab'
             [ngClass]="{'active_button': activeItemIndex == 1 }"
             tuiTab
             class="no-margin-left"
@@ -26,7 +31,7 @@
             О квартире
         </button>
 
-        </tui-tabs>
+     
         @if(activeItemIndex === 0){
             <ad-person-info></ad-person-info>
         }@else{

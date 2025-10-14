@@ -37,83 +37,106 @@
 <!--    </ng-template>-->
 
 <!--</mat-toolbar>-->
-<tui-app-bar size="m">
-  <button
-    iconStart="@tui.house"
-    tuiButton
-    tuiSlot="left"
-    type="button"
-    (click)='toHome()'
-  >
-  </button>
-  Coliver
+<div class="bar-container">
+  <div class="logo-container" (click)='toHome()'>
+    <tui-icon
+    class="logo-container_icon"
+    [style.color]="'#FFA726'"
+    icon="@tui.house"
+    
+    >
+    </tui-icon>
+    <span class="logo-container_name">Coliver</span>
+  </div>
 
-  <button
+
+
+  @if(isAuthUser|async){
+    <div class="auth-user-btns">
+    <button
+      tuiButton
+      appearance="flat"
+      iconStart="@tui.heart"
+      [style.color]="'#FFA726'"
+      (click)='toFavorites()'
+    >
+    </button>
+    <button
+      class="menu"
+      appearance="flat"
+      iconStart="@tui.fa.regular.bell"
+      tuiSlot="right"
+      tuiButton
+      tuiDropdownAlign="center"
+      tuiDropdownLimitWidth="auto"
+      type="button"
+      [tuiAppearanceState]="open ? 'active' : null"
+      [tuiDropdown]="dropdown"
+      tuiDropdownDirection="bottom"
+      [(tuiDropdownOpen)]="open"
+      [style.color]="'#FFA726'"
+    >
+    </button>
+    <ng-template
+      #dropdown
+      let-close
+    >
+    <notification></notification>
+    <!--   <tui-data-list>
+        <tui-opt-group>
+          <button
+            tuiOption
+            type="button"
+            (click)="toAccount()"
+          >
+            Личный кабинет
+          </button>
+          <button
+            tuiOption
+            type="button"
+            (click)="logOut()"
+          >
+            Выйти
+          </button>
+        </tui-opt-group>
+      </tui-data-list> -->
+    </ng-template>
+    <button
+      tuiButton
+      appearance="flat"
+      iconStart="@tui.fa.regular.comment"
+      type="button"
+      [style.color]="'#FFA726'"
+      (click)='toChat()'></button>
+
+      <tui-avatar
+        (click)="toAccount()"
+          appearance="negative"
+          src="@tui.user"
+          size="m"
+        />
+    
+    </div>
+  }
+  
+  @else{
+  <!-- <button
 
     tuiButton
-    *ngIf="!(isAuthUser | async)"
     tuiSlot="right"
     type="button"
     (click)='toRegistration()'
-  >
+  > 
     Зарегистрироваться
-  </button>
+  </button>-->
   <button
+  style="height: 6vh; margin-right: 1%;"
     tuiButton
-    *ngIf="!(isAuthUser | async)"
     tuiSlot="right"
     type="button"
     (click)='toLogin()'
   >
     Авторизоваться
   </button>
-  <button
-    *ngIf="isAuthUser|async"
-    iconStart="@tui.heart"
-    tuiButton
-    tuiSlot="right"
-    type="button"
-    (click)='toFavorites()'
-  >
-  </button>
-  <button
-    class="menu"
-    appearance="flat"
-    *ngIf="isAuthUser|async"
-    iconStart="@tui.ellipsis-vertical"
-    tuiSlot="right"
-    size="m"
-    tuiButton
-    tuiDropdownAlign="center"
-    tuiDropdownLimitWidth="auto"
-    type="button"
-    [tuiAppearanceState]="open ? 'active' : null"
-    [tuiDropdown]="dropdown"
-    tuiDropdownDirection="bottom"
-    [(tuiDropdownOpen)]="open"
-  >
-  </button>
-  <ng-template
-    #dropdown
-    let-close
-  >
-    <tui-data-list>
-      <tui-opt-group>
-        <button
-          tuiOption
-          type="button"
-          (click)="toAccount()"
-        >
-          Личный кабинет
-        </button>
-        <button
-          tuiOption
-          type="button"
-          (click)="logOut()"
-        >
-          Выйти
-        </button>
-      </tui-opt-group>
-    </tui-data-list>
-  </ng-template>
-</tui-app-bar>
+  }
+</div>

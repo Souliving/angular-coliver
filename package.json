@@ -41,6 +41,7 @@
     "@taiga-ui/experimental": "4.47.0",
     "@taiga-ui/i18n": "4.47.0",
     "@taiga-ui/icons": "^4.47.0",
+    "@taiga-ui/icons-fontawesome": "^4.47.0",
     "@taiga-ui/kit": "^4.47.0",
     "@taiga-ui/layout": "4.47.0",
     "@taiga-ui/legacy": "4.47.0",

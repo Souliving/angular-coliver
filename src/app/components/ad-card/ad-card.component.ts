@@ -4,8 +4,8 @@ import {CommonModule} from '@angular/common';
 import {FormsApiService} from "../../services/forms-api/forms-api.service";
 import {User} from "../../data/userStructure";
 import { Router } from '@angular/router';
-import {TuiAppearance, TuiButton, TuiTitle} from "@taiga-ui/core";
-import {TuiCardLarge, TuiHeader, TuiSubheaderComponent} from "@taiga-ui/layout";
+import {TuiAppearance, TuiButton, TuiIcon, TuiTitle} from "@taiga-ui/core";
+import {TuiCardLarge, TuiHeader} from "@taiga-ui/layout";
 import {TuiChip} from "@taiga-ui/kit";
 import { AgeWordPipe } from '../../pipe/age-word.pipe';
 import { UserApiService } from '../../services/user-api/user-api.service';
@@ -14,7 +14,7 @@ import { UserApiService } from '../../services/user-api/user-api.service';
   selector: 'app-ad-card',
   standalone: true,
   providers: [FormsApiService],
-  imports: [CommonModule, TuiAppearance, TuiCardLarge, TuiHeader, TuiTitle, TuiButton, TuiChip, AgeWordPipe],
+  imports: [CommonModule, TuiAppearance, TuiCardLarge,TuiIcon, TuiHeader, TuiTitle, TuiButton, TuiChip, AgeWordPipe],
   templateUrl: './ad-card.component.html',
   styleUrl: './ad-card.component.scss'
 })
@@ -35,7 +35,8 @@ export class AdCardComponent {
    // console.log(this.ad)
   }
 
-  toFavorites = (id: number | undefined) => {
+  toFavorites = (id: number | undefined, event: MouseEvent) => {
+    event.stopPropagation();
     if (id) {
       //console.log('add favorites id', id)
     }
@@ -45,7 +46,8 @@ export class AdCardComponent {
     )
 
   }
-  removeFavorites = (id: number | undefined) => {
+  removeFavorites = (id: number | undefined, event: MouseEvent) => {
+    event.stopPropagation();
     if (id) {
      // console.log('remove favorites id', id)
     }

@@ -4,7 +4,6 @@
   .review-header {
     padding: 0.5rem;
     border-radius: 12px;
-    margin-bottom: 1.5rem;
     background-color: #FFA726;
 
     h2 {
@@ -22,6 +21,9 @@
     max-height: 300px;
     overflow-y: auto;
 
+    .review-item:first-child {
+      margin-top: 1.5rem;
+    }
     .review-item {
       background-color: #ffffff;
       border: 1px solid #e0e0e0;
@@ -31,11 +33,15 @@
       display: flex;
       justify-content: space-between;
 
+      &_header{
+        display: flex;
+        justify-content: space-between;
+        font-weight: bold;
+        font-size: 1rem;
+      }
       &_content {
        width: 70%;
-       .review-item_header{
-        font-weight: bold;
-       }
+       
       }
 
      
@@ -53,14 +59,13 @@
   }
 
   .users-review {
-  margin-top: 2rem;
-
   .review-stars {
+    margin-right: 1.7rem;
     margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: flex-end;
+
   }
-
- 
-
 }
 
 }

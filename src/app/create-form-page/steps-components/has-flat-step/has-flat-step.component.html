@@ -1,0 +1,90 @@
+@if(secondStepGroup){
+<mat-step [stepControl]="secondStepGroup">
+  <ng-template matStepLabel>Описание квартиры </ng-template>
+  
+  <!-- <form  [formGroup]="secondStepGroup">
+    <mat-form-field>
+      <mat-label>Скольки комнатная квартира?</mat-label>
+      <mat-select formControlName="homeTypesIds" >
+        <mat-option value="0">2 комнаты</mat-option>
+        <mat-option value="1">3 комнаты</mat-option>
+        <mat-option value="2">4 комнаты</mat-option>
+        <mat-option value="3">5 комнат и более</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div formGroupName="neighbours">
+      Сколько комнат?
+      <mat-form-field>
+        <button 
+          mat-icon-button 
+          matPrefix 
+          aria-label="Remove" 
+          (click)="decrementRoomsCount()" 
+          [disabled]="false">
+          <mat-icon>remove</mat-icon>
+        </button>
+        <input matInput type="number" formControlName="count"  />
+        <button 
+          mat-icon-button 
+          matSuffix
+          aria-label="Add" 
+          (click)="incrementRoomsCount()" 
+          >
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-form-field>
+      
+      <mat-chip-listbox class="mat-mdc-chip-set-stacked" >
+        Кто живет в квартире?
+        @for (gender of genderList; track $index) {
+          <mat-chip-option  
+          [selected]="secondStepGroup.get('neighbours.gender')?.value === gender.value"
+          (click)="toggleGender(gender.value)">
+          {{ gender.label }}</mat-chip-option>
+        }
+      </mat-chip-listbox>
+    </div>
+    Свободных комнат
+    <mat-form-field >
+      <button 
+        mat-icon-button 
+        matPrefix 
+        aria-label="Remove" 
+        (click)="decrementFreeRoomsCount()" 
+        [disabled]="false">
+        <mat-icon>remove</mat-icon>
+      </button>
+      <input matInput type="number" formControlName="freeRooms"  />
+      <button 
+        mat-icon-button 
+        matSuffix
+        aria-label="Add" 
+        (click)="incrementFreeRoomsCount()" 
+        >
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-form-field>
+    <p></p>
+    <mat-form-field>
+      <mat-label>Цена</mat-label>
+      <input matInput formControlName="price" placeholder="Введите цену"
+             required>
+    </mat-form-field>
+    <section class="example-section" formGroupName="conditionsList">
+      <h4>Выберите то, что есть в вашей квартире</h4>
+      <p><mat-checkbox formControlName="internet">Интернет (Wi-Fi)</mat-checkbox></p>
+      <p><mat-checkbox formControlName="tv">Телевизор</mat-checkbox></p>
+      <p><mat-checkbox formControlName="kitchen">Кухонная техника (холодильник, плита, микроволновая печь , посудомоечная машина)
+      </mat-checkbox></p>
+      <p><mat-checkbox formControlName="furniture">Мебель (кровать, шкаф, стол и т.д.)</mat-checkbox></p>
+      <p><mat-checkbox formControlName="washingMachine">Стиральная машина</mat-checkbox></p>
+      <p><mat-checkbox formControlName="balcony">Балкон/Лоджия</mat-checkbox></p>
+      <p><mat-checkbox formControlName="airConditioner">Кондиционер</mat-checkbox></p>
+      <p><mat-checkbox formControlName="parking">Парковочное место</mat-checkbox></p>
+    </section>
+    <div>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </form> -->
+</mat-step>
+}

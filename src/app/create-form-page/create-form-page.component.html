@@ -1,4 +1,163 @@
-<div>
+
+<div
+  tuiAppearance="floating"
+  tuiCardLarge
+  tuiForm="m"
+>
+  <header>
+    <h2 style="text-align: center;">Создание объявления</h2>
+  </header>
+
+  <main>
+    @if(!isFirstStepCompleted){
+    <section class="btn-container">
+      <button
+        tuiButton
+        [appearance]="activeTypeRent === 'rent' ? 'primary' : 'secondary'"
+        (click)="setActive('rent')"
+      >
+        Ищу жилье
+      </button>
+      <button
+        tuiButton
+        [appearance]="activeTypeRent === 'own' ? 'primary' : 'secondary'"
+        (click)="setActive('own')"
+      >
+        Есть жилье
+      </button>
+    </section>
+
+    <section>
+      @if(activeTypeRent === 'rent'){
+        <rent-flat-step (nextStep)="nextStep($event)"
+         
+       
+        ></rent-flat-step>
+      }@else{
+
+<!--         <form [formGroup]="form" class="rent-container">
+
+    <tui-textfield tuiChevron [stringify]="stringify">
+        <input tuiSelect formControlName="city" placeholder="Выберите город"/>
+        <tui-data-list *tuiTextfieldDropdown>
+            @for(item of citiesComputed(); track item.id){
+                <button
+                    new
+                    tuiOption
+                    type="button"
+                    [value]="item"
+                >{{ item.name }}
+                </button>
+            }
+        </tui-data-list>
+    </tui-textfield>
+ 
+    @if(this.form.controls['city'].value){
+    <tui-multi-select
+          *tuiLet="metroComputed() as metroStation"
+          formControlName="metro"
+          [stringify]="metroName"
+          
+      >
+        Метро
+        <tui-data-list-wrapper
+            *tuiDataList
+            tuiMultiSelectGroup
+            [items]="metroStation"
+            [itemContent]="itemContent"
+        />
+      </tui-multi-select>
+
+      <ng-template #itemContent let-data>
+        {{ data.name }}
+      </ng-template>
+
+}
+
+    <div class="new-ad-field-container">
+        <tui-textfield class="half">
+            <label tuiLabel>Общее количество комнат</label>
+            <input
+            tuiInputNumber formControlName="roomCount" 
+            />
+        </tui-textfield>
+
+        <tui-textfield class="half">
+            <label tuiLabel>Количество свободных комнат</label>
+            <input
+                tuiInputNumber 
+                formControlName="freeRoomsCount" 
+                (keydown.arrowDown)="onStep(-1, 'freeRoomsCount')"
+                (keydown.arrowUp)="onStep(+1, 'freeRoomsCount')"
+            />
+        </tui-textfield>
+    </div>
+
+    <tui-textfield tuiChevron>
+        <input
+            tuiSelect
+            formControlName="withColivers" placeholder="С кем ищете жильё?"
+        />
+    
+        <tui-data-list-wrapper
+            *tuiTextfieldDropdown
+            new
+            [items]="companionsOptions"
+        />
+    </tui-textfield>
+
+
+
+<tui-multi-select
+formControlName="coliversGender"
+placeholder="Кого ищете по полу"
+>
+<tui-data-list-wrapper *tuiDataList [items]="genderOptions"></tui-data-list-wrapper>
+</tui-multi-select>
+
+
+
+<tui-textfield>
+  <input
+    tuiInputNumber
+    formControlName="budget"
+    [min]="1000"
+    [step]="1000"
+
+  />
+</tui-textfield>
+
+<tui-input-date
+formControlName="moveDate"
+placeholder="Дата переезда"
+></tui-input-date>
+</form>  -->  
+      }
+    </section>
+  }      
+  @else{
+  <section>
+        <p>Следующий шаг</p>
+      </section>
+    }
+  </main>
+
+    
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div>
+
     <h2>Создание анкеты</h2>
  
         <mat-stepper [linear] = 'false' #stepper>
@@ -248,7 +407,7 @@
 
           
            
-            <!-- <mat-step [stepControl]="secondStepGroup" label="Fill out your address">
+            <mat-step [stepControl]="secondStepGroup" label="Fill out your address">
               <form [formGroup]="secondStepGroup">
                 <mat-form-field>
                   <mat-label>Address</mat-label>
@@ -260,7 +419,7 @@
                   <button mat-button matStepperNext>Next</button>
                 </div>
               </form>
-            </mat-step> -->
+            </mat-step> 
           </mat-stepper>
    
-</div>
+</div> -->

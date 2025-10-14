@@ -31,7 +31,7 @@
 <div
   tuiAppearance="floating"
   tuiCardLarge
-  style="gap: 10px; max-height: 80vh; max-width: 24vw;"
+  style="gap: 10px; max-height: 80vh; max-width: 24vw; cursor: pointer;"
  (click) = 'toAdPage()'
 >
   <img [src]="ad?.photoUrl" alt="User Photo" class="ad-card-image"/>
@@ -59,27 +59,21 @@
   </section>
 
   <footer *ngIf="isAuth">
-    <button
+    <tui-icon
     style=" margin-left: auto;"
-      appearance="secondary"
-      size="m"
-      tuiButton
-      iconStart="@tui.heart"
-      type="button"
+     [style.color]="'#FFA726'"
+      icon="@tui.fa.regular.heart"
       *ngIf='!ad?.ad?.isFavorite'
-      (click)="toFavorites(ad?.ad!.id)"
+      (click)="toFavorites(ad?.ad!.id, $event)"
     >
-    </button>
-    <button
+    </tui-icon>
+    <tui-icon
     style=" margin-left: auto;"
-      appearance="primary"
-      size="m"
-      tuiButton
-      iconStart="@tui.heart"
-      type="button"
+      icon="@tui.fa.solid.heart"
+      [style.color]="'#FFA726'"
       *ngIf='ad?.ad?.isFavorite'
-      (click)="removeFavorites(ad?.ad!.id)"
+      (click)="removeFavorites(ad?.ad!.id, $event)"
     >
-    </button>
+    </tui-icon>
   </footer>
 </div>
