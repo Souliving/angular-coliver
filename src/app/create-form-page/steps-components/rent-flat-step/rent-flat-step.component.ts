@@ -6,7 +6,6 @@ import { CreateNewAdService } from '../../../services/create-new-ad/create-new-a
 import { CommonModule } from '@angular/common';
 import { TuiLet, TuiStringHandler } from '@taiga-ui/cdk';
 import { City, Subway } from '../../../data/formsStructure';
-import { TuiMultiSelectModule } from '@taiga-ui/legacy';
 
 @Component({
   selector: 'rent-flat-step',
