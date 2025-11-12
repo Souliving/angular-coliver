@@ -1,0 +1,14 @@
+.rent-container{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.new-ad-field-container{
+    display: flex;
+    gap: 10px;
+    .half{
+        width: 50%;
+    }
+}

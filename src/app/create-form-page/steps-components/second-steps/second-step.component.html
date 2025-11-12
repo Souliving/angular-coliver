@@ -1,47 +1,69 @@
-<form  [formGroup]="secondStepGroup">
-   <tui-textfield tuiChevron [stringify]="propertiesStringify">
+<form  [formGroup]="secondStepGroup" class="second-step-container">
+   <tui-textfield multi tuiChevron [stringify]="propertiesStringify">
         <label tuiLabel>Препочтения</label>
-        <input tuiSelect formControlName="properties" placeholder="Выберите город"/>
-        <tui-data-list *tuiTextfieldDropdown>
-            @for(item of citiesComputed(); track item.id){
+        <input 
+            tuiInputChip
+            tuiSelectLike
+            formControlName="properties" 
+            placeholder="Выберите город"/>
+        <tui-data-list *tuiTextfieldDropdown tuiMultiSelectGroup>
+            @for(item of properties; track item.id){
                 <button
                     new
                     tuiOption
                     type="button"
                     [value]="item"
-                >{{ item.name }}
+                >{{ item.label }}
                 </button>
             }
         </tui-data-list>
     </tui-textfield>
-
-    <tui-textfield
-            multi
-            tuiChevron
-            [stringify]="metroName"
-    >
-        <label tuiLabel>Возраст</label>
-        <input
-            tuiInputChip
-            tuiSelectLike
-            [placeholder]="Возраст будующего коливера"
+    <div class="new-ad-field-container">
+        <tui-input-range class="half"
+            [min]='minAge'
+            [max]='maxAge'
             formControlName="coliverAge"
-        />
-        <tui-data-list
-            *tuiTextfieldDropdown
-            tuiMultiSelectGroup
-            
         >
-        <tui-input-range
-            [max]="max"
-            [min]="min"
-           
-        >
-            <label tuiLabel>Type number like a German</label>
+            <label tuiLabel>Возраст коливера</label>
         </tui-input-range>
 
-        </tui-data-list>
+        <tui-textfield tuiChevron [stringify]="stringifyGenderColivers" class="half">
+                <input
+                    tuiSelect
+                    formControlName="coliversGender"
+                    placeholder="Выберите пол будующего коливера"
+                />
+
+                <tui-data-list *tuiTextfieldDropdown>
+                    <button
+                        *ngFor="let item of genderOptions"
+                        new
+                        tuiOption
+                        type="button"
+                        [value]="item.gender"
+                    >
+                        {{ item.label }}
+                    </button>
+                </tui-data-list>
+        </tui-textfield>
+    </div>
+
+    <tui-textfield>
+        <label tuiLabel>Дополнительная информация</label>
+        <textarea
+            placeholder="Введите допольнительную информацию"
+            tuiTextarea
+        ></textarea>
     </tui-textfield>
 
+    <div class="new-ad-field-container">
+        <button type="button" tuiButton class="half">
+                Назад
+        </button>
+    
+        <button type="button" tuiButton class="half">
+            Сохранить
+        </button>
+    </div>
 </form>
 

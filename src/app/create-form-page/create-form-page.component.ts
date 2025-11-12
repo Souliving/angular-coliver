@@ -3,25 +3,18 @@ import { FormsApiService } from '../services/forms-api/forms-api.service';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserApiService } from '../services/user-api/user-api.service';
 import { User } from '../data/userStructure';
-import {MatStepperModule} from '@angular/material/stepper';
-import {MatInputModule} from '@angular/material/input';
-import {MatButtonModule} from '@angular/material/button';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatSelectModule} from '@angular/material/select';
 import { CommonModule } from '@angular/common';
-import {MatIcon} from '@angular/material/icon';
-import {MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
-import {MatCheckboxModule} from '@angular/material/checkbox';
 import { CityApiService } from '../services/city-api/city-api.service';
-import { catchError, Observable, of, switchMap } from 'rxjs';
-import { SecondStepComponent } from './steps-components/second-steps/second-step.component';
+import { Observable } from 'rxjs';
 
 import { TuiCardLarge, TuiForm, TuiHeader } from '@taiga-ui/layout';
 import { TuiAppearance, TuiButton, TuiTextfield, TuiTitle } from '@taiga-ui/core';
-import { TuiDataListWrapper, TuiDataListWrapperComponent, TuiSelect, TuiSelectDirective } from '@taiga-ui/kit';
-import { TuiSelectModule } from '@taiga-ui/legacy';
+
 import { RentFlatStepComponent } from './steps-components/rent-flat-step/rent-flat-step.component';
 import { CreateNewAdService } from '../services/create-new-ad/create-new-ad.service';
+import { SecondStepComponent } from './steps-components/second-steps/second-step.component';
+import { HasFlatStepComponent } from './steps-components/has-flat-step/has-flat-step.component';
+
 @Component({
   selector: 'app-create-form-page',
   standalone: true,
@@ -30,6 +23,8 @@ import { CreateNewAdService } from '../services/create-new-ad/create-new-ad.serv
     CommonModule, 
     FormsModule,
     RentFlatStepComponent,
+    SecondStepComponent,
+    HasFlatStepComponent,
     TuiAppearance, 
     TuiCardLarge, 
     TuiForm,  

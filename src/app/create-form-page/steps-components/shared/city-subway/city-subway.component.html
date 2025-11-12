@@ -1,0 +1,46 @@
+<tui-textfield tuiChevron [stringify]="stringifyCity">
+    <label tuiLabel>Город</label>
+    <input tuiSelect [formControl]="city" placeholder="Выберите город"/>
+    <tui-data-list *tuiTextfieldDropdown>
+    @for(item of citiesComputed(); track item.id){
+                <button
+                    new
+                    tuiOption
+                    type="button"
+                    [value]="item"
+                >{{ item.name }}
+                </button>
+            }
+        </tui-data-list>
+    </tui-textfield>
+
+@if(city.value){
+    <tui-textfield
+        class="metro"
+        multi
+        tuiChevron
+        [stringify]="stringifyMetro"
+    >
+        <label tuiLabel>Метро</label>
+        <input
+            tuiInputChip
+            tuiSelectLike
+            [placeholder]="metro.value.length ? '' : 'Выберите метро'"
+            [formControl]="metro"
+        />
+        <tui-data-list
+            *tuiTextfieldDropdown
+            tuiMultiSelectGroup
+        >
+            @for(item of metroComputed(); track item.id){
+                <button
+                    new
+                    tuiOption
+                    type="button"
+                    [value]="item"
+                >{{ item.name }}
+                </button>
+            }
+        </tui-data-list>
+    </tui-textfield>
+}

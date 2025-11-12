@@ -1,0 +1,10 @@
+<tui-textfield>
+    <label tuiLabel>Бюджет, руб.</label>
+    <input
+        tuiInputNumber
+        [formControl]="budget"
+        [min]="1000"
+        [step]="1000"
+        placeholder="Укажите Ваш бюджет"
+    />
+</tui-textfield>

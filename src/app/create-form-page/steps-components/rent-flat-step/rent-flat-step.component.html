@@ -88,7 +88,7 @@
             <input
                 tuiSelect
                 formControlName="coliversGender"
-                placeholder="Выберите пол будующего коливера"
+                placeholder="Выберите пол того, с кем ищете коливера"
             />
 
             <tui-data-list *tuiTextfieldDropdown>
@@ -130,5 +130,5 @@
                 <tui-calendar *tuiTextfieldDropdown />
         </tui-textfield>
     </div>
-<button (click)="submitForm()"> Далее</button>
+<button (click)="submitForm()" tuiButton> Далее</button>
 </form>   

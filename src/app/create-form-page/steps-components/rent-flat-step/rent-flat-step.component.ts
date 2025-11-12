@@ -1,6 +1,6 @@
 import { Component, computed, effect, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TuiDataList, TuiSelect, TuiTextfield } from '@taiga-ui/core';
+import { TuiButton, TuiDataList, TuiSelect, TuiTextfield } from '@taiga-ui/core';
 import { TuiDataListWrapper, TuiDataListWrapperComponent, TuiFilterByInputPipe, TuiInputChip, TuiInputDate, TuiInputNumber, TuiMultiSelect, TuiSelectDirective, TuiStringifyPipe } from '@taiga-ui/kit';
 import { CreateNewAdService } from '../../../services/create-new-ad/create-new-ad.service';
 import { CommonModule } from '@angular/common';
@@ -12,12 +12,10 @@ import { City, Subway } from '../../../data/formsStructure';
   standalone: true,
   imports: [ReactiveFormsModule, 
     TuiTextfield,
-     TuiSelect, 
     TuiDataListWrapperComponent, 
     TuiSelectDirective,
     CommonModule, 
     TuiDataListWrapper,
-    TuiSelect,
     TuiDataList,
     TuiInputDate, 
     TuiInputNumber,
@@ -25,7 +23,8 @@ import { City, Subway } from '../../../data/formsStructure';
     TuiInputChip,
     TuiMultiSelect,
     TuiStringifyPipe,
-  TuiFilterByInputPipe
+  TuiFilterByInputPipe,
+  TuiButton
 ],
   templateUrl: './rent-flat-step.component.html',
   styleUrl: './rent-flat-step.component.scss',
@@ -51,7 +50,7 @@ export class RentFlatStepComponent {
 
     effect(() => {
       const { city, metro, ...rest } = this.form.value;
-      console.log(city)
+      
 /*       this.newAdService.city.set(city);
       this.newAdService.metro.set(metro);
       this.newAdService.updateStep1(rest); */

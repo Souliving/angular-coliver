@@ -1,122 +1,83 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatInputModule} from '@angular/material/input';
-import {MatButtonModule} from '@angular/material/button';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatIcon} from '@angular/material/icon';
-import {MatChipsModule} from '@angular/material/chips';
-import {MatStepperModule} from '@angular/material/stepper';
-import {MatSelectModule} from '@angular/material/select';
-import { catchError, Observable, of, switchMap } from 'rxjs';
+import { Component, computed, effect } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CityApiService } from '../../../services/city-api/city-api.service';
+import { CreateNewAdService } from '../../../services/create-new-ad/create-new-ad.service';
+import { CitySubwayComponent } from '../shared/city-subway/city-subway.component';
+import { BudgetComponent } from '../shared/budget/budget.component';
+import { MovingDateComponent } from '../shared/moving-date/moving-date.component';
+import { TuiDataListWrapper, TuiDataListWrapperComponent, TuiInputNumber, TuiSelectDirective, TuiTextarea } from '@taiga-ui/kit';
+import { TuiDataList, TuiTextfield } from '@taiga-ui/core';
+import { TuiStringHandler } from '@taiga-ui/cdk';
+import { CommonModule } from '@angular/common';
+
 @Component({
-  selector: 'app-has-flat-step',
+  selector: 'has-flat-step',
   standalone: true,
-  imports: [MatSelectModule, ReactiveFormsModule, MatCheckboxModule, MatInputModule, MatButtonModule, MatFormFieldModule, MatIcon, MatChipsModule, MatStepperModule],  
+  imports: [ 
+    CommonModule,
+    ReactiveFormsModule,
+    CitySubwayComponent,
+    BudgetComponent,
+    MovingDateComponent,
+    TuiTextarea, 
+    TuiTextfield,
+    TuiInputNumber,
+    TuiDataListWrapperComponent,
+    TuiDataListWrapper,
+    TuiDataList,
+    TuiSelectDirective
+  ],  
   templateUrl: './has-flat-step.component.html',
   styleUrl: './has-flat-step.component.scss'
 })
+
 export class HasFlatStepComponent {
-  secondStepGroup: FormGroup | undefined ;
-  thirdStepGroup!: FormGroup;
-  cities$: Observable<any> | undefined;
-  metroStations$:Observable<any> | undefined;
+  flatForm!: FormGroup;
+
   readonly genderList = [
-    { value: 'female', label: 'Женщина' },
-    { value: 'male', label: 'Мужчина' },
-    { value: 'nogender', label: 'И мужчины, и женщины' }
+    { gender: 'female', label: 'Женщина' },
+    { gender: 'male', label: 'Мужчина' },
+    { gender: 'nogender', label: 'И мужчины, и женщины' }
   ];
   
   constructor(
     private fb: FormBuilder, 
-    private cityService: CityApiService,
+    private newAdService: CreateNewAdService
 ){}
   
-  ngOnInit(){
-   /*  this.createFormService.initFlatSecondStep();
-    this.secondStepGroup = this.createFormService.secondStepGroup */
+ ngOnInit() {
+    this.flatForm= this.fb.group({
+      city: [this.newAdService.city() || '', Validators.required],
+      metro: [this.newAdService.metro() || [], Validators.required],
+      address:[null],
+      roomsCount:[null, [Validators.required, Validators.min(1)]],
+      freeRoomsCount:[null, [Validators.required, Validators.min(0)]],
+      coliversCount: [null, [Validators.required, Validators.min(1)]],
+      coliversGender: [[], Validators.required],
+
+      budget: [null, [Validators.required, Validators.min(0)]],
+      moveDate: [null, Validators.required],
+    });
+
+  } 
+
+  
+  get cityControl(): FormControl {
+  return this.flatForm.get('city') as FormControl;
   }
 
-  onCityChange(){
-    if(this.secondStepGroup){
-      this.secondStepGroup.get('location.city')?.valueChanges
-      .pipe(
-        switchMap(city => {
-          if (city) {
-            return this.cityService.getMetroStations(city.id);
-          } else {
-            return of([]); // Возвращаем пустой массив, если город не выбран
-          }
-        }),
-        catchError(error => {
-          console.error('Ошибка загрузки станций метро', error);
-          return of([]); // Возвращаем пустой массив в случае ошибки
-        })
-      )
-      .subscribe(stations => {
-        this.metroStations$ = of(stations);
-      });
-    }
-  }
-  decrementRoomsCount(){
-    if(this.secondStepGroup){
-      const currentCount = this.secondStepGroup.get('neighbours.count')?.value || 0;
-      if(currentCount > 0){
-        const newCount = currentCount - 1;
-        this.secondStepGroup.get('neighbours')?.patchValue({
-          count: newCount
-        });
-      }
-     // this.createFormService.clickTo()
-    }
+  get metroControl(): FormControl {
+    return this.flatForm.get('metro') as FormControl;
   }
 
-  incrementRoomsCount(){
-    if(this.secondStepGroup){
-       const currentCount = this.secondStepGroup.get('neighbours.count')?.value || 0;
-      const newCount = currentCount + 1;
-      this.secondStepGroup.get('neighbours')?.patchValue({
-        count: newCount
-      });
-    }
+  get budgetControl(): FormControl {
+    return this.flatForm.get('budget') as FormControl
   }
 
-  incrementFreeRoomsCount(){ 
-    if(this.secondStepGroup){
-      const allRoomsCount =  this.secondStepGroup.get('neighbours.count')?.value || 0;
-      const currentCount = this.secondStepGroup.get('freeRooms')?.value || 0;
-     // console.log(allRoomsCount, currentCount)
-      if(currentCount < allRoomsCount){
-        const newCount = currentCount + 1;
-        this.secondStepGroup.get('freeRooms')?.patchValue(newCount);
-      }
-    }
-  }
-  decrementFreeRoomsCount(){
-    if(this.secondStepGroup){
-      const currentCount = this.secondStepGroup.get('freeRooms')?.value || 0;
-   
-      if(currentCount > 0 ){
-        const newCount = currentCount - 1;
-        this.secondStepGroup.get('freeRooms')?.patchValue({
-          count: newCount
-        });
-      }
-    }
+  get moveDateControl(): FormControl {
+    return this.flatForm.get('moveDate') as FormControl
   }
 
-  toggleGender(gender: string) {
-    if(this.secondStepGroup)
-      this.secondStepGroup.get('neighbours.gender')?.patchValue(gender); // Обновляем форму
-    
-  }
+  protected readonly stringifyGenderColivers: TuiStringHandler<string> = (gender) => this.genderList.find((item) => item.gender === gender)?.label ?? '';
 
- addGender(gender: string){
-  if(this.secondStepGroup){
-    let currentGenderArray = this.secondStepGroup.get('neighbours.gender')?.value || [];
-    currentGenderArray.push(gender);
-    this.secondStepGroup.get('neighbours.gender')?.patchValue(currentGenderArray);
   }
- }
-}

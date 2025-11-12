@@ -6,9 +6,10 @@ import { Observable } from 'rxjs';
 import { UserApiService } from '../../services/user-api/user-api.service';
 import { CommonModule } from '@angular/common';
 import {TuiAppBar} from "@taiga-ui/layout";
-import {TuiButton, TuiDataList, TuiDropdown, TuiIcon, TuiVerticalDirection} from "@taiga-ui/core";
+import {TuiButton, TuiDataList, TuiDropdown, TuiIcon} from "@taiga-ui/core";
 import { NotificationComponent } from '../notification/notification.component';
 import { TuiAvatar } from '@taiga-ui/kit';
+
 @Component({
   selector: 'app-header',
   standalone: true,
