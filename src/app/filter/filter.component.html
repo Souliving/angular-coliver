@@ -31,9 +31,20 @@
     <fieldset>
 
       <div class="form-stack">
-        <tui-accordion>
-          <button tuiAccordion>Предпочтения</button>
-          <tui-expand class="form-age">
+        <button
+            tuiButton
+            appearance="outline"
+            size="l"
+            type="button"
+            class="filter-button"
+            [tuiDropdown]="preferencesDropdown"
+            [(tuiDropdownOpen)]="preferencesOpen"
+        >
+          Предпочтения
+          <tui-icon [icon]="preferencesOpen ? '@tui.chevron-up' : '@tui.chevron-down'"></tui-icon>
+        </button>
+        <ng-template #preferencesDropdown>
+          <div class="dropdown-content">
             <label tuiLabel>
               <input
                   tuiCheckbox
@@ -66,16 +77,24 @@
               />
               Чистоплотный
             </label>
-
-
-          </tui-expand>
-        </tui-accordion>
+          </div>
+        </ng-template>
       </div>
       <div class="form-stack">
-
-        <tui-accordion>
-          <button tuiAccordion>Укажите возраст</button>
-          <tui-expand class="form-age">
+        <button
+            tuiButton
+            appearance="outline"
+            size="l"
+            type="button"
+            class="filter-button"
+            [tuiDropdown]="ageDropdown"
+            [(tuiDropdownOpen)]="ageOpen"
+        >
+          Укажите возраст
+          <tui-icon [icon]="ageOpen ? '@tui.chevron-up' : '@tui.chevron-down'"></tui-icon>
+        </button>
+        <ng-template #ageDropdown>
+          <div class="dropdown-content dropdown-content--range">
             <tui-input-range
                 [max]="maxAge"
                 [min]="minAge"
@@ -83,33 +102,37 @@
                 [quantum]="quantum"
                 [steps]="stepsAge"
                 [tuiTextfieldLabelOutside]=true
-                class="form-input-range"
             >
             </tui-input-range>
-
-          </tui-expand>
-
-        </tui-accordion>
-
+          </div>
+        </ng-template>
       </div>
       <div class="form-stack">
-        <tui-accordion>
-          <button tuiAccordion>Укажите цену</button>
-          <tui-expand class="form-budget">
+        <button
+            tuiButton
+            appearance="outline"
+            size="l"
+            type="button"
+            class="filter-button"
+            [tuiDropdown]="priceDropdown"
+            [(tuiDropdownOpen)]="priceOpen"
+        >
+          Укажите цену
+          <tui-icon [icon]="priceOpen ? '@tui.chevron-up' : '@tui.chevron-down'"></tui-icon>
+        </button>
+        <ng-template #priceDropdown>
+          <div class="dropdown-content dropdown-content--range">
             <tui-input-range
                 formControlName="price"
                 [max]="maxPrice"
                 [min]="minPrice"
                 [quantum]="quantum"
                 [steps]="stepsBudget"
-                class="form-input-range"
                 [tuiTextfieldLabelOutside]=true
             >
             </tui-input-range>
-
-          </tui-expand>
-        </tui-accordion>
-
+          </div>
+        </ng-template>
       </div>
       <div class="form-stack">
         <button

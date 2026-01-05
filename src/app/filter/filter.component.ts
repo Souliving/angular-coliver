@@ -11,12 +11,11 @@ import {
 import {
   FilterLocationDialogComponent
 } from '../filter-location-dialog/filter-location-dialog.component';
-import {TuiButton, tuiDialog, TuiLabel} from '@taiga-ui/core';
+import {TuiButton, tuiDialog, TuiDropdown, TuiIcon, TuiLabel} from '@taiga-ui/core';
 import {City, Subway} from '../data/formsStructure';
 import {TuiInputRangeModule, TuiTextfieldControllerModule} from "@taiga-ui/legacy";
 import {FormsService} from "../services/forms/forms.service";
 import {TuiForm} from "@taiga-ui/layout";
-import {TuiAccordion, TuiExpand} from "@taiga-ui/experimental";
 import {TuiCheckbox} from "@taiga-ui/kit";
 
 @Component({
@@ -24,7 +23,7 @@ import {TuiCheckbox} from "@taiga-ui/kit";
   standalone: true,
   imports: [CommonModule,
     ReactiveFormsModule,
-    FormsModule, TuiButton, TuiAccordion, TuiExpand, TuiInputRangeModule, TuiTextfieldControllerModule, TuiForm, TuiAccordion, TuiLabel, TuiCheckbox, TuiAccordion,
+    FormsModule, TuiButton, TuiInputRangeModule, TuiTextfieldControllerModule, TuiForm, TuiLabel, TuiCheckbox, TuiDropdown, TuiIcon,
   ],
   templateUrl: './filter.component.html',
   styleUrl: './filter.component.scss'
@@ -32,6 +31,10 @@ import {TuiCheckbox} from "@taiga-ui/kit";
 export class FilterComponent {
 
   filterForm!: FormGroup;
+
+  preferencesOpen = false;
+  ageOpen = false;
+  priceOpen = false;
 
   protected readonly minAge = 18;
   protected readonly maxAge = 100;

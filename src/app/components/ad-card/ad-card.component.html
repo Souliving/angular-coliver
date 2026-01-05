@@ -62,14 +62,14 @@
     <tui-icon
     style=" margin-left: auto;"
      [style.color]="'#FFA726'"
-      icon="@tui.fa.regular.heart"
+      icon="@tui.heart"
       *ngIf='!ad?.ad?.isFavorite'
       (click)="toFavorites(ad?.ad!.id, $event)"
     >
     </tui-icon>
     <tui-icon
     style=" margin-left: auto;"
-      icon="@tui.fa.solid.heart"
+      icon="@tui.heart-filled"
       [style.color]="'#FFA726'"
       *ngIf='ad?.ad?.isFavorite'
       (click)="removeFavorites(ad?.ad!.id, $event)"
