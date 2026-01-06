@@ -12,6 +12,7 @@ import { SupportPageComponent } from './pages/support-page/support-page.componen
 import { FaqPageComponent } from './pages/faq-page/faq-page.component';
 import { CreateFormPageComponent } from './create-form-page/create-form-page.component';
 import { OneAdPageComponent } from './pages/one-ad-page/one-ad-page.component';
+import { ChatPageComponent } from './pages/chat-page/chat-page.component';
 
 export const routes: Routes = [
     {
@@ -43,6 +44,11 @@ export const routes: Routes = [
         canActivate: [userGuardGuard]
     },
     { path: 'ad/:id', component: OneAdPageComponent, canActivate: [userGuardGuard] },
+    {
+        path: 'chat',
+        component: ChatPageComponent,
+        canActivate: [userGuardGuard]
+    },
     {
         path:'',
         component: MainPageComponent,

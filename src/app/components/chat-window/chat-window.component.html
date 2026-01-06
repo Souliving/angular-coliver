@@ -1,0 +1,30 @@
+<div class="chat-window">
+  <header class="chat-header">
+    <tui-avatar
+      [src]="chat.participantAvatar || '@tui.user'"
+      size="s"
+    />
+    <div class="chat-header-info">
+      <span class="chat-header-name">{{ chat.participantName }}</span>
+    </div>
+  </header>
+
+  <div class="messages-container" #messagesContainer>
+    @if (messages.length === 0) {
+      <div class="messages-empty">
+        <p>Начните общение!</p>
+      </div>
+    } @else {
+      <div class="messages-list">
+        @for (message of messages; track trackByMessageId($index, message)) {
+          <app-chat-message
+            [message]="message"
+            [isMine]="isMine(message)"
+          />
+        }
+      </div>
+    }
+  </div>
+
+  <app-chat-input (send)="onSend($event)" />
+</div>

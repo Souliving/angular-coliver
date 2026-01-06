@@ -1,0 +1,35 @@
+.chat-input {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--tui-border-normal);
+  background: var(--tui-background-base);
+}
+
+.input-field {
+  flex: 1;
+  min-height: 40px;
+  max-height: 120px;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid var(--tui-border-normal);
+  border-radius: 1.25rem;
+  resize: none;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  outline: none;
+  transition: border-color 0.15s ease;
+
+  &:focus {
+    border-color: #FFA726;
+  }
+
+  &::placeholder {
+    color: var(--tui-text-secondary);
+  }
+}
+
+button {
+  flex-shrink: 0;
+}

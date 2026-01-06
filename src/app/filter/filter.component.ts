@@ -197,7 +197,17 @@ export class FilterComponent {
   toCleanForm() {
     this.currentCity = {id: null, name: null}
     this.currentMetro = [{id: null, name: null, cityId: null}]
-    this.filterForm.reset();
+    this.filterForm.reset({
+      smoking: null,
+      alcohol: null,
+      petFriendly: null,
+      isClean: null,
+      age: [this.minAge, 65],
+      price: [15000, 100000],
+      cityId: [],
+      selectedCity: {id: null, name: null},
+      metroIds: []
+    });
     this.formService.initFormsWithPhoto()
   }
 

@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import {City, Subway} from "../../data/formsStructure";
+import { City, Subway } from '../../data/formsStructure';
+import { environment } from '../../../environments/environment';
 
-const apiUrl = 'https://api.coliver.tech/api/v1/';
+const apiUrl = `${environment.apiUrl}/`;
 
 @Injectable({
   providedIn: 'root'

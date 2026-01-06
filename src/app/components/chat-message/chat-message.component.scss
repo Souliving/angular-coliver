@@ -1,0 +1,52 @@
+.message {
+  display: flex;
+  margin-bottom: 0.25rem;
+
+  &.mine {
+    justify-content: flex-end;
+
+    .message-bubble {
+      background: #FFA726;
+      color: white;
+      border-radius: 1rem 1rem 0.25rem 1rem;
+    }
+
+    .message-time {
+      color: rgba(255, 255, 255, 0.8);
+    }
+  }
+
+  &.theirs {
+    justify-content: flex-start;
+
+    .message-bubble {
+      background: var(--tui-background-base);
+      color: var(--tui-text-primary);
+      border-radius: 1rem 1rem 1rem 0.25rem;
+    }
+
+    .message-time {
+      color: var(--tui-text-secondary);
+    }
+  }
+}
+
+.message-bubble {
+  max-width: 70%;
+  padding: 0.625rem 0.875rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.message-text {
+  margin: 0;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  line-height: 1.4;
+}
+
+.message-time {
+  display: block;
+  font-size: 0.7rem;
+  text-align: right;
+  margin-top: 0.25rem;
+}

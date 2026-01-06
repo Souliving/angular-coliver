@@ -1,0 +1,18 @@
+<div class="chat-input">
+  <textarea
+    class="input-field"
+    [(ngModel)]="messageText"
+    (keydown)="onKeydown($event)"
+    placeholder="Написать сообщение..."
+    rows="1"
+  ></textarea>
+  <button
+    tuiButton
+    appearance="primary"
+    size="m"
+    [disabled]="!messageText.trim()"
+    (click)="onSubmit()"
+  >
+    <tui-icon icon="@tui.send"></tui-icon>
+  </button>
+</div>

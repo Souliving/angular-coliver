@@ -1,0 +1,25 @@
+<div class="chat-page">
+  <aside class="chat-sidebar">
+    <app-chat-list
+      [chats]="chats"
+      [selectedChatId]="selectedChat?.id || null"
+      [isLoading]="isLoading"
+      (chatSelect)="onChatSelect($event)"
+    />
+  </aside>
+
+  <main class="chat-main">
+    @if (selectedChat) {
+      <app-chat-window
+        [chat]="selectedChat"
+        [messages]="messages"
+        (sendMessage)="onSendMessage($event)"
+      />
+    } @else {
+      <div class="chat-placeholder">
+        <tui-icon icon="@tui.message-circle" class="placeholder-icon"></tui-icon>
+        <p>Выберите чат для начала общения</p>
+      </div>
+    }
+  </main>
+</div>

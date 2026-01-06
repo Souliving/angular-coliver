@@ -1,0 +1,45 @@
+<div class="chat-list">
+  <div class="chat-list-header">
+    <h3>Сообщения</h3>
+  </div>
+
+  @if (isLoading) {
+    <div class="chat-list-loading">
+      <tui-loader size="m"></tui-loader>
+    </div>
+  } @else if (chats.length === 0) {
+    <div class="chat-list-empty">
+      <tui-icon icon="@tui.message-circle" class="empty-icon"></tui-icon>
+      <p>Нет сообщений</p>
+    </div>
+  } @else {
+    <div class="chat-items">
+      @for (chat of chats; track chat.id) {
+        <div
+          class="chat-item"
+          [class.selected]="selectedChatId === chat.id"
+          (click)="onChatClick(chat)"
+        >
+          <tui-avatar
+            [src]="chat.participantAvatar || '@tui.user'"
+            size="m"
+          />
+          <div class="chat-item-content">
+            <div class="chat-item-header">
+              <span class="chat-item-name">{{ chat.participantName }}</span>
+              <span class="chat-item-time">{{ formatTime(chat.lastMessage?.createdAt) }}</span>
+            </div>
+            <div class="chat-item-message">
+              <span class="message-text">{{ truncateMessage(chat.lastMessage?.content) }}</span>
+              @if (chat.unreadCount > 0) {
+                <tui-badge-notification>
+                  {{ chat.unreadCount }}
+                </tui-badge-notification>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

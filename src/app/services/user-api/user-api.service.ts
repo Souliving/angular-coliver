@@ -3,8 +3,9 @@ import { BehaviorSubject, catchError, Observable, of, throwError } from 'rxjs';
 import { User, UserData } from '../../data/userStructure';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
-const apiUrl = 'https://api.coliver.tech/api/v1/';
+const apiUrl = `${environment.apiUrl}/`;
 
 @Injectable({
   providedIn: 'root'

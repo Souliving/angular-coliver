@@ -77,45 +77,39 @@
       [style.color]="'#FFA726'"
     >
     </button>
-    <ng-template
-      #dropdown
-      let-close
-    >
-    <notification></notification>
-    <!--   <tui-data-list>
+    <ng-template #dropdown let-close>
+      <notification></notification>
+      <tui-data-list>
         <tui-opt-group>
-          <button
-            tuiOption
-            type="button"
-            (click)="toAccount()"
-          >
+          <button tuiOption type="button" (click)="toAccount()">
             Личный кабинет
           </button>
-          <button
-            tuiOption
-            type="button"
-            (click)="logOut()"
-          >
+          <button tuiOption type="button" (click)="logOut()">
+            Выйти
+          </button>
+        </tui-opt-group>
+      </tui-data-list>
+    </ng-template>
+    <button tuiButton appearance="flat" iconStart="@tui.message-circle" type="button" [style.color]="'#FFA726'"
+      (click)='toChat()'></button>
+    
+    <!-- <ng-template #dropdown let-close> -->
+     <button tuiButton appearance="flat" iconStart="@tui.user" size="m" type="button" [style.color]="'#FFA726'"
+      (click)='toChat()'></button>
+      <!-- <tui-data-list>
+        <tui-opt-group>
+          <button tuiOption type="button" (click)="toAccount()">
+            Личный кабинет
+          </button>
+          <button tuiOption type="button" (click)="logOut()">
             Выйти
           </button>
         </tui-opt-group>
       </tui-data-list> -->
-    </ng-template>
-    <button
-      tuiButton
-      appearance="flat"
-      iconStart="@tui.message-circle"
-      type="button"
-      [style.color]="'#FFA726'"
-      (click)='toChat()'></button>
-
-      <tui-avatar
-        (click)="toAccount()"
-          appearance="negative"
-          src="@tui.user"
-          size="m"
-        />
-    
+    <!-- </ng-template> -->
+    <button tuiButton appearance="flat" iconStart="@tui.log-out"  type="button" [style.color]="'#FFA726'" (click)="logOut()">
+           
+          </button>
     </div>
   }
   
