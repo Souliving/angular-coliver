@@ -41,11 +41,13 @@ export interface NewForm {
   onlineDateTime: Date
 }
 
+export type PropertyValue = "YES" | "NO" | "ANY";
+
 export interface NewFormProperties{
-  smoking: boolean,
-  alcohol: boolean,
-  petFriendly: boolean,
-  isClean: boolean,
+  smoking: PropertyValue,
+  alcohol: PropertyValue,
+  petFriendly: PropertyValue,
+  isClean: PropertyValue,
   homeOwnerId: number
 }
 export interface Properties extends NewFormProperties{

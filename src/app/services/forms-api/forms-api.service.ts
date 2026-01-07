@@ -56,8 +56,8 @@ export class FormsApiService {
       const value = obj[key];
       console.log(value)
 
-      if (value === null || value === undefined || value === '' || (Array.isArray(value) && value.length === 0)) {
-        // Skip null, undefined, empty strings, or empty arrays
+      if (value === null || value === undefined || value === '' || value === 'ANY' || (Array.isArray(value) && value.length === 0)) {
+        // Skip null, undefined, empty strings, 'ANY' values, or empty arrays
         return;
       }
 
@@ -74,7 +74,7 @@ export class FormsApiService {
           params = params.set(key, value.join(','));
         }
       } else {
-        // Set scalar values directly
+        // Set scalar values directly (YES or NO for properties)
         params = params.set(key, value);
       }
     });

@@ -44,39 +44,70 @@
           <tui-icon [icon]="preferencesOpen ? '@tui.chevron-up' : '@tui.chevron-down'"></tui-icon>
         </button>
         <ng-template #preferencesDropdown>
-          <div class="dropdown-content">
-            <label tuiLabel>
-              <input
-                  tuiCheckbox
-                  type="checkbox"
-                  formControlName="smoking"
-              />
-              Не курит
-            </label>
-            <label tuiLabel>
-              <input
-                  tuiCheckbox
-                  type="checkbox"
-                  formControlName="alcohol"
-              />
-              Не пьет
-            </label>
-            <label tuiLabel>
-              <input
-                  tuiCheckbox
-                  type="checkbox"
-                  formControlName="petFriendly"
-              />
-              Не против животных
-            </label>
-            <label tuiLabel>
-              <input
-                  tuiCheckbox
-                  type="checkbox"
-                  formControlName="isClean"
-              />
-              Чистоплотный
-            </label>
+          <div class="dropdown-content" style="display: flex; flex-direction: column; gap: 16px;">
+            <div>
+              <div style="font-weight: 500; margin-bottom: 8px;">Курение</div>
+              <label tuiLabel style="display: flex; align-items: center; margin-bottom: 4px;">
+                <input tuiRadio type="radio" formControlName="smoking" value="NO" />
+                Не курит
+              </label>
+              <label tuiLabel style="display: flex; align-items: center; margin-bottom: 4px;">
+                <input tuiRadio type="radio" formControlName="smoking" value="YES" />
+                Курит
+              </label>
+              <label tuiLabel style="display: flex; align-items: center;">
+                <input tuiRadio type="radio" formControlName="smoking" value="ANY" />
+                Не важно
+              </label>
+            </div>
+
+            <div>
+              <div style="font-weight: 500; margin-bottom: 8px;">Алкоголь</div>
+              <label tuiLabel style="display: flex; align-items: center; margin-bottom: 4px;">
+                <input tuiRadio type="radio" formControlName="alcohol" value="NO" />
+                Не пьет
+              </label>
+              <label tuiLabel style="display: flex; align-items: center; margin-bottom: 4px;">
+                <input tuiRadio type="radio" formControlName="alcohol" value="YES" />
+                Пьет
+              </label>
+              <label tuiLabel style="display: flex; align-items: center;">
+                <input tuiRadio type="radio" formControlName="alcohol" value="ANY" />
+                Не важно
+              </label>
+            </div>
+
+            <div>
+              <div style="font-weight: 500; margin-bottom: 8px;">Животные</div>
+              <label tuiLabel style="display: flex; align-items: center; margin-bottom: 4px;">
+                <input tuiRadio type="radio" formControlName="petFriendly" value="YES" />
+                Не против животных
+              </label>
+              <label tuiLabel style="display: flex; align-items: center; margin-bottom: 4px;">
+                <input tuiRadio type="radio" formControlName="petFriendly" value="NO" />
+                Против животных
+              </label>
+              <label tuiLabel style="display: flex; align-items: center;">
+                <input tuiRadio type="radio" formControlName="petFriendly" value="ANY" />
+                Не важно
+              </label>
+            </div>
+
+            <div>
+              <div style="font-weight: 500; margin-bottom: 8px;">Чистоплотность</div>
+              <label tuiLabel style="display: flex; align-items: center; margin-bottom: 4px;">
+                <input tuiRadio type="radio" formControlName="isClean" value="YES" />
+                Чистоплотный
+              </label>
+              <label tuiLabel style="display: flex; align-items: center; margin-bottom: 4px;">
+                <input tuiRadio type="radio" formControlName="isClean" value="NO" />
+                Не чистоплотный
+              </label>
+              <label tuiLabel style="display: flex; align-items: center;">
+                <input tuiRadio type="radio" formControlName="isClean" value="ANY" />
+                Не важно
+              </label>
+            </div>
           </div>
         </ng-template>
       </div>

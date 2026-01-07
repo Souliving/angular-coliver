@@ -46,7 +46,7 @@
     <div class="text-xs">
       <div class="start-body-container">
         <div>г. {{ ad?.ad!.city!.name }},</div>
-        <div class="ml-auto mr-0">{{ ad?.ad!.budget }} р/месяц</div>
+        <div class="ml-auto mr-0">{{ ad?.ad!.budget }} р/месяц</div>  
       </div>
       
       <div class="metro">
@@ -58,22 +58,19 @@
     <p class="ad-description">{{ ad?.ad!.description }}</p>
   </section>
 
-  <footer *ngIf="isAuth">
-    <tui-icon
-    style=" margin-left: auto;"
-     [style.color]="'#FFA726'"
-      icon="@tui.heart"
-      *ngIf='!ad?.ad?.isFavorite'
-      (click)="toFavorites(ad?.ad!.id, $event)"
-    >
-    </tui-icon>
-    <tui-icon
-    style=" margin-left: auto;"
-      icon="@tui.heart-filled"
-      [style.color]="'#FFA726'"
-      *ngIf='ad?.ad?.isFavorite'
-      (click)="removeFavorites(ad?.ad!.id, $event)"
-    >
-    </tui-icon>
+  <footer style="display: flex; justify-content: space-between; align-items: center;">
+    <div>
+      <tui-icon [style.color]="'#FFA726'" icon="@tui.heart" *ngIf='isAuth && !ad?.ad?.isFavorite'
+        (click)="toFavorites(ad?.ad!.id, $event)">
+      </tui-icon>
+      <tui-icon icon="@tui.heart-filled" [style.color]="'#FFA726'" *ngIf='isAuth && ad?.ad?.isFavorite'
+        (click)="removeFavorites(ad?.ad!.id, $event)">
+      </tui-icon>
+    </div>
+    <div style="display: flex; gap: 8px;">
+      <tui-icon [style.color]="'#FFA726'" icon="@tui.wine-off" *ngIf="ad?.ad?.properties?.alcohol === 'NO'" />
+      <tui-icon [style.color]="'#FFA726'" icon="@tui.cigarette-off" *ngIf="ad?.ad?.properties?.smoking === 'NO'" />
+      <tui-icon [style.color]="'#FFA726'" icon="@tui.dog" *ngIf="ad?.ad?.properties?.petFriendly === 'YES'" />
+    </div>
   </footer>
 </div>

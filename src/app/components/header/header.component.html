@@ -79,7 +79,7 @@
     </button>
     <ng-template #dropdown let-close>
       <notification></notification>
-      <tui-data-list>
+      <!-- <tui-data-list>
         <tui-opt-group>
           <button tuiOption type="button" (click)="toAccount()">
             Личный кабинет
@@ -88,14 +88,14 @@
             Выйти
           </button>
         </tui-opt-group>
-      </tui-data-list>
+      </tui-data-list> -->
     </ng-template>
     <button tuiButton appearance="flat" iconStart="@tui.message-circle" type="button" [style.color]="'#FFA726'"
       (click)='toChat()'></button>
     
     <!-- <ng-template #dropdown let-close> -->
      <button tuiButton appearance="flat" iconStart="@tui.user" size="m" type="button" [style.color]="'#FFA726'"
-      (click)='toChat()'></button>
+      (click)='toAccount()'></button>
       <!-- <tui-data-list>
         <tui-opt-group>
           <button tuiOption type="button" (click)="toAccount()">

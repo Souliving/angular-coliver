@@ -16,14 +16,14 @@ import {City, Subway} from '../data/formsStructure';
 import {TuiInputRangeModule, TuiTextfieldControllerModule} from "@taiga-ui/legacy";
 import {FormsService} from "../services/forms/forms.service";
 import {TuiForm} from "@taiga-ui/layout";
-import {TuiCheckbox} from "@taiga-ui/kit";
+import {TuiRadio} from "@taiga-ui/kit";
 
 @Component({
   selector: 'app-filter',
   standalone: true,
   imports: [CommonModule,
     ReactiveFormsModule,
-    FormsModule, TuiButton, TuiInputRangeModule, TuiTextfieldControllerModule, TuiForm, TuiLabel, TuiCheckbox, TuiDropdown, TuiIcon,
+    FormsModule, TuiButton, TuiInputRangeModule, TuiTextfieldControllerModule, TuiForm, TuiLabel, TuiRadio, TuiDropdown, TuiIcon,
   ],
   templateUrl: './filter.component.html',
   styleUrl: './filter.component.scss'
@@ -74,10 +74,10 @@ export class FilterComponent {
     ); */
 
     this.filterForm = this.fb.group({
-      smoking: null,
-      alcohol: null,
-      petFriendly: null,
-      isClean: null,
+      smoking: 'ANY',
+      alcohol: 'ANY',
+      petFriendly: 'ANY',
+      isClean: 'ANY',
       age: new FormControl([18, 65]),
       price: new FormControl([15000, 100000]),
       cityId: [[]],
@@ -170,11 +170,6 @@ export class FilterComponent {
     // });
   }
 
-  updatePreference(preference: string, isChecked: MouseEvent) {
-    console.log(preference, isChecked)
-    this.filterForm.get(preference)?.setValue(isChecked);
-  }
-
   submitForm() {
     this.formService.filterFormWithPhoto(this.filterForm.value)
     console.log(this.filterForm)
@@ -198,10 +193,10 @@ export class FilterComponent {
     this.currentCity = {id: null, name: null}
     this.currentMetro = [{id: null, name: null, cityId: null}]
     this.filterForm.reset({
-      smoking: null,
-      alcohol: null,
-      petFriendly: null,
-      isClean: null,
+      smoking: 'ANY',
+      alcohol: 'ANY',
+      petFriendly: 'ANY',
+      isClean: 'ANY',
       age: [this.minAge, 65],
       price: [15000, 100000],
       cityId: [],
