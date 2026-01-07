@@ -1,6 +1,50 @@
-.form-container{
-    margin-top: 10%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.registration-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: var(--tui-background-base);
+}
+
+.registration-card {
+  max-width: 600px;
+  width: 100%;
+  padding: 3rem;
+}
+
+.registration-header {
+  margin-bottom: 2.5rem;
+
+  h1 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 600;
+  }
+
+  p {
+    margin: 0.75rem 0 0;
+    color: var(--tui-text-secondary);
+    font-size: 1rem;
+  }
+}
+
+.registration-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+
+  button {
+    flex: 1;
+  }
+}
+
+.submit-button {
+  margin-top: 1rem;
 }

@@ -1,23 +1,71 @@
 <form  [formGroup]="secondStepGroup" class="second-step-container">
-   <tui-textfield multi tuiChevron [stringify]="propertiesStringify">
-        <label tuiLabel>Препочтения</label>
-        <input 
-            tuiInputChip
-            tuiSelectLike
-            formControlName="properties" 
-            placeholder="Выберите город"/>
-        <tui-data-list *tuiTextfieldDropdown tuiMultiSelectGroup>
-            @for(item of properties; track item.id){
-                <button
-                    new
-                    tuiOption
-                    type="button"
-                    [value]="item"
-                >{{ item.label }}
-                </button>
-            }
-        </tui-data-list>
-    </tui-textfield>
+    <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px;">
+      <h3 style="margin: 0;">Предпочтения коливера</h3>
+
+      <div>
+        <div style="font-weight: 500; margin-bottom: 8px;">Курение</div>
+        <label tuiLabel style="display: flex; align-items: center; margin-bottom: 4px;">
+          <input tuiRadio type="radio" formControlName="smoking" value="NO" />
+          Не курит
+        </label>
+        <label tuiLabel style="display: flex; align-items: center; margin-bottom: 4px;">
+          <input tuiRadio type="radio" formControlName="smoking" value="YES" />
+          Курит
+        </label>
+        <label tuiLabel style="display: flex; align-items: center;">
+          <input tuiRadio type="radio" formControlName="smoking" value="ANY" />
+          Не важно
+        </label>
+      </div>
+
+      <div>
+        <div style="font-weight: 500; margin-bottom: 8px;">Алкоголь</div>
+        <label tuiLabel style="display: flex; align-items: center; margin-bottom: 4px;">
+          <input tuiRadio type="radio" formControlName="alcohol" value="NO" />
+          Не пьет
+        </label>
+        <label tuiLabel style="display: flex; align-items: center; margin-bottom: 4px;">
+          <input tuiRadio type="radio" formControlName="alcohol" value="YES" />
+          Пьет
+        </label>
+        <label tuiLabel style="display: flex; align-items: center;">
+          <input tuiRadio type="radio" formControlName="alcohol" value="ANY" />
+          Не важно
+        </label>
+      </div>
+
+      <div>
+        <div style="font-weight: 500; margin-bottom: 8px;">Животные</div>
+        <label tuiLabel style="display: flex; align-items: center; margin-bottom: 4px;">
+          <input tuiRadio type="radio" formControlName="petFriendly" value="YES" />
+          Не против животных
+        </label>
+        <label tuiLabel style="display: flex; align-items: center; margin-bottom: 4px;">
+          <input tuiRadio type="radio" formControlName="petFriendly" value="NO" />
+          Против животных
+        </label>
+        <label tuiLabel style="display: flex; align-items: center;">
+          <input tuiRadio type="radio" formControlName="petFriendly" value="ANY" />
+          Не важно
+        </label>
+      </div>
+
+      <div>
+        <div style="font-weight: 500; margin-bottom: 8px;">Чистоплотность</div>
+        <label tuiLabel style="display: flex; align-items: center; margin-bottom: 4px;">
+          <input tuiRadio type="radio" formControlName="isClean" value="YES" />
+          Чистоплотный
+        </label>
+        <label tuiLabel style="display: flex; align-items: center; margin-bottom: 4px;">
+          <input tuiRadio type="radio" formControlName="isClean" value="NO" />
+          Не чистоплотный
+        </label>
+        <label tuiLabel style="display: flex; align-items: center;">
+          <input tuiRadio type="radio" formControlName="isClean" value="ANY" />
+          Не важно
+        </label>
+      </div>
+    </div>
     <div class="new-ad-field-container">
         <tui-input-range class="half"
             [min]='minAge'

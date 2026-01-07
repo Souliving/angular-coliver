@@ -1,80 +1,137 @@
-<!-- <mat-stepper linear #stepper>
-    <mat-step [stepControl]="firstStepRegistration" >
-      <form [formGroup]="firstStepRegistration">
-        <ng-template matStepLabel>Fill out your name</ng-template>
-        <mat-form-field>
-          <mat-label>Name</mat-label>
-          <input matInput formControlName="firstCtrl" placeholder="Last name, First name" required>
-        </mat-form-field>
-        <div>
-          <button mat-button matStepperNext>Next</button>
-        </div>
-      </form>
-    </mat-step>
-    <mat-step [stepControl]="secondStepRegistration" >
-      <form [formGroup]="secondStepRegistration">
-        <ng-template matStepLabel>Fill out your address</ng-template>
-        <mat-form-field>
-          <mat-label>Address</mat-label>
-          <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
-                 required>
-        </mat-form-field>
-        <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </div>
-      </form>
-    </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Done</ng-template>
-      <p>You are now done.</p>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button (click)="stepper.reset()">Reset</button>
-      </div>
-    </mat-step>
-  </mat-stepper> -->
-    <form [formGroup]="registrationForm" class="form-container">
-        <ng-container  *ngIf='isFirstStep' formGroupName="firstStep">
-            <mat-form-field>
-            <mat-label>Почта</mat-label>
-            <input matInput type="email" formControlName="email" placeholder="Введите свой email" required>
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Телефон</mat-label>
-                <input matInput type="phone" formControlName="phone" placeholder="Введите телефон" required>
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Пароль</mat-label>
-                <input matInput type="password" formControlName="password" placeholder="Введите пароль" required>
-            </mat-form-field>
-            <div>
-                <button mat-button (click)="nextStep()">Далее</button>
-            </div>
-       </ng-container>
-       <ng-container  *ngIf='!isFirstStep' formGroupName="secondStep">
-        <mat-form-field>
-            <mat-label>Имя</mat-label>
-            <input matInput formControlName="name" placeholder="Введите своё имя">
-        </mat-form-field>
-        <mat-form-field class="example-form-field">
-            <mat-label>Ваша дата рождения</mat-label>
-            <input matInput [matDatepicker]="picker"  formControlName="date">
-            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-        <mat-form-field>
-            <mat-label>Пол</mat-label>
-            <select matNativeControl  formControlName="gender" required>
-              <option value="FEMALE">Женщина</option>
-              <option value="MALE">Мужчина</option>
-            </select>
-        </mat-form-field>
-        <div>                
-            <button mat-button (click)="prevStep()">Назад</button>
-            <button mat-button (click)="onSubmit()">Зарегистрироваться</button>
-        </div>
-       </ng-container>
-    </form>
+<div class="registration-container">
+  <div tuiCardLarge class="registration-card">
+    <header tuiHeader class="registration-header">
+      <h1>Регистрация</h1>
+      <p>{{ isFirstStep ? 'Шаг 1 из 2: Учетные данные' : 'Шаг 2 из 2: Личная информация' }}</p>
+    </header>
 
-  
+    <form [formGroup]="registrationForm" class="registration-form">
+      <!-- Шаг 1: Учетные данные -->
+      <ng-container *ngIf='isFirstStep' formGroupName="firstStep">
+        <div class="field-wrapper">
+          <tui-input
+            formControlName="email"
+            tuiTextfieldSize="l"
+          >
+            Почта *
+            <input tuiTextfieldLegacy type="email" placeholder="example@mail.com" />
+          </tui-input>
+          <tui-error
+            [error]="['email'] | tuiFieldError | async"
+          ></tui-error>
+        </div>
+
+        <div class="field-wrapper">
+          <tui-input
+            formControlName="phone"
+            tuiTextfieldSize="l"
+          >
+            Телефон *
+            <input tuiTextfieldLegacy type="tel" placeholder="+7 (999) 123-45-67" />
+          </tui-input>
+          <tui-error
+            [error]="['phone'] | tuiFieldError | async"
+          ></tui-error>
+        </div>
+
+        <div class="field-wrapper">
+          <tui-input-password
+            formControlName="password"
+            tuiTextfieldSize="l"
+          >
+            Пароль *
+          </tui-input-password>
+          <tui-error
+            [error]="['password'] | tuiFieldError | async"
+          ></tui-error>
+        </div>
+
+        <button
+          tuiButton
+          type="button"
+          size="l"
+          appearance="primary"
+          (click)="nextStep()"
+          [disabled]="registrationForm.get('firstStep')?.invalid"
+          class="submit-button"
+        >
+          Далее
+          <tui-icon icon="@tui.chevron-right" />
+        </button>
+      </ng-container>
+
+      <!-- Шаг 2: Личная информация -->
+      <ng-container *ngIf='!isFirstStep' formGroupName="secondStep">
+        <div class="field-wrapper">
+          <tui-input
+            formControlName="name"
+            tuiTextfieldSize="l"
+          >
+            Имя *
+            <input tuiTextfieldLegacy placeholder="Введите ваше имя" />
+          </tui-input>
+          <tui-error
+            [error]="['name'] | tuiFieldError | async"
+          ></tui-error>
+        </div>
+
+        <div class="field-wrapper">
+          <tui-input-date
+            formControlName="age"
+            tuiTextfieldSize="l"
+          >
+            Дата рождения *
+          </tui-input-date>
+          <tui-error
+            [error]="['age'] | tuiFieldError | async"
+          ></tui-error>
+        </div>
+
+        <div class="field-wrapper">
+          <tui-select
+            formControlName="gender"
+            tuiTextfieldSize="l"
+            [stringify]="stringifyGender"
+          >
+            Пол *
+            <tui-data-list-wrapper
+              *tuiDataList
+              [items]="genderOptions"
+              [itemContent]="genderContent"
+            ></tui-data-list-wrapper>
+          </tui-select>
+          <tui-error
+            [error]="['gender'] | tuiFieldError | async"
+          ></tui-error>
+        </div>
+
+        <ng-template #genderContent let-item>
+          {{ item.label }}
+        </ng-template>
+
+        <div class="button-group">
+          <button
+            tuiButton
+            type="button"
+            size="l"
+            appearance="secondary"
+            (click)="prevStep()"
+          >
+            <tui-icon icon="@tui.chevron-left" />
+            Назад
+          </button>
+          <button
+            tuiButton
+            type="button"
+            size="l"
+            appearance="primary"
+            (click)="onSubmit()"
+            [disabled]="registrationForm.get('secondStep')?.invalid"
+          >
+            Зарегистрироваться
+          </button>
+        </div>
+      </ng-container>
+    </form>
+  </div>
+</div>
